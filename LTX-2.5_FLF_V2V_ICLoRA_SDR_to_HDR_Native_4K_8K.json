@@ -1,0 +1,4080 @@
+{
+  "id": "ltx25-flf-v2v-iclora-sdr2hdr-native-4k8k",
+  "revision": 0,
+  "last_node_id": 90,
+  "last_link_id": 129,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "UNETLoader",
+      "pos": [
+        0,
+        0
+      ],
+      "size": [
+        400,
+        82
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            1,
+            2
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "UNETLoader"
+      },
+      "widgets_values": [
+        "ltx-2.5-22b-distilled-transformer-comfy-int8-convrot.safetensors",
+        "default"
+      ],
+      "title": "Load LTX-2.5 (distilled)"
+    },
+    {
+      "id": 2,
+      "type": "LTXICLoRALoaderModelOnly",
+      "pos": [
+        0,
+        120
+      ],
+      "size": [
+        400,
+        82
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "links": [
+            45
+          ]
+        },
+        {
+          "name": "latent_downscale_factor",
+          "type": "FLOAT",
+          "links": [
+            34
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LTXICLoRALoaderModelOnly"
+      },
+      "widgets_values": [
+        "ltx-2.5-22b-ic-lora-day-to-night-0.9.safetensors",
+        1.0
+      ],
+      "title": "IC-LoRA - STAGE 1 (your effect)",
+      "color": "#323"
+    },
+    {
+      "id": 3,
+      "type": "LTXICLoRALoaderModelOnly",
+      "pos": [
+        0,
+        240
+      ],
+      "size": [
+        400,
+        82
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 2
+        }
+      ],
+      "outputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "links": [
+            77,
+            119
+          ]
+        },
+        {
+          "name": "latent_downscale_factor",
+          "type": "FLOAT",
+          "links": [
+            75,
+            117
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LTXICLoRALoaderModelOnly"
+      },
+      "widgets_values": [
+        "ltx-2.5-22b-ic-lora-sdr-to-hdr-1.0.safetensors",
+        1.0
+      ],
+      "title": "IC-LoRA - SDR to HDR (HDR stages A + B)"
+    },
+    {
+      "id": 4,
+      "type": "VAELoader",
+      "pos": [
+        0,
+        360
+      ],
+      "size": [
+        400,
+        58
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            6,
+            31,
+            37,
+            42,
+            54,
+            97
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoader"
+      },
+      "widgets_values": [
+        "ltx-2.5-video-vae-bf16.safetensors"
+      ],
+      "title": "Load Video VAE"
+    },
+    {
+      "id": 5,
+      "type": "CLIPLoader",
+      "pos": [
+        0,
+        450
+      ],
+      "size": [
+        400,
+        106
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            4,
+            5
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPLoader"
+      },
+      "widgets_values": [
+        "gemma4-12b-with-proj-ltx-2.5-comfy-int8-convrot.safetensors",
+        "ltxv",
+        "default"
+      ],
+      "title": "Load Gemma text encoder"
+    },
+    {
+      "id": 6,
+      "type": "LatentUpscaleModelLoader",
+      "pos": [
+        0,
+        590
+      ],
+      "size": [
+        400,
+        58
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "LATENT_UPSCALE_MODEL",
+          "type": "LATENT_UPSCALE_MODEL",
+          "links": [
+            59,
+            62
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LatentUpscaleModelLoader"
+      },
+      "widgets_values": [
+        "ltx-2.5-latent-spatial-upscaler-x2-bf16-1.0.safetensors"
+      ],
+      "title": "Latent upscaler x2"
+    },
+    {
+      "id": 7,
+      "type": "PrimitiveStringMultiline",
+      "pos": [
+        460,
+        0
+      ],
+      "size": [
+        440,
+        170
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            3
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PrimitiveStringMultiline"
+      },
+      "widgets_values": [
+        "Describe the change you want: the look, lighting, mood and motion of the scene, moving smoothly from the first frame to the last frame."
+      ],
+      "title": "PROMPT - stage 1 (the change)",
+      "color": "#232"
+    },
+    {
+      "id": 9,
+      "type": "CLIPTextEncode",
+      "pos": [
+        460,
+        340
+      ],
+      "size": [
+        440,
+        60
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": 3
+        },
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 4
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            20
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        ""
+      ],
+      "title": "Encode stage-1 prompt"
+    },
+    {
+      "id": 10,
+      "type": "CLIPTextEncode",
+      "pos": [
+        460,
+        520
+      ],
+      "size": [
+        440,
+        150
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 5
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            21
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "blurry, out of focus, overexposed, underexposed, low contrast, washed out colors, excessive noise, grainy texture, poor lighting, flickering, motion blur, distorted proportions, unnatural skin tones, deformed facial features, extra limbs, disfigured hands, artifacts, seams, tiling grid, watermark, text"
+      ],
+      "title": "Negative prompt",
+      "color": "#322"
+    },
+    {
+      "id": 12,
+      "type": "LTXVVAEForceFloat32",
+      "pos": [
+        0,
+        680
+      ],
+      "size": [
+        400,
+        40
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 6
+        }
+      ],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            60,
+            63,
+            72,
+            87,
+            89,
+            114,
+            129
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LTXVVAEForceFloat32"
+      },
+      "widgets_values": [],
+      "title": "VAE float32 (HDR stages)"
+    },
+    {
+      "id": 13,
+      "type": "LTXVLoadConditioning",
+      "pos": [
+        0,
+        760
+      ],
+      "size": [
+        400,
+        82
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            55,
+            56,
+            103,
+            104
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LTXVLoadConditioning"
+      },
+      "widgets_values": [
+        "ltx-2.5-22b-ic-lora-sdr-to-hdr-scene-emb.safetensors",
+        "cpu"
+      ],
+      "title": "HDR scene embeddings (HDR prompt)",
+      "color": "#232"
+    },
+    {
+      "id": 20,
+      "type": "LoadVideo",
+      "pos": [
+        0,
+        900
+      ],
+      "size": [
+        320,
+        330
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VIDEO",
+          "type": "VIDEO",
+          "links": [
+            7
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadVideo"
+      },
+      "widgets_values": [
+        "input.mp4",
+        "image"
+      ],
+      "title": "SOURCE video (drives the IC-LoRA)"
+    },
+    {
+      "id": 21,
+      "type": "GetVideoComponents",
+      "pos": [
+        360,
+        760
+      ],
+      "size": [
+        220,
+        106
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "link": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": [
+            8,
+            10,
+            26
+          ]
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "links": [
+            92,
+            100
+          ]
+        },
+        {
+          "name": "fps",
+          "type": "FLOAT",
+          "links": [
+            22,
+            57,
+            91,
+            99,
+            105
+          ]
+        },
+        {
+          "name": "bit_depth",
+          "type": "COMBO",
+          "links": []
+        },
+        {
+          "name": "color_space",
+          "type": "COMBO",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "GetVideoComponents"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 22,
+      "type": "GetImageSize",
+      "pos": [
+        360,
+        900
+      ],
+      "size": [
+        220,
+        86
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 8
+        }
+      ],
+      "outputs": [
+        {
+          "name": "width",
+          "type": "INT",
+          "links": []
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "links": []
+        },
+        {
+          "name": "batch_size",
+          "type": "INT",
+          "links": [
+            9,
+            25,
+            108
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "GetImageSize"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 23,
+      "type": "LTXVGetTilingSizes",
+      "pos": [
+        620,
+        760
+      ],
+      "size": [
+        300,
+        290
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "frame_count",
+          "type": "INT",
+          "widget": {
+            "name": "frame_count"
+          },
+          "link": 9
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 10
+        }
+      ],
+      "outputs": [
+        {
+          "name": "initial_canvas_width",
+          "type": "INT",
+          "links": [
+            13,
+            17,
+            23,
+            27,
+            106,
+            110
+          ]
+        },
+        {
+          "name": "initial_canvas_height",
+          "type": "INT",
+          "links": [
+            14,
+            18,
+            24,
+            28,
+            107,
+            111
+          ]
+        },
+        {
+          "name": "tile_width",
+          "type": "INT",
+          "links": [
+            51,
+            83,
+            125
+          ]
+        },
+        {
+          "name": "tile_height",
+          "type": "INT",
+          "links": [
+            52,
+            84,
+            126
+          ]
+        },
+        {
+          "name": "output_width",
+          "type": "INT",
+          "links": [
+            68
+          ]
+        },
+        {
+          "name": "output_height",
+          "type": "INT",
+          "links": [
+            69
+          ]
+        },
+        {
+          "name": "overlap_frac",
+          "type": "FLOAT",
+          "links": [
+            53,
+            85,
+            127
+          ]
+        },
+        {
+          "name": "tile_frames",
+          "type": "INT",
+          "links": [
+            76,
+            86,
+            118,
+            128
+          ]
+        },
+        {
+          "name": "is_8k",
+          "type": "BOOLEAN",
+          "links": [
+            64
+          ]
+        },
+        {
+          "name": "summary",
+          "type": "STRING",
+          "links": [
+            11
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LTXVGetTilingSizes"
+      },
+      "widgets_values": [
+        1920,
+        1080,
+        97,
+        "FullHD",
+        "FullHD",
+        "4K"
+      ],
+      "title": "Get Tiling Sizes (set sizes here)",
+      "color": "#223"
+    },
+    {
+      "id": 24,
+      "type": "PreviewAny",
+      "pos": [
+        620,
+        1080
+      ],
+      "size": [
+        300,
+        150
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "source",
+          "type": "*",
+          "link": 11
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PreviewAny"
+      },
+      "widgets_values": [],
+      "title": "Tiling sizes"
+    },
+    {
+      "id": 25,
+      "type": "LoadImage",
+      "pos": [
+        0,
+        1140
+      ],
+      "size": [
+        320,
+        330
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            12
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "first.png",
+        "image"
+      ],
+      "title": "FIRST frame"
+    },
+    {
+      "id": 26,
+      "type": "ImageScale",
+      "pos": [
+        360,
+        1140
+      ],
+      "size": [
+        240,
+        130
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 12
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "widget": {
+            "name": "width"
+          },
+          "link": 13
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "widget": {
+            "name": "height"
+          },
+          "link": 14
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            15
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageScale"
+      },
+      "widgets_values": [
+        "lanczos",
+        1920,
+        1088,
+        "center"
+      ],
+      "title": "Resize first frame (stage-1 canvas)"
+    },
+    {
+      "id": 27,
+      "type": "LTXVPreprocess",
+      "pos": [
+        360,
+        1300
+      ],
+      "size": [
+        240,
+        58
+      ],
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 15
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_image",
+          "type": "IMAGE",
+          "links": [
+            39
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LTXVPreprocess"
+      },
+      "widgets_values": [
+        18
+      ]
+    },
+    {
+      "id": 28,
+      "type": "LoadImage",
+      "pos": [
+        0,
+        1520
+      ],
+      "size": [
+        320,
+        330
+      ],
+      "flags": {},
+      "order": 19,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            16
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "last.png",
+        "image"
+      ],
+      "title": "LAST frame"
+    },
+    {
+      "id": 29,
+      "type": "ImageScale",
+      "pos": [
+        360,
+        1520
+      ],
+      "size": [
+        240,
+        130
+      ],
+      "flags": {},
+      "order": 20,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 16
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "widget": {
+            "name": "width"
+          },
+          "link": 17
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "widget": {
+            "name": "height"
+          },
+          "link": 18
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            19
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageScale"
+      },
+      "widgets_values": [
+        "lanczos",
+        1920,
+        1088,
+        "center"
+      ],
+      "title": "Resize last frame (stage-1 canvas)"
+    },
+    {
+      "id": 30,
+      "type": "LTXVPreprocess",
+      "pos": [
+        360,
+        1680
+      ],
+      "size": [
+        240,
+        58
+      ],
+      "flags": {},
+      "order": 21,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 19
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_image",
+          "type": "IMAGE",
+          "links": [
+            44
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LTXVPreprocess"
+      },
+      "widgets_values": [
+        18
+      ]
+    },
+    {
+      "id": 40,
+      "type": "LTXVConditioning",
+      "pos": [
+        1000,
+        0
+      ],
+      "size": [
+        260,
+        78
+      ],
+      "flags": {},
+      "order": 22,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 20
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 21
+        },
+        {
+          "name": "frame_rate",
+          "type": "FLOAT",
+          "widget": {
+            "name": "frame_rate"
+          },
+          "link": 22
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            29
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            30
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LTXVConditioning"
+      },
+      "widgets_values": [
+        24.0
+      ]
+    },
+    {
+      "id": 41,
+      "type": "EmptyLTXVLatentVideo",
+      "pos": [
+        1000,
+        130
+      ],
+      "size": [
+        260,
+        130
+      ],
+      "flags": {},
+      "order": 23,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "width",
+          "type": "INT",
+          "widget": {
+            "name": "width"
+          },
+          "link": 23
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "widget": {
+            "name": "height"
+          },
+          "link": 24
+        },
+        {
+          "name": "length",
+          "type": "INT",
+          "widget": {
+            "name": "length"
+          },
+          "link": 25
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            32
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptyLTXVLatentVideo"
+      },
+      "widgets_values": [
+        1920,
+        1088,
+        97,
+        1
+      ]
+    },
+    {
+      "id": 42,
+      "type": "ImageScale",
+      "pos": [
+        1000,
+        300
+      ],
+      "size": [
+        260,
+        130
+      ],
+      "flags": {},
+      "order": 24,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 26
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "widget": {
+            "name": "width"
+          },
+          "link": 27
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "widget": {
+            "name": "height"
+          },
+          "link": 28
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            33
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageScale"
+      },
+      "widgets_values": [
+        "lanczos",
+        1920,
+        1088,
+        "disabled"
+      ],
+      "title": "Resize source to stage-1 canvas"
+    },
+    {
+      "id": 43,
+      "type": "LTXAddVideoICLoRAGuide",
+      "pos": [
+        1300,
+        0
+      ],
+      "size": [
+        330,
+        340
+      ],
+      "flags": {},
+      "order": 25,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 29
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 30
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 31
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "link": 32
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 33
+        },
+        {
+          "name": "latent_downscale_factor",
+          "type": "FLOAT",
+          "widget": {
+            "name": "latent_downscale_factor"
+          },
+          "link": 34
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            35
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            36
+          ]
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "links": [
+            38
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LTXAddVideoICLoRAGuide"
+      },
+      "widgets_values": [
+        0,
+        1.0,
+        1.0,
+        "disabled",
+        false,
+        256,
+        64,
+        false,
+        97
+      ],
+      "title": "Stage-1 IC-LoRA guide (source video)"
+    },
+    {
+      "id": 44,
+      "type": "LTXVAddGuide",
+      "pos": [
+        1670,
+        0
+      ],
+      "size": [
+        280,
+        190
+      ],
+      "flags": {},
+      "order": 26,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 35
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 36
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 37
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "link": 38
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 39
+        },
+        {
+          "name": "attention_mask",
+          "type": "MASK",
+          "link": null
+        },
+        {
+          "name": "iclora_parameters",
+          "type": "IC_LORA_PARAMETERS",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            40
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            41
+          ]
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "links": [
+            43
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LTXVAddGuide"
+      },
+      "widgets_values": [
+        0,
+        0.7
+      ],
+      "title": "FIRST-frame guide"
+    },
+    {
+      "id": 45,
+      "type": "LTXVAddGuide",
+      "pos": [
+        1670,
+        230
+      ],
+      "size": [
+        280,
+        190
+      ],
+      "flags": {},
+      "order": 27,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 40
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 41
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 42
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "link": 43
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 44
+        },
+        {
+          "name": "attention_mask",
+          "type": "MASK",
+          "link": null
+        },
+        {
+          "name": "iclora_parameters",
+          "type": "IC_LORA_PARAMETERS",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            46
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            47
+          ]
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "links": [
+            48
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LTXVAddGuide"
+      },
+      "widgets_values": [
+        -1,
+        0.7
+      ],
+      "title": "LAST-frame guide"
+    },
+    {
+      "id": 46,
+      "type": "KSamplerSelect",
+      "pos": [
+        1300,
+        380
+      ],
+      "size": [
+        330,
+        58
+      ],
+      "flags": {},
+      "order": 28,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "SAMPLER",
+          "type": "SAMPLER",
+          "links": [
+            50,
+            124
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSamplerSelect"
+      },
+      "widgets_values": [
+        "euler"
+      ]
+    },
+    {
+      "id": 47,
+      "type": "ManualSigmas",
+      "pos": [
+        1300,
+        470
+      ],
+      "size": [
+        330,
+        58
+      ],
+      "flags": {},
+      "order": 29,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "SIGMAS",
+          "type": "SIGMAS",
+          "links": [
+            49,
+            123
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ManualSigmas"
+      },
+      "widgets_values": [
+        "1.0, 0.99375, 0.9875, 0.98125, 0.975, 0.909375, 0.725, 0.421875, 0.0"
+      ],
+      "title": "Stage 1 - 8 distilled steps"
+    },
+    {
+      "id": 48,
+      "type": "LTXVTiledFusionSampler",
+      "pos": [
+        1990,
+        0
+      ],
+      "size": [
+        330,
+        400
+      ],
+      "flags": {},
+      "order": 30,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 45
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 46
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 47
+        },
+        {
+          "name": "latents",
+          "type": "LATENT",
+          "link": 48
+        },
+        {
+          "name": "sigmas",
+          "type": "SIGMAS",
+          "link": 49
+        },
+        {
+          "name": "sampler",
+          "type": "SAMPLER",
+          "link": 50
+        },
+        {
+          "name": "tile_width",
+          "type": "INT",
+          "widget": {
+            "name": "tile_width"
+          },
+          "link": 51
+        },
+        {
+          "name": "tile_height",
+          "type": "INT",
+          "widget": {
+            "name": "tile_height"
+          },
+          "link": 52
+        },
+        {
+          "name": "overlap_frac",
+          "type": "FLOAT",
+          "widget": {
+            "name": "overlap_frac"
+          },
+          "link": 53
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 54
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "LATENT",
+          "links": [
+            96
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LTXVTiledFusionSampler"
+      },
+      "widgets_values": [
+        42,
+        "fixed",
+        1.0,
+        1920,
+        1088,
+        0.5,
+        0.05,
+        1,
+        0,
+        "auto"
+      ],
+      "title": "Stage 1 sampler (FullHD, whole clip)",
+      "color": "#223"
+    },
+    {
+      "id": 50,
+      "type": "LTXVConditioning",
+      "pos": [
+        3500,
+        0
+      ],
+      "size": [
+        260,
+        78
+      ],
+      "flags": {},
+      "order": 31,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 55
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 56
+        },
+        {
+          "name": "frame_rate",
+          "type": "FLOAT",
+          "widget": {
+            "name": "frame_rate"
+          },
+          "link": 57
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            70
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            71
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LTXVConditioning"
+      },
+      "widgets_values": [
+        24.0
+      ],
+      "title": "HDR conditioning (scene embeddings)"
+    },
+    {
+      "id": 51,
+      "type": "LTXVLatentUpsampler",
+      "pos": [
+        3500,
+        130
+      ],
+      "size": [
+        260,
+        78
+      ],
+      "flags": {},
+      "order": 32,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 58
+        },
+        {
+          "name": "upscale_model",
+          "type": "LATENT_UPSCALE_MODEL",
+          "link": 59
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 60
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            61,
+            65
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LTXVLatentUpsampler"
+      },
+      "widgets_values": [],
+      "title": "Latent upscale x2"
+    },
+    {
+      "id": 52,
+      "type": "LTXVLatentUpsampler",
+      "pos": [
+        3500,
+        250
+      ],
+      "size": [
+        260,
+        78
+      ],
+      "flags": {},
+      "order": 33,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 61
+        },
+        {
+          "name": "upscale_model",
+          "type": "LATENT_UPSCALE_MODEL",
+          "link": 62
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 63
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            66
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LTXVLatentUpsampler"
+      },
+      "widgets_values": [],
+      "title": "Latent upscale x2 (8K only)"
+    },
+    {
+      "id": 53,
+      "type": "ComfySwitchNode",
+      "pos": [
+        3500,
+        370
+      ],
+      "size": [
+        260,
+        100
+      ],
+      "flags": {},
+      "order": 34,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "switch",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "switch"
+          },
+          "link": 64
+        },
+        {
+          "name": "on_false",
+          "type": "*",
+          "link": 65
+        },
+        {
+          "name": "on_true",
+          "type": "*",
+          "link": 66
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "*",
+          "links": [
+            73
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ComfySwitchNode"
+      },
+      "widgets_values": [
+        false
+      ],
+      "title": "4K or 8K latent"
+    },
+    {
+      "id": 54,
+      "type": "ImageScale",
+      "pos": [
+        3500,
+        510
+      ],
+      "size": [
+        260,
+        130
+      ],
+      "flags": {},
+      "order": 35,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 67
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "widget": {
+            "name": "width"
+          },
+          "link": 68
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "widget": {
+            "name": "height"
+          },
+          "link": 69
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            74
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageScale"
+      },
+      "widgets_values": [
+        "bilinear",
+        3840,
+        2176,
+        "disabled"
+      ],
+      "title": "Resize ACEScct stage-1 result to output size"
+    },
+    {
+      "id": 55,
+      "type": "LTXAddVideoICLoRAGuide",
+      "pos": [
+        3800,
+        0
+      ],
+      "size": [
+        330,
+        340
+      ],
+      "flags": {},
+      "order": 36,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 70
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 71
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 72
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "link": 73
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 74
+        },
+        {
+          "name": "latent_downscale_factor",
+          "type": "FLOAT",
+          "widget": {
+            "name": "latent_downscale_factor"
+          },
+          "link": 75
+        },
+        {
+          "name": "tile_frames",
+          "type": "INT",
+          "widget": {
+            "name": "tile_frames"
+          },
+          "link": 76
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            78
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            79
+          ]
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "links": [
+            80
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LTXAddVideoICLoRAGuide"
+      },
+      "widgets_values": [
+        0,
+        1.0,
+        1.0,
+        "disabled",
+        false,
+        256,
+        64,
+        true,
+        97
+      ],
+      "title": "HDR-B IC-LoRA guide (streaming)"
+    },
+    {
+      "id": 56,
+      "type": "KSamplerSelect",
+      "pos": [
+        3800,
+        380
+      ],
+      "size": [
+        330,
+        58
+      ],
+      "flags": {},
+      "order": 37,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "SAMPLER",
+          "type": "SAMPLER",
+          "links": [
+            82
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSamplerSelect"
+      },
+      "widgets_values": [
+        "euler"
+      ]
+    },
+    {
+      "id": 57,
+      "type": "ManualSigmas",
+      "pos": [
+        3800,
+        470
+      ],
+      "size": [
+        330,
+        58
+      ],
+      "flags": {},
+      "order": 38,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "SIGMAS",
+          "type": "SIGMAS",
+          "links": [
+            81
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ManualSigmas"
+      },
+      "widgets_values": [
+        "0.909375, 0.725, 0.421875, 0.0"
+      ],
+      "title": "HDR-B - 3 refine steps"
+    },
+    {
+      "id": 58,
+      "type": "LTXVTiledFusionSampler",
+      "pos": [
+        4170,
+        0
+      ],
+      "size": [
+        330,
+        400
+      ],
+      "flags": {},
+      "order": 39,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 77
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 78
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 79
+        },
+        {
+          "name": "latents",
+          "type": "LATENT",
+          "link": 80
+        },
+        {
+          "name": "sigmas",
+          "type": "SIGMAS",
+          "link": 81
+        },
+        {
+          "name": "sampler",
+          "type": "SAMPLER",
+          "link": 82
+        },
+        {
+          "name": "tile_width",
+          "type": "INT",
+          "widget": {
+            "name": "tile_width"
+          },
+          "link": 83
+        },
+        {
+          "name": "tile_height",
+          "type": "INT",
+          "widget": {
+            "name": "tile_height"
+          },
+          "link": 84
+        },
+        {
+          "name": "overlap_frac",
+          "type": "FLOAT",
+          "widget": {
+            "name": "overlap_frac"
+          },
+          "link": 85
+        },
+        {
+          "name": "tile_frames",
+          "type": "INT",
+          "widget": {
+            "name": "tile_frames"
+          },
+          "link": 86
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 87
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "LATENT",
+          "links": [
+            88
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LTXVTiledFusionSampler"
+      },
+      "widgets_values": [
+        42,
+        "fixed",
+        1.0,
+        1920,
+        1088,
+        0.5,
+        0.05,
+        1,
+        97,
+        "auto"
+      ],
+      "title": "HDR-B sampler (tiled, 4K/8K)",
+      "color": "#223"
+    },
+    {
+      "id": 60,
+      "type": "VAEDecodeTiled",
+      "pos": [
+        4540,
+        0
+      ],
+      "size": [
+        280,
+        150
+      ],
+      "flags": {},
+      "order": 40,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 88
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 89
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            94,
+            95
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecodeTiled"
+      },
+      "widgets_values": [
+        512,
+        64,
+        128,
+        32
+      ],
+      "title": "Decode (ACEScct)"
+    },
+    {
+      "id": 61,
+      "type": "CreateVideo",
+      "pos": [
+        4540,
+        310
+      ],
+      "size": [
+        280,
+        180
+      ],
+      "flags": {},
+      "order": 41,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 90
+        },
+        {
+          "name": "fps",
+          "type": "FLOAT",
+          "widget": {
+            "name": "fps"
+          },
+          "link": 91
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "link": 92
+        }
+      ],
+      "outputs": [
+        {
+          "name": "VIDEO",
+          "type": "VIDEO",
+          "links": [
+            93
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CreateVideo"
+      },
+      "widgets_values": [
+        24.0,
+        "auto",
+        "HDR",
+        "auto",
+        "none"
+      ],
+      "title": "CreateVideo (HLG)"
+    },
+    {
+      "id": 62,
+      "type": "SaveVideo",
+      "pos": [
+        4860,
+        0
+      ],
+      "size": [
+        460,
+        520
+      ],
+      "flags": {},
+      "order": 42,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "link": 93
+        }
+      ],
+      "outputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SaveVideo"
+      },
+      "widgets_values": [
+        "hdr/LTX25_FLF_V2V_ICLoRA_HDR",
+        "auto",
+        "auto"
+      ],
+      "title": "FINAL HDR video (HLG, 10-bit)"
+    },
+    {
+      "id": 63,
+      "type": "ImageColorSpace",
+      "pos": [
+        4540,
+        190
+      ],
+      "size": [
+        280,
+        82
+      ],
+      "flags": {},
+      "order": 43,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 94
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            90
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageColorSpace"
+      },
+      "widgets_values": [
+        "HDR ACEScct",
+        "HDR"
+      ],
+      "title": "ACEScct -> HDR (HLG)"
+    },
+    {
+      "id": 64,
+      "type": "LTXVHDRDecodePostprocess",
+      "pos": [
+        4540,
+        530
+      ],
+      "size": [
+        280,
+        250
+      ],
+      "flags": {},
+      "order": 44,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 95
+        }
+      ],
+      "outputs": [
+        {
+          "name": "tonemapped",
+          "type": "IMAGE",
+          "links": []
+        },
+        {
+          "name": "hdr_linear",
+          "type": "IMAGE",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LTXVHDRDecodePostprocess"
+      },
+      "widgets_values": [
+        "acescct",
+        0.0,
+        true,
+        "acescg",
+        "output/hdr_exr",
+        "LTX25_FLF_HDR",
+        true
+      ],
+      "title": "Save EXR (ACEScg) - bypass if not needed"
+    },
+    {
+      "id": 70,
+      "type": "VAEDecodeTiled",
+      "pos": [
+        1990,
+        460
+      ],
+      "size": [
+        330,
+        150
+      ],
+      "flags": {},
+      "order": 45,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 96
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 97
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            98,
+            102
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecodeTiled"
+      },
+      "widgets_values": [
+        512,
+        64,
+        128,
+        32
+      ],
+      "title": "Stage-1 decode (feeds HDR passes)"
+    },
+    {
+      "id": 71,
+      "type": "CreateVideo",
+      "pos": [
+        1990,
+        650
+      ],
+      "size": [
+        330,
+        180
+      ],
+      "flags": {},
+      "order": 46,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 98
+        },
+        {
+          "name": "fps",
+          "type": "FLOAT",
+          "widget": {
+            "name": "fps"
+          },
+          "link": 99
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "link": 100
+        }
+      ],
+      "outputs": [
+        {
+          "name": "VIDEO",
+          "type": "VIDEO",
+          "links": [
+            101
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CreateVideo"
+      },
+      "widgets_values": [
+        24.0,
+        "auto",
+        "sRGB",
+        "auto",
+        "none"
+      ]
+    },
+    {
+      "id": 72,
+      "type": "SaveVideo",
+      "pos": [
+        1990,
+        870
+      ],
+      "size": [
+        330,
+        420
+      ],
+      "flags": {},
+      "order": 47,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "link": 101
+        }
+      ],
+      "outputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SaveVideo"
+      },
+      "widgets_values": [
+        "video/LTX25_FLF_HDR_stage1_SDR_FullHD",
+        "auto",
+        "auto"
+      ],
+      "title": "Stage-1 preview (SDR FullHD)"
+    },
+    {
+      "id": 80,
+      "type": "ImageColorSpace",
+      "pos": [
+        2400,
+        0
+      ],
+      "size": [
+        280,
+        82
+      ],
+      "flags": {},
+      "order": 48,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 102
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            67,
+            109
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageColorSpace"
+      },
+      "widgets_values": [
+        "sRGB",
+        "HDR ACEScct"
+      ],
+      "title": "Stage-1 result: SDR -> ACEScct",
+      "color": "#432"
+    },
+    {
+      "id": 81,
+      "type": "LTXVConditioning",
+      "pos": [
+        2400,
+        130
+      ],
+      "size": [
+        280,
+        78
+      ],
+      "flags": {},
+      "order": 49,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 103
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 104
+        },
+        {
+          "name": "frame_rate",
+          "type": "FLOAT",
+          "widget": {
+            "name": "frame_rate"
+          },
+          "link": 105
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            112
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            113
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LTXVConditioning"
+      },
+      "widgets_values": [
+        24.0
+      ],
+      "title": "HDR conditioning (scene embeddings)"
+    },
+    {
+      "id": 82,
+      "type": "EmptyLTXVLatentVideo",
+      "pos": [
+        2400,
+        250
+      ],
+      "size": [
+        280,
+        130
+      ],
+      "flags": {},
+      "order": 50,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "width",
+          "type": "INT",
+          "widget": {
+            "name": "width"
+          },
+          "link": 106
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "widget": {
+            "name": "height"
+          },
+          "link": 107
+        },
+        {
+          "name": "length",
+          "type": "INT",
+          "widget": {
+            "name": "length"
+          },
+          "link": 108
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            115
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptyLTXVLatentVideo"
+      },
+      "widgets_values": [
+        1920,
+        1088,
+        97,
+        1
+      ]
+    },
+    {
+      "id": 83,
+      "type": "ImageScale",
+      "pos": [
+        2400,
+        420
+      ],
+      "size": [
+        280,
+        130
+      ],
+      "flags": {},
+      "order": 51,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 109
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "widget": {
+            "name": "width"
+          },
+          "link": 110
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "widget": {
+            "name": "height"
+          },
+          "link": 111
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            116
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageScale"
+      },
+      "widgets_values": [
+        "bilinear",
+        1920,
+        1088,
+        "disabled"
+      ],
+      "title": "Resize guide to canvas"
+    },
+    {
+      "id": 84,
+      "type": "LTXAddVideoICLoRAGuide",
+      "pos": [
+        2720,
+        0
+      ],
+      "size": [
+        330,
+        340
+      ],
+      "flags": {},
+      "order": 52,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 112
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 113
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 114
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "link": 115
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 116
+        },
+        {
+          "name": "latent_downscale_factor",
+          "type": "FLOAT",
+          "widget": {
+            "name": "latent_downscale_factor"
+          },
+          "link": 117
+        },
+        {
+          "name": "tile_frames",
+          "type": "INT",
+          "widget": {
+            "name": "tile_frames"
+          },
+          "link": 118
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            120
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            121
+          ]
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "links": [
+            122
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LTXAddVideoICLoRAGuide"
+      },
+      "widgets_values": [
+        0,
+        1.0,
+        1.0,
+        "disabled",
+        false,
+        256,
+        64,
+        true,
+        97
+      ],
+      "title": "HDR-A IC-LoRA guide (stage-1 result, streaming)"
+    },
+    {
+      "id": 85,
+      "type": "LTXVTiledFusionSampler",
+      "pos": [
+        3090,
+        0
+      ],
+      "size": [
+        330,
+        400
+      ],
+      "flags": {},
+      "order": 53,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 119
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 120
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 121
+        },
+        {
+          "name": "latents",
+          "type": "LATENT",
+          "link": 122
+        },
+        {
+          "name": "sigmas",
+          "type": "SIGMAS",
+          "link": 123
+        },
+        {
+          "name": "sampler",
+          "type": "SAMPLER",
+          "link": 124
+        },
+        {
+          "name": "tile_width",
+          "type": "INT",
+          "widget": {
+            "name": "tile_width"
+          },
+          "link": 125
+        },
+        {
+          "name": "tile_height",
+          "type": "INT",
+          "widget": {
+            "name": "tile_height"
+          },
+          "link": 126
+        },
+        {
+          "name": "overlap_frac",
+          "type": "FLOAT",
+          "widget": {
+            "name": "overlap_frac"
+          },
+          "link": 127
+        },
+        {
+          "name": "tile_frames",
+          "type": "INT",
+          "widget": {
+            "name": "tile_frames"
+          },
+          "link": 128
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 129
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "LATENT",
+          "links": [
+            58
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LTXVTiledFusionSampler"
+      },
+      "widgets_values": [
+        42,
+        "fixed",
+        1.0,
+        1920,
+        1088,
+        0.5,
+        0.05,
+        1,
+        97,
+        "auto"
+      ],
+      "title": "HDR-A sampler (FullHD, 8 steps)",
+      "color": "#223"
+    },
+    {
+      "id": 90,
+      "type": "MarkdownNote",
+      "pos": [
+        960,
+        900
+      ],
+      "size": [
+        620,
+        860
+      ],
+      "flags": {},
+      "order": 54,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "How to use",
+      "properties": {},
+      "widgets_values": [
+        "## LTX-2.5 · V2V · First/Last frame · IC-LoRA · SDR -> HDR · Native 4K/8K\n\nYour FLF + IC-LoRA workflow followed by Lightricks' **LTX-2.5_V2V_TiledFusion_SDR_to_HDR**\npipeline (flattened, no subgraphs).\n\n**Pipeline**\n1. **Stage 1 - creative (SDR, FullHD, 8 steps)**: your effect IC-LoRA + FIRST/LAST frame + your\n   prompt. `tile_frames` = 0, streaming off (time chunks would drop the first/last guides).\n2. **SDR -> ACEScct**: the decoded stage-1 result is converted to ACEScct, the working space of the\n   SDR-to-HDR IC-LoRA.\n3. **HDR-A (FullHD, 8 steps)**: SDR-to-HDR IC-LoRA guided by the stage-1 result, streaming on.\n4. **HDR-B (4K/8K, 3 steps)**: latent x2 (x4 for 8K), tiled refine with the same IC-LoRA,\n   guided by the stage-1 result at output size.\n5. **Decode**: ACEScct -> HDR (Rec.2020 **HLG**) -> 10-bit video with the source audio, plus an\n   optional **ACEScg EXR** sequence in `output/hdr_exr` (bypass that node with Ctrl+B if unneeded).\n\n**Prompts**\n- Stage 1 uses your text prompt (Gemma).\n- The HDR stages use the fixed **scene embeddings** on positive AND negative (cfg 1), exactly like the\n  official example. There is no text prompt for HDR.\n\n**Models**\n- Same as the Native workflow, minus refine-details, plus:\n  `ltx-2.5-22b-ic-lora-sdr-to-hdr-1.0.safetensors` -> `models/loras/`\n  `ltx-2.5-22b-ic-lora-sdr-to-hdr-scene-emb.safetensors` -> `models/embeddings/`\n  (both from huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-SDR-To-HDR)\n- HDR stages use the video VAE forced to **float32** (needed for HDR precision).\n\n**Rules**\n- euler sampler, overlap >= 0.5, `use_tiled_encode` off.\n- Source above 30 fps: the official example clamps the *conditioning* fps to 30. Here it uses the\n  source fps; for 50/60 fps sources, unlink `frame_rate` on the LTXVConditioning nodes and type 30.\n- HLG: 1.0 = 203 nits, clipped above 1000 nits. View on an HDR display / HDR-capable player.\n- Three sampling passes: expect roughly 2x the time of the SDR Native workflow.\n"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    }
+  ],
+  "links": [
+    [
+      1,
+      1,
+      0,
+      2,
+      0,
+      "MODEL"
+    ],
+    [
+      2,
+      1,
+      0,
+      3,
+      0,
+      "MODEL"
+    ],
+    [
+      3,
+      7,
+      0,
+      9,
+      0,
+      "STRING"
+    ],
+    [
+      4,
+      5,
+      0,
+      9,
+      1,
+      "CLIP"
+    ],
+    [
+      5,
+      5,
+      0,
+      10,
+      0,
+      "CLIP"
+    ],
+    [
+      6,
+      4,
+      0,
+      12,
+      0,
+      "VAE"
+    ],
+    [
+      7,
+      20,
+      0,
+      21,
+      0,
+      "VIDEO"
+    ],
+    [
+      8,
+      21,
+      0,
+      22,
+      0,
+      "IMAGE"
+    ],
+    [
+      9,
+      22,
+      2,
+      23,
+      0,
+      "INT"
+    ],
+    [
+      10,
+      21,
+      0,
+      23,
+      1,
+      "IMAGE"
+    ],
+    [
+      11,
+      23,
+      9,
+      24,
+      0,
+      "STRING"
+    ],
+    [
+      12,
+      25,
+      0,
+      26,
+      0,
+      "IMAGE"
+    ],
+    [
+      13,
+      23,
+      0,
+      26,
+      1,
+      "INT"
+    ],
+    [
+      14,
+      23,
+      1,
+      26,
+      2,
+      "INT"
+    ],
+    [
+      15,
+      26,
+      0,
+      27,
+      0,
+      "IMAGE"
+    ],
+    [
+      16,
+      28,
+      0,
+      29,
+      0,
+      "IMAGE"
+    ],
+    [
+      17,
+      23,
+      0,
+      29,
+      1,
+      "INT"
+    ],
+    [
+      18,
+      23,
+      1,
+      29,
+      2,
+      "INT"
+    ],
+    [
+      19,
+      29,
+      0,
+      30,
+      0,
+      "IMAGE"
+    ],
+    [
+      20,
+      9,
+      0,
+      40,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      21,
+      10,
+      0,
+      40,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      22,
+      21,
+      2,
+      40,
+      2,
+      "FLOAT"
+    ],
+    [
+      23,
+      23,
+      0,
+      41,
+      0,
+      "INT"
+    ],
+    [
+      24,
+      23,
+      1,
+      41,
+      1,
+      "INT"
+    ],
+    [
+      25,
+      22,
+      2,
+      41,
+      2,
+      "INT"
+    ],
+    [
+      26,
+      21,
+      0,
+      42,
+      0,
+      "IMAGE"
+    ],
+    [
+      27,
+      23,
+      0,
+      42,
+      1,
+      "INT"
+    ],
+    [
+      28,
+      23,
+      1,
+      42,
+      2,
+      "INT"
+    ],
+    [
+      29,
+      40,
+      0,
+      43,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      30,
+      40,
+      1,
+      43,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      31,
+      4,
+      0,
+      43,
+      2,
+      "VAE"
+    ],
+    [
+      32,
+      41,
+      0,
+      43,
+      3,
+      "LATENT"
+    ],
+    [
+      33,
+      42,
+      0,
+      43,
+      4,
+      "IMAGE"
+    ],
+    [
+      34,
+      2,
+      1,
+      43,
+      5,
+      "FLOAT"
+    ],
+    [
+      35,
+      43,
+      0,
+      44,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      36,
+      43,
+      1,
+      44,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      37,
+      4,
+      0,
+      44,
+      2,
+      "VAE"
+    ],
+    [
+      38,
+      43,
+      2,
+      44,
+      3,
+      "LATENT"
+    ],
+    [
+      39,
+      27,
+      0,
+      44,
+      4,
+      "IMAGE"
+    ],
+    [
+      40,
+      44,
+      0,
+      45,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      41,
+      44,
+      1,
+      45,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      42,
+      4,
+      0,
+      45,
+      2,
+      "VAE"
+    ],
+    [
+      43,
+      44,
+      2,
+      45,
+      3,
+      "LATENT"
+    ],
+    [
+      44,
+      30,
+      0,
+      45,
+      4,
+      "IMAGE"
+    ],
+    [
+      45,
+      2,
+      0,
+      48,
+      0,
+      "MODEL"
+    ],
+    [
+      46,
+      45,
+      0,
+      48,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      47,
+      45,
+      1,
+      48,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      48,
+      45,
+      2,
+      48,
+      3,
+      "LATENT"
+    ],
+    [
+      49,
+      47,
+      0,
+      48,
+      4,
+      "SIGMAS"
+    ],
+    [
+      50,
+      46,
+      0,
+      48,
+      5,
+      "SAMPLER"
+    ],
+    [
+      51,
+      23,
+      2,
+      48,
+      6,
+      "INT"
+    ],
+    [
+      52,
+      23,
+      3,
+      48,
+      7,
+      "INT"
+    ],
+    [
+      53,
+      23,
+      6,
+      48,
+      8,
+      "FLOAT"
+    ],
+    [
+      54,
+      4,
+      0,
+      48,
+      9,
+      "VAE"
+    ],
+    [
+      55,
+      13,
+      0,
+      50,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      56,
+      13,
+      0,
+      50,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      57,
+      21,
+      2,
+      50,
+      2,
+      "FLOAT"
+    ],
+    [
+      58,
+      85,
+      0,
+      51,
+      0,
+      "LATENT"
+    ],
+    [
+      59,
+      6,
+      0,
+      51,
+      1,
+      "LATENT_UPSCALE_MODEL"
+    ],
+    [
+      60,
+      12,
+      0,
+      51,
+      2,
+      "VAE"
+    ],
+    [
+      61,
+      51,
+      0,
+      52,
+      0,
+      "LATENT"
+    ],
+    [
+      62,
+      6,
+      0,
+      52,
+      1,
+      "LATENT_UPSCALE_MODEL"
+    ],
+    [
+      63,
+      12,
+      0,
+      52,
+      2,
+      "VAE"
+    ],
+    [
+      64,
+      23,
+      8,
+      53,
+      0,
+      "BOOLEAN"
+    ],
+    [
+      65,
+      51,
+      0,
+      53,
+      1,
+      "LATENT"
+    ],
+    [
+      66,
+      52,
+      0,
+      53,
+      2,
+      "LATENT"
+    ],
+    [
+      67,
+      80,
+      0,
+      54,
+      0,
+      "IMAGE"
+    ],
+    [
+      68,
+      23,
+      4,
+      54,
+      1,
+      "INT"
+    ],
+    [
+      69,
+      23,
+      5,
+      54,
+      2,
+      "INT"
+    ],
+    [
+      70,
+      50,
+      0,
+      55,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      71,
+      50,
+      1,
+      55,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      72,
+      12,
+      0,
+      55,
+      2,
+      "VAE"
+    ],
+    [
+      73,
+      53,
+      0,
+      55,
+      3,
+      "COMFY_MATCHTYPE_V3"
+    ],
+    [
+      74,
+      54,
+      0,
+      55,
+      4,
+      "IMAGE"
+    ],
+    [
+      75,
+      3,
+      1,
+      55,
+      5,
+      "FLOAT"
+    ],
+    [
+      76,
+      23,
+      7,
+      55,
+      6,
+      "INT"
+    ],
+    [
+      77,
+      3,
+      0,
+      58,
+      0,
+      "MODEL"
+    ],
+    [
+      78,
+      55,
+      0,
+      58,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      79,
+      55,
+      1,
+      58,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      80,
+      55,
+      2,
+      58,
+      3,
+      "LATENT"
+    ],
+    [
+      81,
+      57,
+      0,
+      58,
+      4,
+      "SIGMAS"
+    ],
+    [
+      82,
+      56,
+      0,
+      58,
+      5,
+      "SAMPLER"
+    ],
+    [
+      83,
+      23,
+      2,
+      58,
+      6,
+      "INT"
+    ],
+    [
+      84,
+      23,
+      3,
+      58,
+      7,
+      "INT"
+    ],
+    [
+      85,
+      23,
+      6,
+      58,
+      8,
+      "FLOAT"
+    ],
+    [
+      86,
+      23,
+      7,
+      58,
+      9,
+      "INT"
+    ],
+    [
+      87,
+      12,
+      0,
+      58,
+      10,
+      "VAE"
+    ],
+    [
+      88,
+      58,
+      0,
+      60,
+      0,
+      "LATENT"
+    ],
+    [
+      89,
+      12,
+      0,
+      60,
+      1,
+      "VAE"
+    ],
+    [
+      90,
+      63,
+      0,
+      61,
+      0,
+      "IMAGE"
+    ],
+    [
+      91,
+      21,
+      2,
+      61,
+      1,
+      "FLOAT"
+    ],
+    [
+      92,
+      21,
+      1,
+      61,
+      2,
+      "AUDIO"
+    ],
+    [
+      93,
+      61,
+      0,
+      62,
+      0,
+      "VIDEO"
+    ],
+    [
+      94,
+      60,
+      0,
+      63,
+      0,
+      "IMAGE"
+    ],
+    [
+      95,
+      60,
+      0,
+      64,
+      0,
+      "IMAGE"
+    ],
+    [
+      96,
+      48,
+      0,
+      70,
+      0,
+      "LATENT"
+    ],
+    [
+      97,
+      4,
+      0,
+      70,
+      1,
+      "VAE"
+    ],
+    [
+      98,
+      70,
+      0,
+      71,
+      0,
+      "IMAGE"
+    ],
+    [
+      99,
+      21,
+      2,
+      71,
+      1,
+      "FLOAT"
+    ],
+    [
+      100,
+      21,
+      1,
+      71,
+      2,
+      "AUDIO"
+    ],
+    [
+      101,
+      71,
+      0,
+      72,
+      0,
+      "VIDEO"
+    ],
+    [
+      102,
+      70,
+      0,
+      80,
+      0,
+      "IMAGE"
+    ],
+    [
+      103,
+      13,
+      0,
+      81,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      104,
+      13,
+      0,
+      81,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      105,
+      21,
+      2,
+      81,
+      2,
+      "FLOAT"
+    ],
+    [
+      106,
+      23,
+      0,
+      82,
+      0,
+      "INT"
+    ],
+    [
+      107,
+      23,
+      1,
+      82,
+      1,
+      "INT"
+    ],
+    [
+      108,
+      22,
+      2,
+      82,
+      2,
+      "INT"
+    ],
+    [
+      109,
+      80,
+      0,
+      83,
+      0,
+      "IMAGE"
+    ],
+    [
+      110,
+      23,
+      0,
+      83,
+      1,
+      "INT"
+    ],
+    [
+      111,
+      23,
+      1,
+      83,
+      2,
+      "INT"
+    ],
+    [
+      112,
+      81,
+      0,
+      84,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      113,
+      81,
+      1,
+      84,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      114,
+      12,
+      0,
+      84,
+      2,
+      "VAE"
+    ],
+    [
+      115,
+      82,
+      0,
+      84,
+      3,
+      "LATENT"
+    ],
+    [
+      116,
+      83,
+      0,
+      84,
+      4,
+      "IMAGE"
+    ],
+    [
+      117,
+      3,
+      1,
+      84,
+      5,
+      "FLOAT"
+    ],
+    [
+      118,
+      23,
+      7,
+      84,
+      6,
+      "INT"
+    ],
+    [
+      119,
+      3,
+      0,
+      85,
+      0,
+      "MODEL"
+    ],
+    [
+      120,
+      84,
+      0,
+      85,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      121,
+      84,
+      1,
+      85,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      122,
+      84,
+      2,
+      85,
+      3,
+      "LATENT"
+    ],
+    [
+      123,
+      47,
+      0,
+      85,
+      4,
+      "SIGMAS"
+    ],
+    [
+      124,
+      46,
+      0,
+      85,
+      5,
+      "SAMPLER"
+    ],
+    [
+      125,
+      23,
+      2,
+      85,
+      6,
+      "INT"
+    ],
+    [
+      126,
+      23,
+      3,
+      85,
+      7,
+      "INT"
+    ],
+    [
+      127,
+      23,
+      6,
+      85,
+      8,
+      "FLOAT"
+    ],
+    [
+      128,
+      23,
+      7,
+      85,
+      9,
+      "INT"
+    ],
+    [
+      129,
+      12,
+      0,
+      85,
+      10,
+      "VAE"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "Models",
+      "bounding": [
+        -20,
+        -40,
+        440,
+        900
+      ],
+      "color": "#3f789e",
+      "flags": {}
+    },
+    {
+      "id": 2,
+      "title": "Prompt (stage 1)",
+      "bounding": [
+        440,
+        -40,
+        480,
+        730
+      ],
+      "color": "#3f8e3f",
+      "flags": {}
+    },
+    {
+      "id": 3,
+      "title": "Inputs: source video · first/last frame · sizes",
+      "bounding": [
+        -20,
+        860,
+        960,
+        1150
+      ],
+      "color": "#8e7a3f",
+      "flags": {}
+    },
+    {
+      "id": 4,
+      "title": "STAGE 1 - FullHD creative (IC-LoRA + first/last frame), SDR",
+      "bounding": [
+        980,
+        -40,
+        1360,
+        1350
+      ],
+      "color": "#7a3f8e",
+      "flags": {}
+    },
+    {
+      "id": 5,
+      "title": "HDR-A - SDR->HDR IC-LoRA at FullHD",
+      "bounding": [
+        2380,
+        -40,
+        1080,
+        600
+      ],
+      "color": "#8e3f3f",
+      "flags": {}
+    },
+    {
+      "id": 6,
+      "title": "HDR-B - latent x2 + tiled HDR refine (4K/8K)",
+      "bounding": [
+        3480,
+        -40,
+        1040,
+        700
+      ],
+      "color": "#3f3f8e",
+      "flags": {}
+    },
+    {
+      "id": 7,
+      "title": "Decode HDR + save (HLG video, ACEScg EXR)",
+      "bounding": [
+        4520,
+        -40,
+        820,
+        840
+      ],
+      "color": "#3f8e8e",
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.5,
+      "offset": [
+        80,
+        120
+      ]
+    }
+  },
+  "version": 0.4
+}
