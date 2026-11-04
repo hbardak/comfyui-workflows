@@ -225,7 +225,7 @@
     },
     {
       "id": 88,
-      "type": "b2aace18-882a-40e8-afe4-4aa373375d31",
+      "type": "c5378f72-3b6c-4d68-b12d-27528a3b956a",
       "title": "Load Models",
       "pos": [
         400,
@@ -416,7 +416,7 @@
     },
     {
       "id": 89,
-      "type": "eeca4e99-f0f9-4bc2-be3d-8cf112ac8115",
+      "type": "9c16d046-58bc-4b44-9ac4-7d1e02eff87e",
       "title": "Prompt (stage 1)",
       "pos": [
         400,
@@ -482,7 +482,7 @@
     },
     {
       "id": 90,
-      "type": "36d85092-87ed-4051-9dcb-387a7f5bf91a",
+      "type": "0e4d6c1d-950f-4ca5-b661-b6fa84d9241a",
       "title": "Source Video + Sizes",
       "pos": [
         400,
@@ -667,7 +667,7 @@
     },
     {
       "id": 91,
-      "type": "7793348f-102e-4d11-9d39-202dba7bef6d",
+      "type": "689b9352-92c1-4079-8499-bcb7f8969cdb",
       "title": "Stage 1 - Generation (FullHD, first/last frame + IC-LoRA)",
       "pos": [
         880,
@@ -853,7 +853,7 @@
     },
     {
       "id": 92,
-      "type": "2d978698-64e6-464a-8f87-62f6f8bebb59",
+      "type": "1dab8872-b89a-4505-9763-7649febe329c",
       "title": "SDR to HDR (FullHD)",
       "pos": [
         1360,
@@ -981,7 +981,7 @@
     },
     {
       "id": 93,
-      "type": "95573e9b-de40-4551-8de4-07f4ed54468f",
+      "type": "baf94a4f-4a2e-4240-9847-7fa35323cbbd",
       "title": "Upscale (latent x2, x4 for 8K)",
       "pos": [
         1800,
@@ -1024,7 +1024,7 @@
         {
           "label": "upscaled latent",
           "name": "upscaled latent",
-          "type": "COMFY_MATCHTYPE_V3",
+          "type": "LATENT",
           "links": [
             338
           ]
@@ -1035,7 +1035,7 @@
     },
     {
       "id": 94,
-      "type": "6ad2e9b9-ac1f-4cc8-95fa-31762dcab7ed",
+      "type": "ae4d7a85-d30c-4b6b-92cd-705d26c2059d",
       "title": "HDR Refine (4K/8K, tiled)",
       "pos": [
         2220,
@@ -1088,7 +1088,7 @@
         {
           "label": "upscaled latent",
           "name": "upscaled latent",
-          "type": "COMFY_MATCHTYPE_V3",
+          "type": "LATENT",
           "link": 338
         },
         {
@@ -1155,7 +1155,7 @@
     },
     {
       "id": 95,
-      "type": "13083ae8-5980-458f-bdd9-fc0d6369a878",
+      "type": "ef7dee6c-9f8e-47ee-b639-1bbf8d17e88a",
       "title": "Decode HDR (HLG video + EXR)",
       "pos": [
         2660,
@@ -1227,7 +1227,7 @@
       ],
       "size": [
         620,
-        560
+        780
       ],
       "flags": {},
       "order": 14,
@@ -1237,7 +1237,7 @@
       "title": "How to use",
       "properties": {},
       "widgets_values": [
-        "## LTX-2.5 · V2V · First/Last frame · IC-LoRA · SDR -> HDR · Native 4K/8K (subgraphs)\n\nSame graph as `LTX-2.5_FLF_V2V_ICLoRA_SDR_to_HDR_Native_4K_8K.json`, packed into subgraphs.\nDouble-click a box (or its top-right icon) to open it; use the breadcrumb to go back.\n\n**Left column - your inputs**: SOURCE video, FIRST frame, LAST frame.\n\n**Boxes, left to right**\n1. **Load Models** - every model file + LoRA strengths are widgets on the box.\n2. **Prompt (stage 1)** - your prompt + negative. The HDR passes use the scene embeddings instead.\n3. **Source Video + Sizes** - `output_size` 4K / 8K etc. The summary shows in *Tiling sizes*.\n4. **Stage 1 - Generation** - FullHD, 8 steps, effect IC-LoRA + first/last frame guides.\n   Saves an SDR FullHD preview (bypass that SaveVideo with Ctrl+B if not needed).\n5. **SDR to HDR (FullHD)** - SDR-to-HDR IC-LoRA on the stage-1 result, scene embeddings, 8 steps.\n6. **Upscale** - LTX latent upscaler x2 (x4 when output_size = 8K).\n7. **HDR Refine** - tiled 3-step refine at 4K/8K with the same HDR IC-LoRA.\n8. **Decode HDR** - HLG 10-bit video (+ source audio) and optional ACEScg EXR (`save_exr`).\n\n**Rules**: euler sampler, overlap >= 0.5, `use_tiled_encode` off. Clip length 8n+1 frames\n(97 / 121 / 161). Stage 1 renders the whole clip in one pass (keeps first/last pinned).\nModels: see README in the repo (scene embeddings go in `models/embeddings/`).\n"
+        "## LTX-2.5 · V2V · First/Last frame · IC-LoRA · SDR -> HDR · Native 4K/8K (subgraphs)\n\nSame graph as `LTX-2.5_FLF_V2V_ICLoRA_SDR_to_HDR_Native_4K_8K.json`, packed into subgraphs.\nDouble-click a box (or its top-right icon) to open it; use the breadcrumb to go back.\n\n**Left column - your inputs**: SOURCE video, FIRST frame, LAST frame.\n\n**Boxes, left to right**\n1. **Load Models** - every model file + LoRA strengths are widgets on the box.\n2. **Prompt (stage 1)** - your prompt + negative. The HDR passes use the scene embeddings instead.\n3. **Source Video + Sizes** - `output_size` 4K / 8K etc. The summary shows in *Tiling sizes*.\n4. **Stage 1 - Generation** - FullHD, 8 steps, effect IC-LoRA + first/last frame guides.\n   Saves an SDR FullHD preview (bypass that SaveVideo with Ctrl+B if not needed).\n5. **SDR to HDR (FullHD)** - SDR-to-HDR IC-LoRA on the stage-1 result, scene embeddings, 8 steps.\n6. **Upscale** - LTX latent upscaler x2 (x4 when output_size = 8K).\n7. **HDR Refine** - tiled 3-step refine at 4K/8K with the same HDR IC-LoRA.\n8. **Decode HDR** - HLG 10-bit video (+ source audio) and optional ACEScg EXR (`save_exr`).\n\n**Turning parts off** (select the boxes, then Ctrl+M = mute, Ctrl+B = bypass)\n- *SDR FullHD only (no HDR, no 4K)*: mute **Decode HDR** + **FINAL HDR video**. Nothing after\n  stage 1 runs; the result is the Stage-1 preview (SDR FullHD).\n- *HDR at FullHD (no 4K)*: bypass **Upscale** + **HDR Refine**. The FullHD HDR latent goes\n  straight to Decode HDR.\n- *No EXR*: set `save_exr` to false on Decode HDR.\n- *SDR at 4K*: use `LTX-2.5_FLF_V2V_ICLoRA_Native_4K_8K.json` instead (here the 4K pass is HDR).\n\n**Rules**: euler sampler, overlap >= 0.5, `use_tiled_encode` off. Clip length 8n+1 frames\n(97 / 121 / 161). Stage 1 renders the whole clip in one pass (keeps first/last pinned).\nModels: see README in the repo (scene embeddings go in `models/embeddings/`).\n"
       ],
       "color": "#432",
       "bgcolor": "#653"
@@ -1474,7 +1474,7 @@
       0,
       94,
       6,
-      "COMFY_MATCHTYPE_V3"
+      "LATENT"
     ],
     [
       339,
@@ -1702,7 +1702,7 @@
   "definitions": {
     "subgraphs": [
       {
-        "id": "b2aace18-882a-40e8-afe4-4aa373375d31",
+        "id": "c5378f72-3b6c-4d68-b12d-27528a3b956a",
         "version": 1,
         "state": {
           "lastGroupId": 0,
@@ -1733,7 +1733,7 @@
         },
         "inputs": [
           {
-            "id": "b2aace18-in-0",
+            "id": "c5378f72-in-0",
             "name": "diffusion model",
             "type": "COMBO",
             "linkIds": [
@@ -1746,7 +1746,7 @@
             ]
           },
           {
-            "id": "b2aace18-in-1",
+            "id": "c5378f72-in-1",
             "name": "IC-LoRA stage 1 (effect)",
             "type": "COMBO",
             "linkIds": [
@@ -1759,7 +1759,7 @@
             ]
           },
           {
-            "id": "b2aace18-in-2",
+            "id": "c5378f72-in-2",
             "name": "stage 1 LoRA strength",
             "type": "FLOAT",
             "linkIds": [
@@ -1772,7 +1772,7 @@
             ]
           },
           {
-            "id": "b2aace18-in-3",
+            "id": "c5378f72-in-3",
             "name": "IC-LoRA SDR to HDR",
             "type": "COMBO",
             "linkIds": [
@@ -1785,7 +1785,7 @@
             ]
           },
           {
-            "id": "b2aace18-in-4",
+            "id": "c5378f72-in-4",
             "name": "HDR LoRA strength",
             "type": "FLOAT",
             "linkIds": [
@@ -1798,7 +1798,7 @@
             ]
           },
           {
-            "id": "b2aace18-in-5",
+            "id": "c5378f72-in-5",
             "name": "video VAE",
             "type": "COMBO",
             "linkIds": [
@@ -1811,7 +1811,7 @@
             ]
           },
           {
-            "id": "b2aace18-in-6",
+            "id": "c5378f72-in-6",
             "name": "text encoder",
             "type": "COMBO",
             "linkIds": [
@@ -1824,7 +1824,7 @@
             ]
           },
           {
-            "id": "b2aace18-in-7",
+            "id": "c5378f72-in-7",
             "name": "latent upscaler",
             "type": "COMBO",
             "linkIds": [
@@ -1837,7 +1837,7 @@
             ]
           },
           {
-            "id": "b2aace18-in-8",
+            "id": "c5378f72-in-8",
             "name": "HDR scene embeddings",
             "type": "COMBO",
             "linkIds": [
@@ -1852,7 +1852,7 @@
         ],
         "outputs": [
           {
-            "id": "b2aace18-out-0",
+            "id": "c5378f72-out-0",
             "name": "CLIP",
             "type": "CLIP",
             "linkIds": [
@@ -1865,7 +1865,7 @@
             ]
           },
           {
-            "id": "b2aace18-out-1",
+            "id": "c5378f72-out-1",
             "name": "VAE",
             "type": "VAE",
             "linkIds": [
@@ -1878,7 +1878,7 @@
             ]
           },
           {
-            "id": "b2aace18-out-2",
+            "id": "c5378f72-out-2",
             "name": "factor stage 1",
             "type": "FLOAT",
             "linkIds": [
@@ -1891,7 +1891,7 @@
             ]
           },
           {
-            "id": "b2aace18-out-3",
+            "id": "c5378f72-out-3",
             "name": "MODEL stage 1",
             "type": "MODEL",
             "linkIds": [
@@ -1904,7 +1904,7 @@
             ]
           },
           {
-            "id": "b2aace18-out-4",
+            "id": "c5378f72-out-4",
             "name": "HDR scene embeddings",
             "type": "CONDITIONING",
             "linkIds": [
@@ -1917,7 +1917,7 @@
             ]
           },
           {
-            "id": "b2aace18-out-5",
+            "id": "c5378f72-out-5",
             "name": "latent upscaler",
             "type": "LATENT_UPSCALE_MODEL",
             "linkIds": [
@@ -1930,7 +1930,7 @@
             ]
           },
           {
-            "id": "b2aace18-out-6",
+            "id": "c5378f72-out-6",
             "name": "VAE fp32 (HDR)",
             "type": "VAE",
             "linkIds": [
@@ -1943,7 +1943,7 @@
             ]
           },
           {
-            "id": "b2aace18-out-7",
+            "id": "c5378f72-out-7",
             "name": "factor HDR",
             "type": "FLOAT",
             "linkIds": [
@@ -1956,7 +1956,7 @@
             ]
           },
           {
-            "id": "b2aace18-out-8",
+            "id": "c5378f72-out-8",
             "name": "MODEL HDR",
             "type": "MODEL",
             "linkIds": [
@@ -2533,7 +2533,7 @@
         "extra": {}
       },
       {
-        "id": "eeca4e99-f0f9-4bc2-be3d-8cf112ac8115",
+        "id": "9c16d046-58bc-4b44-9ac4-7d1e02eff87e",
         "version": 1,
         "state": {
           "lastGroupId": 0,
@@ -2564,7 +2564,7 @@
         },
         "inputs": [
           {
-            "id": "eeca4e99-in-0",
+            "id": "9c16d046-in-0",
             "name": "CLIP",
             "type": "CLIP",
             "linkIds": [
@@ -2578,7 +2578,7 @@
             ]
           },
           {
-            "id": "eeca4e99-in-1",
+            "id": "9c16d046-in-1",
             "name": "prompt",
             "type": "STRING",
             "linkIds": [
@@ -2591,7 +2591,7 @@
             ]
           },
           {
-            "id": "eeca4e99-in-2",
+            "id": "9c16d046-in-2",
             "name": "negative prompt",
             "type": "STRING",
             "linkIds": [
@@ -2606,7 +2606,7 @@
         ],
         "outputs": [
           {
-            "id": "eeca4e99-out-0",
+            "id": "9c16d046-out-0",
             "name": "positive",
             "type": "CONDITIONING",
             "linkIds": [
@@ -2619,7 +2619,7 @@
             ]
           },
           {
-            "id": "eeca4e99-out-1",
+            "id": "9c16d046-out-1",
             "name": "negative",
             "type": "CONDITIONING",
             "linkIds": [
@@ -2797,7 +2797,7 @@
         "extra": {}
       },
       {
-        "id": "36d85092-87ed-4051-9dcb-387a7f5bf91a",
+        "id": "0e4d6c1d-950f-4ca5-b661-b6fa84d9241a",
         "version": 1,
         "state": {
           "lastGroupId": 0,
@@ -2828,7 +2828,7 @@
         },
         "inputs": [
           {
-            "id": "36d85092-in-0",
+            "id": "0e4d6c1d-in-0",
             "name": "source video",
             "type": "VIDEO",
             "linkIds": [
@@ -2841,7 +2841,7 @@
             ]
           },
           {
-            "id": "36d85092-in-1",
+            "id": "0e4d6c1d-in-1",
             "name": "tile_size",
             "type": "COMBO",
             "linkIds": [
@@ -2854,7 +2854,7 @@
             ]
           },
           {
-            "id": "36d85092-in-2",
+            "id": "0e4d6c1d-in-2",
             "name": "initial_canvas_size",
             "type": "COMBO",
             "linkIds": [
@@ -2867,7 +2867,7 @@
             ]
           },
           {
-            "id": "36d85092-in-3",
+            "id": "0e4d6c1d-in-3",
             "name": "output_size",
             "type": "COMBO",
             "linkIds": [
@@ -2882,7 +2882,7 @@
         ],
         "outputs": [
           {
-            "id": "36d85092-out-0",
+            "id": "0e4d6c1d-out-0",
             "name": "summary",
             "type": "STRING",
             "linkIds": [
@@ -2895,7 +2895,7 @@
             ]
           },
           {
-            "id": "36d85092-out-1",
+            "id": "0e4d6c1d-out-1",
             "name": "initial_canvas_width",
             "type": "INT",
             "linkIds": [
@@ -2908,7 +2908,7 @@
             ]
           },
           {
-            "id": "36d85092-out-2",
+            "id": "0e4d6c1d-out-2",
             "name": "initial_canvas_height",
             "type": "INT",
             "linkIds": [
@@ -2921,7 +2921,7 @@
             ]
           },
           {
-            "id": "36d85092-out-3",
+            "id": "0e4d6c1d-out-3",
             "name": "fps",
             "type": "FLOAT",
             "linkIds": [
@@ -2934,7 +2934,7 @@
             ]
           },
           {
-            "id": "36d85092-out-4",
+            "id": "0e4d6c1d-out-4",
             "name": "frame_count",
             "type": "INT",
             "linkIds": [
@@ -2947,7 +2947,7 @@
             ]
           },
           {
-            "id": "36d85092-out-5",
+            "id": "0e4d6c1d-out-5",
             "name": "source frames",
             "type": "IMAGE",
             "linkIds": [
@@ -2960,7 +2960,7 @@
             ]
           },
           {
-            "id": "36d85092-out-6",
+            "id": "0e4d6c1d-out-6",
             "name": "tile_width",
             "type": "INT",
             "linkIds": [
@@ -2973,7 +2973,7 @@
             ]
           },
           {
-            "id": "36d85092-out-7",
+            "id": "0e4d6c1d-out-7",
             "name": "tile_height",
             "type": "INT",
             "linkIds": [
@@ -2986,7 +2986,7 @@
             ]
           },
           {
-            "id": "36d85092-out-8",
+            "id": "0e4d6c1d-out-8",
             "name": "overlap_frac",
             "type": "FLOAT",
             "linkIds": [
@@ -2999,7 +2999,7 @@
             ]
           },
           {
-            "id": "36d85092-out-9",
+            "id": "0e4d6c1d-out-9",
             "name": "is_8k",
             "type": "BOOLEAN",
             "linkIds": [
@@ -3012,7 +3012,7 @@
             ]
           },
           {
-            "id": "36d85092-out-10",
+            "id": "0e4d6c1d-out-10",
             "name": "output_width",
             "type": "INT",
             "linkIds": [
@@ -3025,7 +3025,7 @@
             ]
           },
           {
-            "id": "36d85092-out-11",
+            "id": "0e4d6c1d-out-11",
             "name": "output_height",
             "type": "INT",
             "linkIds": [
@@ -3038,7 +3038,7 @@
             ]
           },
           {
-            "id": "36d85092-out-12",
+            "id": "0e4d6c1d-out-12",
             "name": "tile_frames",
             "type": "INT",
             "linkIds": [
@@ -3051,7 +3051,7 @@
             ]
           },
           {
-            "id": "36d85092-out-13",
+            "id": "0e4d6c1d-out-13",
             "name": "audio",
             "type": "AUDIO",
             "linkIds": [
@@ -3501,7 +3501,7 @@
         "extra": {}
       },
       {
-        "id": "7793348f-102e-4d11-9d39-202dba7bef6d",
+        "id": "689b9352-92c1-4079-8499-bcb7f8969cdb",
         "version": 1,
         "state": {
           "lastGroupId": 0,
@@ -3532,7 +3532,7 @@
         },
         "inputs": [
           {
-            "id": "7793348f-in-0",
+            "id": "689b9352-in-0",
             "name": "first frame",
             "type": "IMAGE",
             "linkIds": [
@@ -3545,7 +3545,7 @@
             ]
           },
           {
-            "id": "7793348f-in-1",
+            "id": "689b9352-in-1",
             "name": "initial_canvas_width",
             "type": "INT",
             "linkIds": [
@@ -3561,7 +3561,7 @@
             ]
           },
           {
-            "id": "7793348f-in-2",
+            "id": "689b9352-in-2",
             "name": "initial_canvas_height",
             "type": "INT",
             "linkIds": [
@@ -3577,7 +3577,7 @@
             ]
           },
           {
-            "id": "7793348f-in-3",
+            "id": "689b9352-in-3",
             "name": "last frame",
             "type": "IMAGE",
             "linkIds": [
@@ -3590,7 +3590,7 @@
             ]
           },
           {
-            "id": "7793348f-in-4",
+            "id": "689b9352-in-4",
             "name": "positive",
             "type": "CONDITIONING",
             "linkIds": [
@@ -3603,7 +3603,7 @@
             ]
           },
           {
-            "id": "7793348f-in-5",
+            "id": "689b9352-in-5",
             "name": "negative",
             "type": "CONDITIONING",
             "linkIds": [
@@ -3616,7 +3616,7 @@
             ]
           },
           {
-            "id": "7793348f-in-6",
+            "id": "689b9352-in-6",
             "name": "fps",
             "type": "FLOAT",
             "linkIds": [
@@ -3630,7 +3630,7 @@
             ]
           },
           {
-            "id": "7793348f-in-7",
+            "id": "689b9352-in-7",
             "name": "frame_count",
             "type": "INT",
             "linkIds": [
@@ -3643,7 +3643,7 @@
             ]
           },
           {
-            "id": "7793348f-in-8",
+            "id": "689b9352-in-8",
             "name": "source frames",
             "type": "IMAGE",
             "linkIds": [
@@ -3656,7 +3656,7 @@
             ]
           },
           {
-            "id": "7793348f-in-9",
+            "id": "689b9352-in-9",
             "name": "VAE",
             "type": "VAE",
             "linkIds": [
@@ -3673,7 +3673,7 @@
             ]
           },
           {
-            "id": "7793348f-in-10",
+            "id": "689b9352-in-10",
             "name": "factor stage 1",
             "type": "FLOAT",
             "linkIds": [
@@ -3686,7 +3686,7 @@
             ]
           },
           {
-            "id": "7793348f-in-11",
+            "id": "689b9352-in-11",
             "name": "MODEL stage 1",
             "type": "MODEL",
             "linkIds": [
@@ -3699,7 +3699,7 @@
             ]
           },
           {
-            "id": "7793348f-in-12",
+            "id": "689b9352-in-12",
             "name": "tile_width",
             "type": "INT",
             "linkIds": [
@@ -3712,7 +3712,7 @@
             ]
           },
           {
-            "id": "7793348f-in-13",
+            "id": "689b9352-in-13",
             "name": "tile_height",
             "type": "INT",
             "linkIds": [
@@ -3725,7 +3725,7 @@
             ]
           },
           {
-            "id": "7793348f-in-14",
+            "id": "689b9352-in-14",
             "name": "overlap_frac",
             "type": "FLOAT",
             "linkIds": [
@@ -3738,7 +3738,7 @@
             ]
           },
           {
-            "id": "7793348f-in-15",
+            "id": "689b9352-in-15",
             "name": "audio",
             "type": "AUDIO",
             "linkIds": [
@@ -3751,7 +3751,7 @@
             ]
           },
           {
-            "id": "7793348f-in-16",
+            "id": "689b9352-in-16",
             "name": "seed",
             "type": "INT",
             "linkIds": [
@@ -3764,7 +3764,7 @@
             ]
           },
           {
-            "id": "7793348f-in-17",
+            "id": "689b9352-in-17",
             "name": "effect guide strength",
             "type": "FLOAT",
             "linkIds": [
@@ -3777,7 +3777,7 @@
             ]
           },
           {
-            "id": "7793348f-in-18",
+            "id": "689b9352-in-18",
             "name": "first frame strength",
             "type": "FLOAT",
             "linkIds": [
@@ -3790,7 +3790,7 @@
             ]
           },
           {
-            "id": "7793348f-in-19",
+            "id": "689b9352-in-19",
             "name": "last frame strength",
             "type": "FLOAT",
             "linkIds": [
@@ -3803,7 +3803,7 @@
             ]
           },
           {
-            "id": "7793348f-in-20",
+            "id": "689b9352-in-20",
             "name": "img_compression",
             "type": "INT",
             "linkIds": [
@@ -3819,7 +3819,7 @@
         ],
         "outputs": [
           {
-            "id": "7793348f-out-0",
+            "id": "689b9352-out-0",
             "name": "stage-1 preview video",
             "type": "VIDEO",
             "linkIds": [
@@ -3832,7 +3832,7 @@
             ]
           },
           {
-            "id": "7793348f-out-1",
+            "id": "689b9352-out-1",
             "name": "stage-1 frames",
             "type": "IMAGE",
             "linkIds": [
@@ -5245,7 +5245,7 @@
         "extra": {}
       },
       {
-        "id": "2d978698-64e6-464a-8f87-62f6f8bebb59",
+        "id": "1dab8872-b89a-4505-9763-7649febe329c",
         "version": 1,
         "state": {
           "lastGroupId": 0,
@@ -5276,7 +5276,7 @@
         },
         "inputs": [
           {
-            "id": "2d978698-in-0",
+            "id": "1dab8872-in-0",
             "name": "stage-1 frames",
             "type": "IMAGE",
             "linkIds": [
@@ -5289,7 +5289,7 @@
             ]
           },
           {
-            "id": "2d978698-in-1",
+            "id": "1dab8872-in-1",
             "name": "HDR scene embeddings",
             "type": "CONDITIONING",
             "linkIds": [
@@ -5303,7 +5303,7 @@
             ]
           },
           {
-            "id": "2d978698-in-2",
+            "id": "1dab8872-in-2",
             "name": "fps",
             "type": "FLOAT",
             "linkIds": [
@@ -5316,7 +5316,7 @@
             ]
           },
           {
-            "id": "2d978698-in-3",
+            "id": "1dab8872-in-3",
             "name": "initial_canvas_width",
             "type": "INT",
             "linkIds": [
@@ -5330,7 +5330,7 @@
             ]
           },
           {
-            "id": "2d978698-in-4",
+            "id": "1dab8872-in-4",
             "name": "initial_canvas_height",
             "type": "INT",
             "linkIds": [
@@ -5344,7 +5344,7 @@
             ]
           },
           {
-            "id": "2d978698-in-5",
+            "id": "1dab8872-in-5",
             "name": "frame_count",
             "type": "INT",
             "linkIds": [
@@ -5357,7 +5357,7 @@
             ]
           },
           {
-            "id": "2d978698-in-6",
+            "id": "1dab8872-in-6",
             "name": "VAE fp32 (HDR)",
             "type": "VAE",
             "linkIds": [
@@ -5371,7 +5371,7 @@
             ]
           },
           {
-            "id": "2d978698-in-7",
+            "id": "1dab8872-in-7",
             "name": "factor HDR",
             "type": "FLOAT",
             "linkIds": [
@@ -5384,7 +5384,7 @@
             ]
           },
           {
-            "id": "2d978698-in-8",
+            "id": "1dab8872-in-8",
             "name": "tile_frames",
             "type": "INT",
             "linkIds": [
@@ -5398,7 +5398,7 @@
             ]
           },
           {
-            "id": "2d978698-in-9",
+            "id": "1dab8872-in-9",
             "name": "MODEL HDR",
             "type": "MODEL",
             "linkIds": [
@@ -5411,7 +5411,7 @@
             ]
           },
           {
-            "id": "2d978698-in-10",
+            "id": "1dab8872-in-10",
             "name": "tile_width",
             "type": "INT",
             "linkIds": [
@@ -5424,7 +5424,7 @@
             ]
           },
           {
-            "id": "2d978698-in-11",
+            "id": "1dab8872-in-11",
             "name": "tile_height",
             "type": "INT",
             "linkIds": [
@@ -5437,7 +5437,7 @@
             ]
           },
           {
-            "id": "2d978698-in-12",
+            "id": "1dab8872-in-12",
             "name": "overlap_frac",
             "type": "FLOAT",
             "linkIds": [
@@ -5450,7 +5450,7 @@
             ]
           },
           {
-            "id": "2d978698-in-13",
+            "id": "1dab8872-in-13",
             "name": "seed",
             "type": "INT",
             "linkIds": [
@@ -5465,7 +5465,7 @@
         ],
         "outputs": [
           {
-            "id": "2d978698-out-0",
+            "id": "1dab8872-out-0",
             "name": "HDR latent (FullHD)",
             "type": "LATENT",
             "linkIds": [
@@ -5478,7 +5478,7 @@
             ]
           },
           {
-            "id": "2d978698-out-1",
+            "id": "1dab8872-out-1",
             "name": "stage-1 frames ACEScct",
             "type": "IMAGE",
             "linkIds": [
@@ -6254,7 +6254,7 @@
         "extra": {}
       },
       {
-        "id": "95573e9b-de40-4551-8de4-07f4ed54468f",
+        "id": "baf94a4f-4a2e-4240-9847-7fa35323cbbd",
         "version": 1,
         "state": {
           "lastGroupId": 0,
@@ -6285,7 +6285,7 @@
         },
         "inputs": [
           {
-            "id": "95573e9b-in-0",
+            "id": "baf94a4f-in-0",
             "name": "HDR latent (FullHD)",
             "type": "LATENT",
             "linkIds": [
@@ -6298,7 +6298,7 @@
             ]
           },
           {
-            "id": "95573e9b-in-1",
+            "id": "baf94a4f-in-1",
             "name": "latent upscaler",
             "type": "LATENT_UPSCALE_MODEL",
             "linkIds": [
@@ -6312,7 +6312,7 @@
             ]
           },
           {
-            "id": "95573e9b-in-2",
+            "id": "baf94a4f-in-2",
             "name": "VAE fp32 (HDR)",
             "type": "VAE",
             "linkIds": [
@@ -6326,7 +6326,7 @@
             ]
           },
           {
-            "id": "95573e9b-in-3",
+            "id": "baf94a4f-in-3",
             "name": "is_8k",
             "type": "BOOLEAN",
             "linkIds": [
@@ -6341,9 +6341,9 @@
         ],
         "outputs": [
           {
-            "id": "95573e9b-out-0",
+            "id": "baf94a4f-out-0",
             "name": "upscaled latent",
-            "type": "COMFY_MATCHTYPE_V3",
+            "type": "LATENT",
             "linkIds": [
               223
             ],
@@ -6594,14 +6594,14 @@
             "origin_slot": 0,
             "target_id": -20,
             "target_slot": 0,
-            "type": "COMFY_MATCHTYPE_V3"
+            "type": "LATENT"
           }
         ],
         "reroutes": [],
         "extra": {}
       },
       {
-        "id": "6ad2e9b9-ac1f-4cc8-95fa-31762dcab7ed",
+        "id": "ae4d7a85-d30c-4b6b-92cd-705d26c2059d",
         "version": 1,
         "state": {
           "lastGroupId": 0,
@@ -6632,7 +6632,7 @@
         },
         "inputs": [
           {
-            "id": "6ad2e9b9-in-0",
+            "id": "ae4d7a85-in-0",
             "name": "HDR scene embeddings",
             "type": "CONDITIONING",
             "linkIds": [
@@ -6646,7 +6646,7 @@
             ]
           },
           {
-            "id": "6ad2e9b9-in-1",
+            "id": "ae4d7a85-in-1",
             "name": "fps",
             "type": "FLOAT",
             "linkIds": [
@@ -6659,7 +6659,7 @@
             ]
           },
           {
-            "id": "6ad2e9b9-in-2",
+            "id": "ae4d7a85-in-2",
             "name": "stage-1 frames ACEScct",
             "type": "IMAGE",
             "linkIds": [
@@ -6672,7 +6672,7 @@
             ]
           },
           {
-            "id": "6ad2e9b9-in-3",
+            "id": "ae4d7a85-in-3",
             "name": "output_width",
             "type": "INT",
             "linkIds": [
@@ -6685,7 +6685,7 @@
             ]
           },
           {
-            "id": "6ad2e9b9-in-4",
+            "id": "ae4d7a85-in-4",
             "name": "output_height",
             "type": "INT",
             "linkIds": [
@@ -6698,7 +6698,7 @@
             ]
           },
           {
-            "id": "6ad2e9b9-in-5",
+            "id": "ae4d7a85-in-5",
             "name": "VAE fp32 (HDR)",
             "type": "VAE",
             "linkIds": [
@@ -6712,9 +6712,9 @@
             ]
           },
           {
-            "id": "6ad2e9b9-in-6",
+            "id": "ae4d7a85-in-6",
             "name": "upscaled latent",
-            "type": "COMFY_MATCHTYPE_V3",
+            "type": "LATENT",
             "linkIds": [
               224
             ],
@@ -6725,7 +6725,7 @@
             ]
           },
           {
-            "id": "6ad2e9b9-in-7",
+            "id": "ae4d7a85-in-7",
             "name": "factor HDR",
             "type": "FLOAT",
             "linkIds": [
@@ -6738,7 +6738,7 @@
             ]
           },
           {
-            "id": "6ad2e9b9-in-8",
+            "id": "ae4d7a85-in-8",
             "name": "tile_frames",
             "type": "INT",
             "linkIds": [
@@ -6752,7 +6752,7 @@
             ]
           },
           {
-            "id": "6ad2e9b9-in-9",
+            "id": "ae4d7a85-in-9",
             "name": "MODEL HDR",
             "type": "MODEL",
             "linkIds": [
@@ -6765,7 +6765,7 @@
             ]
           },
           {
-            "id": "6ad2e9b9-in-10",
+            "id": "ae4d7a85-in-10",
             "name": "tile_width",
             "type": "INT",
             "linkIds": [
@@ -6778,7 +6778,7 @@
             ]
           },
           {
-            "id": "6ad2e9b9-in-11",
+            "id": "ae4d7a85-in-11",
             "name": "tile_height",
             "type": "INT",
             "linkIds": [
@@ -6791,7 +6791,7 @@
             ]
           },
           {
-            "id": "6ad2e9b9-in-12",
+            "id": "ae4d7a85-in-12",
             "name": "overlap_frac",
             "type": "FLOAT",
             "linkIds": [
@@ -6804,7 +6804,7 @@
             ]
           },
           {
-            "id": "6ad2e9b9-in-13",
+            "id": "ae4d7a85-in-13",
             "name": "seed",
             "type": "INT",
             "linkIds": [
@@ -6819,7 +6819,7 @@
         ],
         "outputs": [
           {
-            "id": "6ad2e9b9-out-0",
+            "id": "ae4d7a85-out-0",
             "name": "refined latent",
             "type": "LATENT",
             "linkIds": [
@@ -7320,7 +7320,7 @@
             "origin_slot": 6,
             "target_id": 55,
             "target_slot": 3,
-            "type": "COMFY_MATCHTYPE_V3"
+            "type": "LATENT"
           },
           {
             "id": 225,
@@ -7455,7 +7455,7 @@
         "extra": {}
       },
       {
-        "id": "13083ae8-5980-458f-bdd9-fc0d6369a878",
+        "id": "ef7dee6c-9f8e-47ee-b639-1bbf8d17e88a",
         "version": 1,
         "state": {
           "lastGroupId": 0,
@@ -7486,7 +7486,7 @@
         },
         "inputs": [
           {
-            "id": "13083ae8-in-0",
+            "id": "ef7dee6c-in-0",
             "name": "refined latent",
             "type": "LATENT",
             "linkIds": [
@@ -7499,7 +7499,7 @@
             ]
           },
           {
-            "id": "13083ae8-in-1",
+            "id": "ef7dee6c-in-1",
             "name": "VAE fp32 (HDR)",
             "type": "VAE",
             "linkIds": [
@@ -7512,7 +7512,7 @@
             ]
           },
           {
-            "id": "13083ae8-in-2",
+            "id": "ef7dee6c-in-2",
             "name": "fps",
             "type": "FLOAT",
             "linkIds": [
@@ -7525,7 +7525,7 @@
             ]
           },
           {
-            "id": "13083ae8-in-3",
+            "id": "ef7dee6c-in-3",
             "name": "audio",
             "type": "AUDIO",
             "linkIds": [
@@ -7538,7 +7538,7 @@
             ]
           },
           {
-            "id": "13083ae8-in-4",
+            "id": "ef7dee6c-in-4",
             "name": "save_exr",
             "type": "BOOLEAN",
             "linkIds": [
@@ -7553,7 +7553,7 @@
         ],
         "outputs": [
           {
-            "id": "13083ae8-out-0",
+            "id": "ef7dee6c-out-0",
             "name": "HDR video",
             "type": "VIDEO",
             "linkIds": [
