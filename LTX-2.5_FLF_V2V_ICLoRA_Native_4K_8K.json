@@ -500,8 +500,7 @@
           "links": [
             9,
             11,
-            27,
-            68
+            27
           ]
         },
         {
@@ -1856,7 +1855,7 @@
         2176,
         "disabled"
       ],
-      "title": "Resize source to output size"
+      "title": "Resize STAGE-1 RESULT to output size"
     },
     {
       "id": 55,
@@ -1952,7 +1951,7 @@
         true,
         97
       ],
-      "title": "Stage-2 IC-LoRA guide (streaming)"
+      "title": "Stage-2 IC-LoRA guide (stage-1 result, streaming)"
     },
     {
       "id": 56,
@@ -2295,6 +2294,7 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
+            68,
             97
           ]
         }
@@ -2308,7 +2308,7 @@
         128,
         32
       ],
-      "title": "Stage-1 preview decode"
+      "title": "Stage-1 decode (also feeds stage-2 guide)"
     },
     {
       "id": 71,
@@ -2421,7 +2421,7 @@
       "title": "How to use",
       "properties": {},
       "widgets_values": [
-        "## LTX-2.5 · V2V · First/Last frame · IC-LoRA · Native 4K/8K\n\nBuilt from Lightricks' **LTX-2.5_V2V_TiledFusion_Native_4K_8K** example (same nodes and\nsettings, without subgraphs), with **first/last-frame guides added to stage 1**.\n\n**Inputs**\n1. **SOURCE video**: drives the stage-1 IC-LoRA. Trim it to the length you want first.\n   Keep it around **97-121 frames** (stage 1 runs the whole clip in one pass).\n2. **FIRST / LAST frame**: pinned at frame 0 and the final frame in stage 1.\n3. **Stage-1 prompt**: describe the change (look, lighting, motion).\n4. **Stage-2 prompt**: look and detail only. Don't name objects, or they can repeat in every tile.\n5. **Get Tiling Sizes**: `output_size` = 4K or 8K, `initial_canvas_size` = stage-1 size,\n   `tile_size` = stage-2 tile size.\n\n**Pipeline**\n- **Stage 1** (FullHD, 8 steps): one tile covers the whole canvas, so the model sees the whole frame.\n  IC-LoRA guide + first frame + last frame. `tile_frames` = **0** and `use_streaming` = **off**:\n  time chunks would drop the first/last-frame guides.\n- **Upscale**: LTX latent upscaler x2 (x4 for 8K).\n- **Stage 2** (3 steps): refine-details IC-LoRA, tiled at the output size, streaming time chunks\n  (`tile_frames` from Get Tiling Sizes), guided by the original source video.\n- **Audio**: the source clip's audio is muxed into the output unchanged.\n\n**Rules**\n- Use the euler sampler only (or heun / dpm_2). Keep overlap at 0.5 or above, and keep `use_tiled_encode` off.\n- Stage-1 IC-LoRA must be trained at full reference size (downscale factor 1). Its factor is wired from the loader.\n- Guide strength 0.7 matches the official first/last-frame template. Set it to 1.0 to lock the exact pixels.\n- The stage-1 preview saves a FullHD draft. Bypass it (Ctrl+B) when you no longer need it.\n"
+        "## LTX-2.5 · V2V · First/Last frame · IC-LoRA · Native 4K/8K\n\nBuilt from Lightricks' **LTX-2.5_V2V_TiledFusion_Native_4K_8K** example (same nodes and\nsettings, without subgraphs), with **first/last-frame guides added to stage 1**.\n\n**Inputs**\n1. **SOURCE video**: drives the stage-1 IC-LoRA. Trim it to the length you want first.\n   Keep it around **97-121 frames** (stage 1 runs the whole clip in one pass).\n2. **FIRST / LAST frame**: pinned at frame 0 and the final frame in stage 1.\n3. **Stage-1 prompt**: describe the change (look, lighting, motion).\n4. **Stage-2 prompt**: look and detail only. Don't name objects, or they can repeat in every tile.\n5. **Get Tiling Sizes**: `output_size` = 4K or 8K, `initial_canvas_size` = stage-1 size,\n   `tile_size` = stage-2 tile size.\n\n**Pipeline**\n- **Stage 1** (FullHD, 8 steps): one tile covers the whole canvas, so the model sees the whole frame.\n  IC-LoRA guide + first frame + last frame. `tile_frames` = **0** and `use_streaming` = **off**:\n  time chunks would drop the first/last-frame guides.\n- **Upscale**: LTX latent upscaler x2 (x4 for 8K).\n- **Stage 2** (3 steps): refine-details IC-LoRA, tiled at the output size, streaming time chunks\n  (`tile_frames` from Get Tiling Sizes), guided by the **decoded stage-1 result**, NOT the source\n  video (guiding with the source pulls the result back to the original footage).\n- **Audio**: the source clip's audio is muxed into the output unchanged.\n\n**Rules**\n- Use the euler sampler only (or heun / dpm_2). Keep overlap at 0.5 or above, and keep `use_tiled_encode` off.\n- Stage-1 IC-LoRA must be trained at full reference size (downscale factor 1). Its factor is wired from the loader.\n- Guide strength 0.7 matches the official first/last-frame template. Set it to 1.0 to lock the exact pixels.\n- The stage-1 decode is required (it feeds the stage-2 guide). Only the stage-1 SaveVideo can be bypassed (Ctrl+B).\n"
       ],
       "color": "#432",
       "bgcolor": "#653"
@@ -2966,7 +2966,7 @@
     ],
     [
       68,
-      21,
+      70,
       0,
       54,
       0,
