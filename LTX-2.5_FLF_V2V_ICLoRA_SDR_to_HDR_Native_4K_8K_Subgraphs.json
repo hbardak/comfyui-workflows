@@ -2,7 +2,7 @@
   "id": "ltx25-flf-v2v-iclora-sdr2hdr-subgraphs",
   "revision": 0,
   "last_node_id": 900,
-  "last_link_id": 364,
+  "last_link_id": 366,
   "nodes": [
     {
       "id": 20,
@@ -1156,7 +1156,7 @@
     {
       "id": 95,
       "type": "ef7dee6c-9f8e-47ee-b639-1bbf8d17e88a",
-      "title": "Decode HDR (HLG video + EXR)",
+      "title": "Decode HDR (HLG video + EXR + ACEScg)",
       "pos": [
         2660,
         0
@@ -1211,6 +1211,12 @@
           "links": [
             349
           ]
+        },
+        {
+          "label": "ACEScg image",
+          "name": "ACEScg image",
+          "type": "IMAGE",
+          "links": []
         }
       ],
       "properties": {},
@@ -1237,7 +1243,7 @@
       "title": "How to use",
       "properties": {},
       "widgets_values": [
-        "## LTX-2.5 · V2V · First/Last frame · IC-LoRA · SDR -> HDR · Native 4K/8K (subgraphs)\n\nSame graph as `LTX-2.5_FLF_V2V_ICLoRA_SDR_to_HDR_Native_4K_8K.json`, packed into subgraphs.\nDouble-click a box (or its top-right icon) to open it; use the breadcrumb to go back.\n\n**Left column - your inputs**: SOURCE video, FIRST frame, LAST frame.\n\n**Boxes, left to right**\n1. **Load Models** - every model file + LoRA strengths are widgets on the box.\n2. **Prompt (stage 1)** - your prompt + negative. The HDR passes use the scene embeddings instead.\n3. **Source Video + Sizes** - `output_size` 4K / 8K etc. The summary shows in *Tiling sizes*.\n4. **Stage 1 - Generation** - FullHD, 8 steps, effect IC-LoRA + first/last frame guides.\n   Saves an SDR FullHD preview (bypass that SaveVideo with Ctrl+B if not needed).\n5. **SDR to HDR (FullHD)** - SDR-to-HDR IC-LoRA on the stage-1 result, scene embeddings, 8 steps.\n6. **Upscale** - LTX latent upscaler x2 (x4 when output_size = 8K).\n7. **HDR Refine** - tiled 3-step refine at 4K/8K with the same HDR IC-LoRA.\n8. **Decode HDR** - HLG 10-bit video (+ source audio) and optional ACEScg EXR (`save_exr`).\n\n**Turning parts off** (select the boxes, then Ctrl+M = mute, Ctrl+B = bypass)\n- *SDR FullHD only (no HDR, no 4K)*: mute **Decode HDR** + **FINAL HDR video**. Nothing after\n  stage 1 runs; the result is the Stage-1 preview (SDR FullHD).\n- *HDR at FullHD (no 4K)*: bypass **Upscale** + **HDR Refine**. The FullHD HDR latent goes\n  straight to Decode HDR.\n- *No EXR*: set `save_exr` to false on Decode HDR.\n- *SDR at 4K*: use `LTX-2.5_FLF_V2V_ICLoRA_Native_4K_8K.json` instead (here the 4K pass is HDR).\n\n**Rules**: euler sampler, overlap >= 0.5, `use_tiled_encode` off. Clip length 8n+1 frames\n(97 / 121 / 161). Stage 1 renders the whole clip in one pass (keeps first/last pinned).\nModels: see README in the repo (scene embeddings go in `models/embeddings/`).\n"
+        "## LTX-2.5 · V2V · First/Last frame · IC-LoRA · SDR -> HDR · Native 4K/8K (subgraphs)\n\nSame graph as `LTX-2.5_FLF_V2V_ICLoRA_SDR_to_HDR_Native_4K_8K.json`, packed into subgraphs.\nDouble-click a box (or its top-right icon) to open it; use the breadcrumb to go back.\n\n**Left column - your inputs**: SOURCE video, FIRST frame, LAST frame.\n\n**Boxes, left to right**\n1. **Load Models** - every model file + LoRA strengths are widgets on the box.\n2. **Prompt (stage 1)** - your prompt + negative. The HDR passes use the scene embeddings instead.\n3. **Source Video + Sizes** - `output_size` 4K / 8K etc. The summary shows in *Tiling sizes*.\n4. **Stage 1 - Generation** - FullHD, 8 steps, effect IC-LoRA + first/last frame guides.\n   Saves an SDR FullHD preview (bypass that SaveVideo with Ctrl+B if not needed).\n5. **SDR to HDR (FullHD)** - SDR-to-HDR IC-LoRA on the stage-1 result, scene embeddings, 8 steps.\n6. **Upscale** - LTX latent upscaler x2 (x4 when output_size = 8K).\n7. **HDR Refine** - tiled 3-step refine at 4K/8K with the same HDR IC-LoRA.\n8. **Decode HDR** - HLG 10-bit video (+ source audio), optional ACEScg EXR (`save_exr`), and an\n   **ACEScg image** output (scene-linear AP1, no clamp) to plug into your own EXR write.\n   **Nuke**: read the EXRs as **ACEScg**, not ACEScct (they are linear, not log).\n\n**Turning parts off** (select the boxes, then Ctrl+M = mute, Ctrl+B = bypass)\n- *SDR FullHD only (no HDR, no 4K)*: mute **Decode HDR** + **FINAL HDR video**. Nothing after\n  stage 1 runs; the result is the Stage-1 preview (SDR FullHD).\n- *HDR at FullHD (no 4K)*: bypass **Upscale** + **HDR Refine**. The FullHD HDR latent goes\n  straight to Decode HDR.\n- *No EXR*: set `save_exr` to false on Decode HDR.\n- *SDR at 4K*: use `LTX-2.5_FLF_V2V_ICLoRA_Native_4K_8K.json` instead (here the 4K pass is HDR).\n\n**Rules**: euler sampler, overlap >= 0.5, `use_tiled_encode` off. Clip length 8n+1 frames\n(97 / 121 / 161). Stage 1 renders the whole clip in one pass (keeps first/last pinned).\nModels: see README in the repo (scene embeddings go in `models/embeddings/`).\n"
       ],
       "color": "#432",
       "bgcolor": "#653"
@@ -7460,7 +7466,7 @@
         "state": {
           "lastGroupId": 0,
           "lastNodeId": 309,
-          "lastLinkId": 309,
+          "lastLinkId": 366,
           "lastRerouteId": 0
         },
         "revision": 0,
@@ -7478,10 +7484,10 @@
         "outputNode": {
           "id": -20,
           "bounding": [
-            720,
+            1060,
             40,
             220,
-            80
+            100
           ]
         },
         "inputs": [
@@ -7561,8 +7567,21 @@
             ],
             "label": "HDR video",
             "pos": [
-              744,
+              1084,
               64
+            ]
+          },
+          {
+            "id": "ef7dee6c-out-1",
+            "name": "ACEScg image",
+            "type": "IMAGE",
+            "linkIds": [
+              366
+            ],
+            "label": "ACEScg image",
+            "pos": [
+              1084,
+              84
             ]
           }
         ],
@@ -7600,7 +7619,8 @@
                 "type": "IMAGE",
                 "links": [
                   250,
-                  251
+                  251,
+                  365
                 ]
               }
             ],
@@ -7763,6 +7783,45 @@
               true
             ],
             "title": "Save EXR (ACEScg) - bypass if not needed"
+          },
+          {
+            "id": 65,
+            "type": "ImageColorSpace",
+            "pos": [
+              700,
+              230
+            ],
+            "size": [
+              280,
+              82
+            ],
+            "flags": {},
+            "order": 44,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "image",
+                "type": "IMAGE",
+                "link": 365
+              }
+            ],
+            "outputs": [
+              {
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "links": [
+                  366
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "ImageColorSpace"
+            },
+            "widgets_values": [
+              "HDR ACEScct",
+              "linear ACEScg"
+            ],
+            "title": "ACEScct -> linear ACEScg (plug your EXR write here)"
           }
         ],
         "groups": [
@@ -7772,7 +7831,7 @@
             "bounding": [
               340,
               0,
-              320,
+              680,
               770
             ],
             "color": "#3f8e8e",
@@ -7851,6 +7910,22 @@
             "target_id": 64,
             "target_slot": 1,
             "type": "BOOLEAN"
+          },
+          {
+            "id": 365,
+            "origin_id": 60,
+            "origin_slot": 0,
+            "target_id": 65,
+            "target_slot": 0,
+            "type": "IMAGE"
+          },
+          {
+            "id": 366,
+            "origin_id": 65,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 1,
+            "type": "IMAGE"
           }
         ],
         "reroutes": [],
