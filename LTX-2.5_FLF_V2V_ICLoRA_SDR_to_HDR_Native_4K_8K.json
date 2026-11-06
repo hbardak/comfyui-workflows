@@ -2167,7 +2167,6 @@
           "type": "IMAGE",
           "links": [
             94,
-            95,
             130
           ]
         }
@@ -2314,53 +2313,6 @@
         "HDR"
       ],
       "title": "ACEScct -> HDR (HLG)"
-    },
-    {
-      "id": 64,
-      "type": "LTXVHDRDecodePostprocess",
-      "pos": [
-        4540,
-        530
-      ],
-      "size": [
-        280,
-        250
-      ],
-      "flags": {},
-      "order": 44,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "image",
-          "type": "IMAGE",
-          "link": 95
-        }
-      ],
-      "outputs": [
-        {
-          "name": "tonemapped",
-          "type": "IMAGE",
-          "links": []
-        },
-        {
-          "name": "hdr_linear",
-          "type": "IMAGE",
-          "links": []
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "LTXVHDRDecodePostprocess"
-      },
-      "widgets_values": [
-        "acescct",
-        0.0,
-        true,
-        "acescg",
-        "output/hdr_exr",
-        "LTX25_FLF_HDR",
-        true
-      ],
-      "title": "Save EXR (ACEScg) - bypass if not needed"
     },
     {
       "id": 65,
@@ -2978,7 +2930,7 @@
       "title": "How to use",
       "properties": {},
       "widgets_values": [
-        "## LTX-2.5 · V2V · First/Last frame · IC-LoRA · SDR -> HDR · Native 4K/8K\n\nYour FLF + IC-LoRA workflow followed by Lightricks' **LTX-2.5_V2V_TiledFusion_SDR_to_HDR**\npipeline (flattened, no subgraphs).\n\n**Pipeline**\n1. **Stage 1 - creative (SDR, FullHD, 8 steps)**: your effect IC-LoRA + FIRST/LAST frame + your\n   prompt. `tile_frames` = 0, streaming off (time chunks would drop the first/last guides).\n2. **SDR -> ACEScct**: the decoded stage-1 result is converted to ACEScct, the working space of the\n   SDR-to-HDR IC-LoRA.\n3. **HDR-A (FullHD, 8 steps)**: SDR-to-HDR IC-LoRA guided by the stage-1 result, streaming on.\n4. **HDR-B (4K/8K, 3 steps)**: latent x2 (x4 for 8K), tiled refine with the same IC-LoRA,\n   guided by the stage-1 result at output size.\n5. **Decode**: ACEScct -> HDR (Rec.2020 **HLG**) -> 10-bit video with the source audio, plus an\n   optional **ACEScg EXR** sequence in `output/hdr_exr` (bypass that node with Ctrl+B if unneeded).\n   For your own EXR write, use the **ACEScct -> linear ACEScg** node output (scene-linear AP1,\n   no clamp). Leave *ACEScct -> HDR (HLG)* on `HDR`: it only feeds the video.\n   **Nuke**: read the EXRs as **ACEScg**, not ACEScct (they are linear, not log).\n\n**Prompts**\n- Stage 1 uses your text prompt (Gemma).\n- The HDR stages use the fixed **scene embeddings** on positive AND negative (cfg 1), exactly like the\n  official example. There is no text prompt for HDR.\n\n**Models**\n- Same as the Native workflow, minus refine-details, plus:\n  `ltx-2.5-22b-ic-lora-sdr-to-hdr-1.0.safetensors` -> `models/loras/`\n  `ltx-2.5-22b-ic-lora-sdr-to-hdr-scene-emb.safetensors` -> `models/embeddings/`\n  (both from huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-SDR-To-HDR)\n- HDR stages use the video VAE forced to **float32** (needed for HDR precision).\n\n**Rules**\n- euler sampler, overlap >= 0.5, `use_tiled_encode` off.\n- Source above 30 fps: the official example clamps the *conditioning* fps to 30. Here it uses the\n  source fps; for 50/60 fps sources, unlink `frame_rate` on the LTXVConditioning nodes and type 30.\n- HLG: 1.0 = 203 nits, clipped above 1000 nits. View on an HDR display / HDR-capable player.\n- Three sampling passes: expect roughly 2x the time of the SDR Native workflow.\n"
+        "## LTX-2.5 · V2V · First/Last frame · IC-LoRA · SDR -> HDR · Native 4K/8K\n\nYour FLF + IC-LoRA workflow followed by Lightricks' **LTX-2.5_V2V_TiledFusion_SDR_to_HDR**\npipeline (flattened, no subgraphs).\n\n**Pipeline**\n1. **Stage 1 - creative (SDR, FullHD, 8 steps)**: your effect IC-LoRA + FIRST/LAST frame + your\n   prompt. `tile_frames` = 0, streaming off (time chunks would drop the first/last guides).\n2. **SDR -> ACEScct**: the decoded stage-1 result is converted to ACEScct, the working space of the\n   SDR-to-HDR IC-LoRA.\n3. **HDR-A (FullHD, 8 steps)**: SDR-to-HDR IC-LoRA guided by the stage-1 result, streaming on.\n4. **HDR-B (4K/8K, 3 steps)**: latent x2 (x4 for 8K), tiled refine with the same IC-LoRA,\n   guided by the stage-1 result at output size.\n5. **Decode**: ACEScct -> HDR (Rec.2020 **HLG**) -> 10-bit video with the source audio, plus a\n   **ACEScct -> linear ACEScg** node (scene-linear AP1, no clamp): plug your own EXR write into it.\n   Leave *ACEScct -> HDR (HLG)* on `HDR`: it only feeds the video.\n   **Nuke**: read the EXRs as **ACEScg**, not ACEScct (they are linear, not log).\n\n**Prompts**\n- Stage 1 uses your text prompt (Gemma).\n- The HDR stages use the fixed **scene embeddings** on positive AND negative (cfg 1), exactly like the\n  official example. There is no text prompt for HDR.\n\n**Models**\n- Same as the Native workflow, minus refine-details, plus:\n  `ltx-2.5-22b-ic-lora-sdr-to-hdr-1.0.safetensors` -> `models/loras/`\n  `ltx-2.5-22b-ic-lora-sdr-to-hdr-scene-emb.safetensors` -> `models/embeddings/`\n  (both from huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-SDR-To-HDR)\n- HDR stages use the video VAE forced to **float32** (needed for HDR precision).\n\n**Rules**\n- euler sampler, overlap >= 0.5, `use_tiled_encode` off.\n- Source above 30 fps: the official example clamps the *conditioning* fps to 30. Here it uses the\n  source fps; for 50/60 fps sources, unlink `frame_rate` on the LTXVConditioning nodes and type 30.\n- HLG: 1.0 = 203 nits, clipped above 1000 nits. View on an HDR display / HDR-capable player.\n- Three sampling passes: expect roughly 2x the time of the SDR Native workflow.\n"
       ],
       "color": "#432",
       "bgcolor": "#653"
@@ -3738,14 +3690,6 @@
       "IMAGE"
     ],
     [
-      95,
-      60,
-      0,
-      64,
-      0,
-      "IMAGE"
-    ],
-    [
       96,
       48,
       0,
@@ -4101,12 +4045,12 @@
     },
     {
       "id": 7,
-      "title": "Decode HDR + save (HLG video, ACEScg EXR)",
+      "title": "Decode HDR (HLG video + linear ACEScg image)",
       "bounding": [
         4520,
         -40,
         820,
-        840
+        580
       ],
       "color": "#3f8e8e",
       "flags": {}
