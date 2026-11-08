@@ -2,41 +2,8 @@
   "id": "ltx25-flf-v2v-iclora-sdr2hdr-subgraphs",
   "revision": 0,
   "last_node_id": 900,
-  "last_link_id": 366,
+  "last_link_id": 394,
   "nodes": [
-    {
-      "id": 20,
-      "type": "LoadVideo",
-      "pos": [
-        0,
-        0
-      ],
-      "size": [
-        320,
-        330
-      ],
-      "flags": {},
-      "order": 0,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "VIDEO",
-          "type": "VIDEO",
-          "links": [
-            311
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "LoadVideo"
-      },
-      "widgets_values": [
-        "input.mp4",
-        "image"
-      ],
-      "title": "SOURCE video (drives the IC-LoRA)"
-    },
     {
       "id": 24,
       "type": "PreviewAny",
@@ -76,7 +43,7 @@
       "type": "LoadImage",
       "pos": [
         0,
-        400
+        800
       ],
       "size": [
         320,
@@ -114,7 +81,7 @@
       "type": "LoadImage",
       "pos": [
         0,
-        800
+        1200
       ],
       "size": [
         320,
@@ -233,7 +200,7 @@
       ],
       "size": [
         420,
-        480
+        540
       ],
       "flags": {},
       "order": 6,
@@ -319,6 +286,24 @@
           "widget": {
             "name": "HDR scene embeddings"
           }
+        },
+        {
+          "label": "IC-LoRA refine details (4K/8K)",
+          "name": "IC-LoRA refine details (4K/8K)",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "IC-LoRA refine details (4K/8K)"
+          }
+        },
+        {
+          "label": "refine LoRA strength",
+          "name": "refine LoRA strength",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "refine LoRA strength"
+          }
         }
       ],
       "outputs": [
@@ -327,7 +312,8 @@
           "name": "CLIP",
           "type": "CLIP",
           "links": [
-            310
+            310,
+            381
           ]
         },
         {
@@ -359,7 +345,6 @@
           "name": "HDR scene embeddings",
           "type": "CONDITIONING",
           "links": [
-            328,
             353
           ]
         },
@@ -387,7 +372,6 @@
           "name": "factor HDR",
           "type": "FLOAT",
           "links": [
-            339,
             359
           ]
         },
@@ -396,8 +380,23 @@
           "name": "MODEL HDR",
           "type": "MODEL",
           "links": [
-            341,
             361
+          ]
+        },
+        {
+          "label": "MODEL refine",
+          "name": "MODEL refine",
+          "type": "MODEL",
+          "links": [
+            380
+          ]
+        },
+        {
+          "label": "factor refine",
+          "name": "factor refine",
+          "type": "FLOAT",
+          "links": [
+            379
           ]
         }
       ],
@@ -411,7 +410,9 @@
         "ltx-2.5-video-vae-bf16.safetensors",
         "gemma4-12b-with-proj-ltx-2.5-comfy-int8-convrot.safetensors",
         "ltx-2.5-latent-spatial-upscaler-x2-bf16-1.0.safetensors",
-        "ltx-2.5-22b-ic-lora-sdr-to-hdr-scene-emb.safetensors"
+        "ltx-2.5-22b-ic-lora-sdr-to-hdr-scene-emb.safetensors",
+        "ltx-2.5-22b-ic-lora-refine-details-1.0.safetensors",
+        1.0
       ]
     },
     {
@@ -469,7 +470,8 @@
           "name": "negative",
           "type": "CONDITIONING",
           "links": [
-            318
+            318,
+            378
           ]
         }
       ],
@@ -483,7 +485,7 @@
     {
       "id": 90,
       "type": "0e4d6c1d-950f-4ca5-b661-b6fa84d9241a",
-      "title": "Source Video + Sizes",
+      "title": "Source + Sizes",
       "pos": [
         400,
         940
@@ -497,10 +499,10 @@
       "mode": 0,
       "inputs": [
         {
-          "label": "source video",
-          "name": "source video",
-          "type": "VIDEO",
-          "link": 311
+          "label": "source frames",
+          "name": "source frames",
+          "type": "IMAGE",
+          "link": 386
         },
         {
           "label": "tile_size",
@@ -528,6 +530,12 @@
           "widget": {
             "name": "output_size"
           }
+        },
+        {
+          "label": "fps",
+          "name": "fps",
+          "type": "FLOAT",
+          "link": 387
         }
       ],
       "outputs": [
@@ -646,15 +654,6 @@
           "links": [
             340,
             360
-          ]
-        },
-        {
-          "label": "audio",
-          "name": "audio",
-          "type": "AUDIO",
-          "links": [
-            348,
-            350
           ]
         }
       ],
@@ -775,7 +774,7 @@
           "label": "audio",
           "name": "audio",
           "type": "AUDIO",
-          "link": 350
+          "link": null
         },
         {
           "label": "seed",
@@ -965,8 +964,8 @@
           ]
         },
         {
-          "label": "stage-1 frames ACEScct",
-          "name": "stage-1 frames ACEScct",
+          "label": "HDR-A frames ACEScct",
+          "name": "HDR-A frames ACEScct",
           "type": "IMAGE",
           "links": [
             334
@@ -1036,24 +1035,24 @@
     {
       "id": 94,
       "type": "ae4d7a85-d30c-4b6b-92cd-705d26c2059d",
-      "title": "HDR Refine (4K/8K, tiled)",
+      "title": "HDR Refine (4K/8K, refine details)",
       "pos": [
         2220,
         0
       ],
       "size": [
         380,
-        360
+        440
       ],
       "flags": {},
       "order": 12,
       "mode": 0,
       "inputs": [
         {
-          "label": "HDR scene embeddings",
-          "name": "HDR scene embeddings",
+          "label": "negative",
+          "name": "negative",
           "type": "CONDITIONING",
-          "link": 328
+          "link": 378
         },
         {
           "label": "fps",
@@ -1062,8 +1061,8 @@
           "link": 329
         },
         {
-          "label": "stage-1 frames ACEScct",
-          "name": "stage-1 frames ACEScct",
+          "label": "HDR-A frames ACEScct",
+          "name": "HDR-A frames ACEScct",
           "type": "IMAGE",
           "link": 334
         },
@@ -1092,10 +1091,10 @@
           "link": 338
         },
         {
-          "label": "factor HDR",
-          "name": "factor HDR",
+          "label": "factor refine",
+          "name": "factor refine",
           "type": "FLOAT",
-          "link": 339
+          "link": 379
         },
         {
           "label": "tile_frames",
@@ -1104,10 +1103,10 @@
           "link": 340
         },
         {
-          "label": "MODEL HDR",
-          "name": "MODEL HDR",
+          "label": "MODEL refine",
+          "name": "MODEL refine",
           "type": "MODEL",
-          "link": 341
+          "link": 380
         },
         {
           "label": "tile_width",
@@ -1135,6 +1134,21 @@
           "widget": {
             "name": "seed"
           }
+        },
+        {
+          "label": "CLIP",
+          "name": "CLIP",
+          "type": "CLIP",
+          "link": 381
+        },
+        {
+          "label": "HDR-B prompt (look/detail)",
+          "name": "HDR-B prompt (look/detail)",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "HDR-B prompt (look/detail)"
+          }
         }
       ],
       "outputs": [
@@ -1149,7 +1163,8 @@
       ],
       "properties": {},
       "widgets_values": [
-        42
+        42,
+        "The same scene, sharper and more detailed, fine textures, clean edges."
       ],
       "color": "#223"
     },
@@ -1191,7 +1206,7 @@
           "label": "audio",
           "name": "audio",
           "type": "AUDIO",
-          "link": 348
+          "link": null
         }
       ],
       "outputs": [
@@ -1207,7 +1222,10 @@
           "label": "ACEScg image",
           "name": "ACEScg image",
           "type": "IMAGE",
-          "links": []
+          "links": [
+            388,
+            393
+          ]
         }
       ],
       "properties": {},
@@ -1232,10 +1250,326 @@
       "title": "How to use",
       "properties": {},
       "widgets_values": [
-        "## LTX-2.5 · V2V · First/Last frame · IC-LoRA · SDR -> HDR · Native 4K/8K (subgraphs)\n\nSame graph as `LTX-2.5_FLF_V2V_ICLoRA_SDR_to_HDR_Native_4K_8K.json`, packed into subgraphs.\nDouble-click a box (or its top-right icon) to open it; use the breadcrumb to go back.\n\n**Left column - your inputs**: SOURCE video, FIRST frame, LAST frame.\n\n**Boxes, left to right**\n1. **Load Models** - every model file + LoRA strengths are widgets on the box.\n2. **Prompt (stage 1)** - your prompt + negative. The HDR passes use the scene embeddings instead.\n3. **Source Video + Sizes** - `output_size` 4K / 8K etc. The summary shows in *Tiling sizes*.\n4. **Stage 1 - Generation** - FullHD, 8 steps, effect IC-LoRA + first/last frame guides.\n   Saves an SDR FullHD preview (bypass that SaveVideo with Ctrl+B if not needed).\n5. **SDR to HDR (FullHD)** - SDR-to-HDR IC-LoRA on the stage-1 result, scene embeddings, 8 steps.\n6. **Upscale** - LTX latent upscaler x2 (x4 when output_size = 8K).\n7. **HDR Refine** - tiled 3-step refine at 4K/8K with the same HDR IC-LoRA.\n8. **Decode HDR** - HLG 10-bit video (+ source audio) and an **ACEScg image** output\n   (scene-linear AP1, no clamp) to plug into your own EXR write.\n   **Nuke**: read the EXRs as **ACEScg**, not ACEScct (they are linear, not log).\n\n**Turning parts off** (select the boxes, then Ctrl+M = mute, Ctrl+B = bypass)\n- *SDR FullHD only (no HDR, no 4K)*: mute **Decode HDR** + **FINAL HDR video**. Nothing after\n  stage 1 runs; the result is the Stage-1 preview (SDR FullHD).\n- *HDR at FullHD (no 4K)*: bypass **Upscale** + **HDR Refine**. The FullHD HDR latent goes\n  straight to Decode HDR.\n- *SDR at 4K*: use `LTX-2.5_FLF_V2V_ICLoRA_Native_4K_8K.json` instead (here the 4K pass is HDR).\n\n**Rules**: euler sampler, overlap >= 0.5, `use_tiled_encode` off. Clip length 8n+1 frames\n(97 / 121 / 161). Stage 1 renders the whole clip in one pass (keeps first/last pinned).\nModels: see README in the repo (scene embeddings go in `models/embeddings/`).\n"
+        "## LTX-2.5 · V2V · First/Last frame · IC-LoRA · SDR -> HDR · Native 4K/8K (subgraphs)\n\nSame graph as `LTX-2.5_FLF_V2V_ICLoRA_SDR_to_HDR_Native_4K_8K.json`, packed into subgraphs.\nDouble-click a box (or its top-right icon) to open it; use the breadcrumb to go back.\n\n**Left column - your inputs**: SOURCE video (yRead), FIRST frame, LAST frame.\n\n**Boxes, left to right**\n1. **Load Models** - every model file + LoRA strengths are widgets on the box.\n2. **Prompt (stage 1)** - your prompt + negative. The HDR passes use the scene embeddings instead.\n3. **Source + Sizes** - `output_size` 4K / 8K etc. The summary shows in *Tiling sizes*.\n4. **Stage 1 - Generation** - FullHD, 8 steps, effect IC-LoRA + first/last frame guides.\n   Saves an SDR FullHD preview (bypass that SaveVideo with Ctrl+B if not needed).\n5. **SDR to HDR (FullHD)** - SDR-to-HDR IC-LoRA on the stage-1 result, scene embeddings, 8 steps.\n6. **Upscale** - LTX latent upscaler x2 (x4 when output_size = 8K).\n7. **HDR Refine** - tiled 3-step refine at 4K/8K with the **refine-details IC-LoRA** (as in\n   Lightricks' HDR->HDR graph), guided by the decoded HDR-A result (ACEScct). Its widget is the\n   look/detail prompt: keep it about look and sharpness, anything named stamps into every tile.\n8. **Decode HDR** - HLG 10-bit video (silent: yRead has no audio) and an **ACEScg image** output\n   (scene-linear AP1, no clamp) feeding **yWrite** (EXR) and **yViewer** on the right.\n   **Nuke**: read the EXRs as **ACEScg**, not ACEScct (they are linear, not log).\n\n**Turning parts off** (select the boxes, then Ctrl+M = mute, Ctrl+B = bypass)\n- *SDR FullHD only (no HDR, no 4K)*: mute **Decode HDR** + **FINAL HDR video**. Nothing after\n  stage 1 runs; the result is the Stage-1 preview (SDR FullHD).\n- *HDR at FullHD (no 4K)*: bypass **Upscale** + **HDR Refine**. The FullHD HDR latent goes\n  straight to Decode HDR.\n- *SDR at 4K*: use `LTX-2.5_FLF_V2V_ICLoRA_Native_4K_8K.json` instead (here the 4K pass is HDR).\n- *No yViewer*: bypass it (Ctrl+B); at 4K it stores ~5 GB of float16 frames per run.\n\n**Rules**: euler sampler, overlap >= 0.5, `use_tiled_encode` off. Clip length 8n+1 frames\n(97 / 121 / 161). Stage 1 renders the whole clip in one pass (keeps first/last pinned).\nModels: see README in the repo (scene embeddings go in `models/embeddings/`). New for the 4K pass:\n`ltx-2.5-22b-ic-lora-refine-details-1.0.safetensors` -> `models/loras/`\n(huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Refine-Details).\n\n**yRead / yWrite / yViewer** (vfx_io + vfx_viewer)\n- yRead: a MOV or an image sequence. With OCIO on, set *target colorspace* to your sRGB / display\n  colorspace: stage 1 and the SDR->ACEScct step expect sRGB. `frame_grid` = LTXV (8n+1), pad.\n- yWrite gets first_frame, fps, pad_frames and time_stretch from yRead. Its image is linear ACEScg:\n  with OCIO on, pick your config's ACEScg for input and output (no conversion). Set root/folders\n  in its panel, or switch destination to `path`.\n- yViewer: colorspace_a = ACEScg (float16 keeps HDR values).\n"
       ],
       "color": "#432",
       "bgcolor": "#653"
+    },
+    {
+      "id": 20,
+      "type": "yRead",
+      "pos": [
+        0,
+        0
+      ],
+      "size": [
+        400,
+        700
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "localized_name": "IMAGE",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            386
+          ]
+        },
+        {
+          "localized_name": "MASK",
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        },
+        {
+          "localized_name": "colorspace",
+          "name": "colorspace",
+          "type": "STRING",
+          "links": []
+        },
+        {
+          "localized_name": "video_type",
+          "name": "video_type",
+          "type": "STRING",
+          "links": []
+        },
+        {
+          "localized_name": "frame_count",
+          "name": "frame_count",
+          "type": "INT",
+          "links": []
+        },
+        {
+          "localized_name": "duration",
+          "name": "duration",
+          "type": "FLOAT",
+          "links": []
+        },
+        {
+          "localized_name": "first_frame",
+          "name": "first_frame",
+          "type": "INT",
+          "links": [
+            389
+          ]
+        },
+        {
+          "localized_name": "fps",
+          "name": "fps",
+          "type": "FLOAT",
+          "links": [
+            387,
+            390,
+            394
+          ]
+        },
+        {
+          "localized_name": "pad_frames",
+          "name": "pad_frames",
+          "type": "INT",
+          "links": [
+            391
+          ]
+        },
+        {
+          "localized_name": "time_stretch",
+          "name": "time_stretch",
+          "type": "INT",
+          "links": [
+            392
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "yRead"
+      },
+      "title": "SOURCE video (yRead) - target colorspace: sRGB / display",
+      "widgets_values": [
+        "",
+        "1001-1100",
+        "",
+        "raw",
+        "raw",
+        24.0,
+        true,
+        "x1",
+        "LTXV (8n+1)",
+        "pad",
+        false,
+        1.0
+      ],
+      "widgets_values_named": {
+        "path": "",
+        "frame_expression": "1001-1100",
+        "ocio_config_path": "",
+        "source_colorspace": "raw",
+        "target_colorspace": "raw",
+        "fps_override": 24.0,
+        "color_management": true,
+        "time_stretch": "x1",
+        "frame_grid": "LTXV (8n+1)",
+        "frame_grid_mode": "pad",
+        "alpha": false,
+        "scale": 1.0
+      }
+    },
+    {
+      "id": 66,
+      "type": "yWrite",
+      "pos": [
+        3560,
+        0
+      ],
+      "size": [
+        400,
+        720
+      ],
+      "flags": {},
+      "order": 90,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "images",
+          "name": "images",
+          "type": "IMAGE",
+          "link": 388
+        },
+        {
+          "localized_name": "mask",
+          "name": "mask",
+          "type": "MASK",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "localized_name": "colorspace",
+          "name": "colorspace",
+          "type": "STRING",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "localized_name": "first_frame",
+          "name": "first_frame",
+          "type": "INT",
+          "link": 389,
+          "shape": 7
+        },
+        {
+          "localized_name": "source_fps",
+          "name": "source_fps",
+          "type": "FLOAT",
+          "link": 390,
+          "shape": 7
+        },
+        {
+          "localized_name": "pad_frames",
+          "name": "pad_frames",
+          "type": "INT",
+          "link": 391,
+          "shape": 7
+        },
+        {
+          "localized_name": "time_stretch",
+          "name": "time_stretch",
+          "type": "INT",
+          "link": 392,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "IMAGE",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": []
+        },
+        {
+          "localized_name": "version",
+          "name": "version",
+          "type": "STRING",
+          "links": []
+        },
+        {
+          "localized_name": "path",
+          "name": "path",
+          "type": "STRING",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "yWrite"
+      },
+      "title": "yWrite - ACEScg EXR",
+      "widgets_values": [
+        "sequence",
+        "",
+        "{}",
+        "cmp",
+        "ltx_hdr",
+        "exr",
+        "half",
+        "zip",
+        true,
+        1,
+        1001,
+        4,
+        24.0,
+        "",
+        true,
+        "ACEScg",
+        "ACEScg",
+        "publish",
+        ""
+      ],
+      "widgets_values_named": {
+        "context": "sequence",
+        "root": "",
+        "folders": "{}",
+        "dept": "cmp",
+        "description": "ltx_hdr",
+        "format": "exr",
+        "exr_bit_depth": "half",
+        "exr_compression": "zip",
+        "auto_increment_version": true,
+        "version": 1,
+        "start_frame": 1001,
+        "padding": 4,
+        "fps": 24.0,
+        "ocio_config_path": "",
+        "color_management": true,
+        "input_colorspace": "ACEScg",
+        "output_colorspace": "ACEScg",
+        "destination": "publish",
+        "path": ""
+      }
+    },
+    {
+      "id": 67,
+      "type": "yViewer",
+      "pos": [
+        4000,
+        0
+      ],
+      "size": [
+        900,
+        760
+      ],
+      "flags": {},
+      "order": 91,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "image_a",
+          "name": "image_a",
+          "type": "IMAGE",
+          "link": 393
+        },
+        {
+          "localized_name": "image_ref",
+          "name": "image_ref",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "localized_name": "fps",
+          "name": "fps",
+          "type": "FLOAT",
+          "widget": {
+            "name": "fps"
+          },
+          "link": 394
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "yViewer"
+      },
+      "title": "yViewer - ACEScg",
+      "widgets_values": [
+        "",
+        "",
+        "ACEScg",
+        24.0,
+        "float16",
+        "<same as A>",
+        true,
+        ""
+      ],
+      "widgets_values_named": {
+        "ocio_config": "",
+        "ocio_context": "",
+        "colorspace_a": "ACEScg",
+        "fps": 24.0,
+        "precision": "float16",
+        "colorspace_ref": "<same as A>",
+        "color_management": true
+      }
     }
   ],
   "links": [
@@ -1246,14 +1580,6 @@
       89,
       0,
       "CLIP"
-    ],
-    [
-      311,
-      20,
-      0,
-      90,
-      0,
-      "VIDEO"
     ],
     [
       312,
@@ -1384,14 +1710,6 @@
       "FLOAT"
     ],
     [
-      328,
-      88,
-      4,
-      94,
-      0,
-      "CONDITIONING"
-    ],
-    [
       329,
       90,
       3,
@@ -1472,28 +1790,12 @@
       "LATENT"
     ],
     [
-      339,
-      88,
-      7,
-      94,
-      7,
-      "FLOAT"
-    ],
-    [
       340,
       90,
       12,
       94,
       8,
       "INT"
-    ],
-    [
-      341,
-      88,
-      8,
-      94,
-      9,
-      "MODEL"
     ],
     [
       342,
@@ -1544,28 +1846,12 @@
       "FLOAT"
     ],
     [
-      348,
-      90,
-      13,
-      95,
-      3,
-      "AUDIO"
-    ],
-    [
       349,
       95,
       0,
       62,
       0,
       "VIDEO"
-    ],
-    [
-      350,
-      90,
-      13,
-      91,
-      15,
-      "AUDIO"
     ],
     [
       351,
@@ -1678,6 +1964,110 @@
       92,
       12,
       "FLOAT"
+    ],
+    [
+      378,
+      89,
+      1,
+      94,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      379,
+      88,
+      10,
+      94,
+      7,
+      "FLOAT"
+    ],
+    [
+      380,
+      88,
+      9,
+      94,
+      9,
+      "MODEL"
+    ],
+    [
+      381,
+      88,
+      0,
+      94,
+      14,
+      "CLIP"
+    ],
+    [
+      386,
+      20,
+      0,
+      90,
+      0,
+      "IMAGE"
+    ],
+    [
+      387,
+      20,
+      7,
+      90,
+      4,
+      "FLOAT"
+    ],
+    [
+      388,
+      95,
+      1,
+      66,
+      0,
+      "IMAGE"
+    ],
+    [
+      389,
+      20,
+      6,
+      66,
+      3,
+      "INT"
+    ],
+    [
+      390,
+      20,
+      7,
+      66,
+      4,
+      "FLOAT"
+    ],
+    [
+      391,
+      20,
+      8,
+      66,
+      5,
+      "INT"
+    ],
+    [
+      392,
+      20,
+      9,
+      66,
+      6,
+      "INT"
+    ],
+    [
+      393,
+      95,
+      1,
+      67,
+      0,
+      "IMAGE"
+    ],
+    [
+      394,
+      20,
+      7,
+      67,
+      2,
+      "FLOAT"
     ]
   ],
   "groups": [
@@ -1702,7 +2092,7 @@
         "state": {
           "lastGroupId": 0,
           "lastNodeId": 309,
-          "lastLinkId": 309,
+          "lastLinkId": 371,
           "lastRerouteId": 0
         },
         "revision": 0,
@@ -1714,7 +2104,7 @@
             40,
             40,
             220,
-            240
+            280
           ]
         },
         "outputNode": {
@@ -1723,7 +2113,7 @@
             840,
             40,
             220,
-            240
+            280
           ]
         },
         "inputs": [
@@ -1842,6 +2232,32 @@
             "pos": [
               260,
               224
+            ]
+          },
+          {
+            "id": "c5378f72-in-9",
+            "name": "IC-LoRA refine details (4K/8K)",
+            "type": "COMBO",
+            "linkIds": [
+              368
+            ],
+            "label": "IC-LoRA refine details (4K/8K)",
+            "pos": [
+              260,
+              244
+            ]
+          },
+          {
+            "id": "c5378f72-in-10",
+            "name": "refine LoRA strength",
+            "type": "FLOAT",
+            "linkIds": [
+              369
+            ],
+            "label": "refine LoRA strength",
+            "pos": [
+              260,
+              264
             ]
           }
         ],
@@ -1962,6 +2378,32 @@
               864,
               224
             ]
+          },
+          {
+            "id": "c5378f72-out-9",
+            "name": "MODEL refine",
+            "type": "MODEL",
+            "linkIds": [
+              370
+            ],
+            "label": "MODEL refine",
+            "pos": [
+              864,
+              244
+            ]
+          },
+          {
+            "id": "c5378f72-out-10",
+            "name": "factor refine",
+            "type": "FLOAT",
+            "linkIds": [
+              371
+            ],
+            "label": "factor refine",
+            "pos": [
+              864,
+              264
+            ]
           }
         ],
         "widgets": [],
@@ -1996,7 +2438,8 @@
                 "type": "MODEL",
                 "links": [
                   130,
-                  131
+                  131,
+                  367
                 ]
               }
             ],
@@ -2132,7 +2575,7 @@
               "ltx-2.5-22b-ic-lora-sdr-to-hdr-1.0.safetensors",
               1.0
             ],
-            "title": "IC-LoRA - SDR to HDR (HDR stages A + B)"
+            "title": "IC-LoRA - SDR to HDR (HDR-A)"
           },
           {
             "id": 4,
@@ -2338,6 +2781,68 @@
               "ltx-2.5-latent-spatial-upscaler-x2-bf16-1.0.safetensors"
             ],
             "title": "Latent upscaler x2"
+          },
+          {
+            "id": 14,
+            "type": "LTXICLoRALoaderModelOnly",
+            "pos": [
+              360,
+              900
+            ],
+            "size": [
+              400,
+              82
+            ],
+            "flags": {},
+            "order": 3,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "model",
+                "type": "MODEL",
+                "link": 367
+              },
+              {
+                "name": "lora_name",
+                "type": "COMBO",
+                "widget": {
+                  "name": "lora_name"
+                },
+                "link": 368
+              },
+              {
+                "name": "strength_model",
+                "type": "FLOAT",
+                "widget": {
+                  "name": "strength_model"
+                },
+                "link": 369
+              }
+            ],
+            "outputs": [
+              {
+                "name": "model",
+                "type": "MODEL",
+                "links": [
+                  370
+                ]
+              },
+              {
+                "name": "latent_downscale_factor",
+                "type": "FLOAT",
+                "links": [
+                  371
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "LTXICLoRALoaderModelOnly"
+            },
+            "widgets_values": [
+              "ltx-2.5-22b-ic-lora-refine-details-1.0.safetensors",
+              1.0
+            ],
+            "title": "IC-LoRA - REFINE DETAILS (HDR-B 4K/8K)"
           }
         ],
         "groups": [
@@ -2348,7 +2853,7 @@
               340,
               0,
               440,
-              1000
+              1040
             ],
             "color": "#3f789e",
             "flags": {}
@@ -2522,6 +3027,46 @@
             "target_id": 13,
             "target_slot": 0,
             "type": "COMBO"
+          },
+          {
+            "id": 367,
+            "origin_id": 1,
+            "origin_slot": 0,
+            "target_id": 14,
+            "target_slot": 0,
+            "type": "MODEL"
+          },
+          {
+            "id": 368,
+            "origin_id": -10,
+            "origin_slot": 9,
+            "target_id": 14,
+            "target_slot": 1,
+            "type": "COMBO"
+          },
+          {
+            "id": 369,
+            "origin_id": -10,
+            "origin_slot": 10,
+            "target_id": 14,
+            "target_slot": 2,
+            "type": "FLOAT"
+          },
+          {
+            "id": 370,
+            "origin_id": 14,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 9,
+            "type": "MODEL"
+          },
+          {
+            "id": 371,
+            "origin_id": 14,
+            "origin_slot": 1,
+            "target_id": -20,
+            "target_slot": 10,
+            "type": "FLOAT"
           }
         ],
         "reroutes": [],
@@ -2797,19 +3342,19 @@
         "state": {
           "lastGroupId": 0,
           "lastNodeId": 309,
-          "lastLinkId": 309,
+          "lastLinkId": 385,
           "lastRerouteId": 0
         },
         "revision": 0,
         "config": {},
-        "name": "Source Video + Sizes",
+        "name": "Source + Sizes",
         "inputNode": {
           "id": -10,
           "bounding": [
             40,
             40,
             220,
-            140
+            160
           ]
         },
         "outputNode": {
@@ -2818,18 +3363,20 @@
             1000,
             40,
             220,
-            340
+            320
           ]
         },
         "inputs": [
           {
             "id": "0e4d6c1d-in-0",
-            "name": "source video",
-            "type": "VIDEO",
+            "name": "source frames",
+            "type": "IMAGE",
             "linkIds": [
-              136
+              382,
+              383,
+              384
             ],
-            "label": "source video",
+            "label": "source frames",
             "pos": [
               260,
               64
@@ -2872,6 +3419,19 @@
             "pos": [
               260,
               124
+            ]
+          },
+          {
+            "id": "0e4d6c1d-in-4",
+            "name": "fps",
+            "type": "FLOAT",
+            "linkIds": [
+              385
+            ],
+            "label": "fps",
+            "pos": [
+              260,
+              144
             ]
           }
         ],
@@ -2920,7 +3480,7 @@
             "name": "fps",
             "type": "FLOAT",
             "linkIds": [
-              155
+              385
             ],
             "label": "fps",
             "pos": [
@@ -2946,7 +3506,7 @@
             "name": "source frames",
             "type": "IMAGE",
             "linkIds": [
-              161
+              384
             ],
             "label": "source frames",
             "pos": [
@@ -3044,84 +3604,10 @@
               1024,
               304
             ]
-          },
-          {
-            "id": "0e4d6c1d-out-13",
-            "name": "audio",
-            "type": "AUDIO",
-            "linkIds": [
-              247
-            ],
-            "label": "audio",
-            "pos": [
-              1024,
-              324
-            ]
           }
         ],
         "widgets": [],
         "nodes": [
-          {
-            "id": 21,
-            "type": "GetVideoComponents",
-            "pos": [
-              360,
-              40
-            ],
-            "size": [
-              220,
-              106
-            ],
-            "flags": {},
-            "order": 11,
-            "mode": 0,
-            "inputs": [
-              {
-                "name": "video",
-                "type": "VIDEO",
-                "link": 136
-              }
-            ],
-            "outputs": [
-              {
-                "name": "images",
-                "type": "IMAGE",
-                "links": [
-                  137,
-                  139,
-                  161
-                ]
-              },
-              {
-                "name": "audio",
-                "type": "AUDIO",
-                "links": [
-                  247
-                ]
-              },
-              {
-                "name": "fps",
-                "type": "FLOAT",
-                "links": [
-                  155
-                ]
-              },
-              {
-                "name": "bit_depth",
-                "type": "COMBO",
-                "links": []
-              },
-              {
-                "name": "color_space",
-                "type": "COMBO",
-                "links": []
-              }
-            ],
-            "properties": {
-              "Node name for S&R": "GetVideoComponents"
-            },
-            "widgets_values": []
-          },
           {
             "id": 22,
             "type": "GetImageSize",
@@ -3140,7 +3626,7 @@
               {
                 "name": "image",
                 "type": "IMAGE",
-                "link": 137
+                "link": 382
               }
             ],
             "outputs": [
@@ -3194,7 +3680,7 @@
               {
                 "name": "image",
                 "type": "IMAGE",
-                "link": 139
+                "link": 383
               },
               {
                 "name": "tile_size",
@@ -3311,7 +3797,7 @@
         "groups": [
           {
             "id": 1,
-            "title": "Source Video + Sizes",
+            "title": "Source + Sizes",
             "bounding": [
               340,
               0,
@@ -3324,36 +3810,12 @@
         ],
         "links": [
           {
-            "id": 136,
-            "origin_id": -10,
-            "origin_slot": 0,
-            "target_id": 21,
-            "target_slot": 0,
-            "type": "VIDEO"
-          },
-          {
-            "id": 137,
-            "origin_id": 21,
-            "origin_slot": 0,
-            "target_id": 22,
-            "target_slot": 0,
-            "type": "IMAGE"
-          },
-          {
             "id": 138,
             "origin_id": 22,
             "origin_slot": 2,
             "target_id": 23,
             "target_slot": 0,
             "type": "INT"
-          },
-          {
-            "id": 139,
-            "origin_id": 21,
-            "origin_slot": 0,
-            "target_id": 23,
-            "target_slot": 1,
-            "type": "IMAGE"
           },
           {
             "id": 140,
@@ -3380,28 +3842,12 @@
             "type": "INT"
           },
           {
-            "id": 155,
-            "origin_id": 21,
-            "origin_slot": 2,
-            "target_id": -20,
-            "target_slot": 3,
-            "type": "FLOAT"
-          },
-          {
             "id": 159,
             "origin_id": 22,
             "origin_slot": 2,
             "target_id": -20,
             "target_slot": 4,
             "type": "INT"
-          },
-          {
-            "id": 161,
-            "origin_id": 21,
-            "origin_slot": 0,
-            "target_id": -20,
-            "target_slot": 5,
-            "type": "IMAGE"
           },
           {
             "id": 190,
@@ -3460,14 +3906,6 @@
             "type": "INT"
           },
           {
-            "id": 247,
-            "origin_id": 21,
-            "origin_slot": 1,
-            "target_id": -20,
-            "target_slot": 13,
-            "type": "AUDIO"
-          },
-          {
             "id": 298,
             "origin_id": -10,
             "origin_slot": 1,
@@ -3490,6 +3928,38 @@
             "target_id": 23,
             "target_slot": 4,
             "type": "COMBO"
+          },
+          {
+            "id": 382,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 22,
+            "target_slot": 0,
+            "type": "IMAGE"
+          },
+          {
+            "id": 383,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 23,
+            "target_slot": 1,
+            "type": "IMAGE"
+          },
+          {
+            "id": 384,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 5,
+            "type": "IMAGE"
+          },
+          {
+            "id": 385,
+            "origin_id": -10,
+            "origin_slot": 4,
+            "target_id": -20,
+            "target_slot": 3,
+            "type": "FLOAT"
           }
         ],
         "reroutes": [],
@@ -5245,7 +5715,7 @@
         "state": {
           "lastGroupId": 0,
           "lastNodeId": 309,
-          "lastLinkId": 309,
+          "lastLinkId": 374,
           "lastRerouteId": 0
         },
         "revision": 0,
@@ -5357,7 +5827,8 @@
             "type": "VAE",
             "linkIds": [
               271,
-              286
+              286,
+              373
             ],
             "label": "VAE fp32 (HDR)",
             "pos": [
@@ -5474,12 +5945,12 @@
           },
           {
             "id": "1dab8872-out-1",
-            "name": "stage-1 frames ACEScct",
+            "name": "HDR-A frames ACEScct",
             "type": "IMAGE",
             "linkIds": [
-              214
+              374
             ],
-            "label": "stage-1 frames ACEScct",
+            "label": "HDR-A frames ACEScct",
             "pos": [
               1484,
               84
@@ -5514,7 +5985,6 @@
                 "name": "IMAGE",
                 "type": "IMAGE",
                 "links": [
-                  214,
                   266
                 ]
               }
@@ -5895,7 +6365,8 @@
                 "name": "output",
                 "type": "LATENT",
                 "links": [
-                  201
+                  201,
+                  372
                 ]
               }
             ],
@@ -5979,6 +6450,52 @@
               "1.0, 0.99375, 0.9875, 0.98125, 0.975, 0.909375, 0.725, 0.421875, 0.0"
             ],
             "title": "HDR-A - 8 distilled steps"
+          },
+          {
+            "id": 89,
+            "type": "VAEDecodeTiled",
+            "pos": [
+              1050,
+              480
+            ],
+            "size": [
+              330,
+              150
+            ],
+            "flags": {},
+            "order": 53,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "samples",
+                "type": "LATENT",
+                "link": 372
+              },
+              {
+                "name": "vae",
+                "type": "VAE",
+                "link": 373
+              }
+            ],
+            "outputs": [
+              {
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "links": [
+                  374
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "VAEDecodeTiled"
+            },
+            "title": "Decode HDR-A (ACEScct) - guide for HDR-B",
+            "widgets_values": [
+              512,
+              64,
+              128,
+              32
+            ]
           }
         ],
         "groups": [
@@ -5989,7 +6506,7 @@
               340,
               0,
               1060,
-              710
+              700
             ],
             "color": "#8e3f3f",
             "flags": {}
@@ -6003,14 +6520,6 @@
             "target_id": -20,
             "target_slot": 0,
             "type": "LATENT"
-          },
-          {
-            "id": 214,
-            "origin_id": 80,
-            "origin_slot": 0,
-            "target_id": -20,
-            "target_slot": 1,
-            "type": "IMAGE"
           },
           {
             "id": 259,
@@ -6243,6 +6752,30 @@
             "target_id": 85,
             "target_slot": 11,
             "type": "INT"
+          },
+          {
+            "id": 372,
+            "origin_id": 85,
+            "origin_slot": 0,
+            "target_id": 89,
+            "target_slot": 0,
+            "type": "LATENT"
+          },
+          {
+            "id": 373,
+            "origin_id": -10,
+            "origin_slot": 6,
+            "target_id": 89,
+            "target_slot": 1,
+            "type": "VAE"
+          },
+          {
+            "id": 374,
+            "origin_id": 89,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 1,
+            "type": "IMAGE"
           }
         ],
         "reroutes": [],
@@ -6601,19 +7134,19 @@
         "state": {
           "lastGroupId": 0,
           "lastNodeId": 309,
-          "lastLinkId": 309,
+          "lastLinkId": 377,
           "lastRerouteId": 0
         },
         "revision": 0,
         "config": {},
-        "name": "HDR Refine (4K/8K, tiled)",
+        "name": "HDR Refine (4K/8K, refine details)",
         "inputNode": {
           "id": -10,
           "bounding": [
             40,
             40,
             220,
-            340
+            380
           ]
         },
         "outputNode": {
@@ -6628,13 +7161,12 @@
         "inputs": [
           {
             "id": "ae4d7a85-in-0",
-            "name": "HDR scene embeddings",
+            "name": "negative",
             "type": "CONDITIONING",
             "linkIds": [
-              198,
               199
             ],
-            "label": "HDR scene embeddings",
+            "label": "negative",
             "pos": [
               260,
               64
@@ -6655,12 +7187,12 @@
           },
           {
             "id": "ae4d7a85-in-2",
-            "name": "stage-1 frames ACEScct",
+            "name": "HDR-A frames ACEScct",
             "type": "IMAGE",
             "linkIds": [
               215
             ],
-            "label": "stage-1 frames ACEScct",
+            "label": "HDR-A frames ACEScct",
             "pos": [
               260,
               104
@@ -6721,12 +7253,12 @@
           },
           {
             "id": "ae4d7a85-in-7",
-            "name": "factor HDR",
+            "name": "factor refine",
             "type": "FLOAT",
             "linkIds": [
               227
             ],
-            "label": "factor HDR",
+            "label": "factor refine",
             "pos": [
               260,
               204
@@ -6748,12 +7280,12 @@
           },
           {
             "id": "ae4d7a85-in-9",
-            "name": "MODEL HDR",
+            "name": "MODEL refine",
             "type": "MODEL",
             "linkIds": [
               231
             ],
-            "label": "MODEL HDR",
+            "label": "MODEL refine",
             "pos": [
               260,
               244
@@ -6810,6 +7342,32 @@
               260,
               324
             ]
+          },
+          {
+            "id": "ae4d7a85-in-14",
+            "name": "CLIP",
+            "type": "CLIP",
+            "linkIds": [
+              375
+            ],
+            "label": "CLIP",
+            "pos": [
+              260,
+              344
+            ]
+          },
+          {
+            "id": "ae4d7a85-in-15",
+            "name": "HDR-B prompt (look/detail)",
+            "type": "STRING",
+            "linkIds": [
+              376
+            ],
+            "label": "HDR-B prompt (look/detail)",
+            "pos": [
+              260,
+              364
+            ]
           }
         ],
         "outputs": [
@@ -6847,7 +7405,7 @@
               {
                 "name": "positive",
                 "type": "CONDITIONING",
-                "link": 198
+                "link": 377
               },
               {
                 "name": "negative",
@@ -6885,7 +7443,7 @@
             "widgets_values": [
               24.0
             ],
-            "title": "HDR conditioning (scene embeddings)"
+            "title": "HDR-B conditioning (look/detail prompt)"
           },
           {
             "id": 54,
@@ -6942,7 +7500,7 @@
               2176,
               "disabled"
             ],
-            "title": "Resize ACEScct stage-1 result to output size"
+            "title": "Resize HDR-A result (ACEScct) to output size"
           },
           {
             "id": 55,
@@ -7038,7 +7596,7 @@
               true,
               97
             ],
-            "title": "HDR-B IC-LoRA guide (streaming)"
+            "title": "HDR-B IC-LoRA guide (HDR-A result, streaming)"
           },
           {
             "id": 56,
@@ -7218,14 +7776,60 @@
               97,
               "auto"
             ],
-            "title": "HDR-B sampler (tiled, 4K/8K)",
+            "title": "HDR-B sampler (refine details, tiled 4K/8K)",
             "color": "#223"
+          },
+          {
+            "id": 11,
+            "type": "CLIPTextEncode",
+            "pos": [
+              360,
+              160
+            ],
+            "size": [
+              400,
+              100
+            ],
+            "flags": {},
+            "order": 30,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "clip",
+                "type": "CLIP",
+                "link": 375
+              },
+              {
+                "name": "text",
+                "type": "STRING",
+                "widget": {
+                  "name": "text"
+                },
+                "link": 376
+              }
+            ],
+            "outputs": [
+              {
+                "name": "CONDITIONING",
+                "type": "CONDITIONING",
+                "links": [
+                  377
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "CLIPTextEncode"
+            },
+            "title": "Encode HDR-B prompt",
+            "widgets_values": [
+              ""
+            ]
           }
         ],
         "groups": [
           {
             "id": 1,
-            "title": "HDR Refine (4K/8K, tiled)",
+            "title": "HDR Refine (4K/8K, refine details)",
             "bounding": [
               340,
               0,
@@ -7237,14 +7841,6 @@
           }
         ],
         "links": [
-          {
-            "id": 198,
-            "origin_id": -10,
-            "origin_slot": 0,
-            "target_id": 50,
-            "target_slot": 0,
-            "type": "CONDITIONING"
-          },
           {
             "id": 199,
             "origin_id": -10,
@@ -7444,6 +8040,30 @@
             "target_id": 58,
             "target_slot": 11,
             "type": "INT"
+          },
+          {
+            "id": 375,
+            "origin_id": -10,
+            "origin_slot": 14,
+            "target_id": 11,
+            "target_slot": 0,
+            "type": "CLIP"
+          },
+          {
+            "id": 376,
+            "origin_id": -10,
+            "origin_slot": 15,
+            "target_id": 11,
+            "target_slot": 1,
+            "type": "STRING"
+          },
+          {
+            "id": 377,
+            "origin_id": 11,
+            "origin_slot": 0,
+            "target_id": 50,
+            "target_slot": 0,
+            "type": "CONDITIONING"
           }
         ],
         "reroutes": [],
@@ -7741,7 +8361,7 @@
               "HDR ACEScct",
               "linear ACEScg"
             ],
-            "title": "ACEScct -> linear ACEScg (plug your EXR write here)"
+            "title": "ACEScct -> linear ACEScg (to yWrite / yViewer)"
           }
         ],
         "groups": [

@@ -2,7 +2,7 @@
   "id": "ltx25-flf-v2v-iclora-sdr2hdr-native-4k8k",
   "revision": 0,
   "last_node_id": 90,
-  "last_link_id": 130,
+  "last_link_id": 155,
   "nodes": [
     {
       "id": 1,
@@ -25,7 +25,8 @@
           "type": "MODEL",
           "links": [
             1,
-            2
+            2,
+            131
           ]
         }
       ],
@@ -111,7 +112,6 @@
           "name": "model",
           "type": "MODEL",
           "links": [
-            77,
             119
           ]
         },
@@ -119,7 +119,6 @@
           "name": "latent_downscale_factor",
           "type": "FLOAT",
           "links": [
-            75,
             117
           ]
         }
@@ -131,7 +130,7 @@
         "ltx-2.5-22b-ic-lora-sdr-to-hdr-1.0.safetensors",
         1.0
       ],
-      "title": "IC-LoRA - SDR to HDR (HDR stages A + B)"
+      "title": "IC-LoRA - SDR to HDR (HDR-A)"
     },
     {
       "id": 4,
@@ -191,7 +190,8 @@
           "type": "CLIP",
           "links": [
             4,
-            5
+            5,
+            134
           ]
         }
       ],
@@ -343,7 +343,8 @@
           "name": "CONDITIONING",
           "type": "CONDITIONING",
           "links": [
-            21
+            21,
+            137
           ]
         }
       ],
@@ -388,7 +389,8 @@
             87,
             89,
             114,
-            129
+            129,
+            139
           ]
         }
       ],
@@ -418,8 +420,6 @@
           "name": "CONDITIONING",
           "type": "CONDITIONING",
           "links": [
-            55,
-            56,
             103,
             104
           ]
@@ -436,110 +436,11 @@
       "color": "#232"
     },
     {
-      "id": 20,
-      "type": "LoadVideo",
-      "pos": [
-        0,
-        900
-      ],
-      "size": [
-        320,
-        330
-      ],
-      "flags": {},
-      "order": 11,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "VIDEO",
-          "type": "VIDEO",
-          "links": [
-            7
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "LoadVideo"
-      },
-      "widgets_values": [
-        "input.mp4",
-        "image"
-      ],
-      "title": "SOURCE video (drives the IC-LoRA)"
-    },
-    {
-      "id": 21,
-      "type": "GetVideoComponents",
-      "pos": [
-        360,
-        760
-      ],
-      "size": [
-        220,
-        106
-      ],
-      "flags": {},
-      "order": 12,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "video",
-          "type": "VIDEO",
-          "link": 7
-        }
-      ],
-      "outputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "links": [
-            8,
-            10,
-            26
-          ]
-        },
-        {
-          "name": "audio",
-          "type": "AUDIO",
-          "links": [
-            92,
-            100
-          ]
-        },
-        {
-          "name": "fps",
-          "type": "FLOAT",
-          "links": [
-            22,
-            57,
-            91,
-            99,
-            105
-          ]
-        },
-        {
-          "name": "bit_depth",
-          "type": "COMBO",
-          "links": []
-        },
-        {
-          "name": "color_space",
-          "type": "COMBO",
-          "links": []
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "GetVideoComponents"
-      },
-      "widgets_values": []
-    },
-    {
       "id": 22,
       "type": "GetImageSize",
       "pos": [
-        360,
-        900
+        440,
+        1100
       ],
       "size": [
         220,
@@ -552,7 +453,7 @@
         {
           "name": "image",
           "type": "IMAGE",
-          "link": 8
+          "link": 141
         }
       ],
       "outputs": [
@@ -607,7 +508,7 @@
         {
           "name": "image",
           "type": "IMAGE",
-          "link": 10
+          "link": 142
         }
       ],
       "outputs": [
@@ -1044,7 +945,7 @@
           "widget": {
             "name": "frame_rate"
           },
-          "link": 22
+          "link": 144
         }
       ],
       "outputs": [
@@ -1147,7 +1048,7 @@
         {
           "name": "image",
           "type": "IMAGE",
-          "link": 26
+          "link": 143
         },
         {
           "name": "width",
@@ -1625,12 +1526,12 @@
         {
           "name": "positive",
           "type": "CONDITIONING",
-          "link": 55
+          "link": 136
         },
         {
           "name": "negative",
           "type": "CONDITIONING",
-          "link": 56
+          "link": 137
         },
         {
           "name": "frame_rate",
@@ -1638,7 +1539,7 @@
           "widget": {
             "name": "frame_rate"
           },
-          "link": 57
+          "link": 145
         }
       ],
       "outputs": [
@@ -1663,7 +1564,7 @@
       "widgets_values": [
         24.0
       ],
-      "title": "HDR conditioning (scene embeddings)"
+      "title": "HDR-B conditioning (look/detail prompt)"
     },
     {
       "id": 51,
@@ -1827,7 +1728,7 @@
         {
           "name": "image",
           "type": "IMAGE",
-          "link": 67
+          "link": 140
         },
         {
           "name": "width",
@@ -1864,7 +1765,7 @@
         2176,
         "disabled"
       ],
-      "title": "Resize ACEScct stage-1 result to output size"
+      "title": "Resize HDR-A result (ACEScct) to output size"
     },
     {
       "id": 55,
@@ -1912,7 +1813,7 @@
           "widget": {
             "name": "latent_downscale_factor"
           },
-          "link": 75
+          "link": 133
         },
         {
           "name": "tile_frames",
@@ -1960,7 +1861,7 @@
         true,
         97
       ],
-      "title": "HDR-B IC-LoRA guide (streaming)"
+      "title": "HDR-B IC-LoRA guide (HDR-A result, streaming)"
     },
     {
       "id": 56,
@@ -2043,7 +1944,7 @@
         {
           "name": "model",
           "type": "MODEL",
-          "link": 77
+          "link": 132
         },
         {
           "name": "positive",
@@ -2132,7 +2033,7 @@
         97,
         "auto"
       ],
-      "title": "HDR-B sampler (tiled, 4K/8K)",
+      "title": "HDR-B sampler (refine details, tiled 4K/8K)",
       "color": "#223"
     },
     {
@@ -2208,12 +2109,12 @@
           "widget": {
             "name": "fps"
           },
-          "link": 91
+          "link": 146
         },
         {
           "name": "audio",
           "type": "AUDIO",
-          "link": 92
+          "link": null
         }
       ],
       "outputs": [
@@ -2339,7 +2240,10 @@
         {
           "name": "IMAGE",
           "type": "IMAGE",
-          "links": []
+          "links": [
+            149,
+            154
+          ]
         }
       ],
       "properties": {
@@ -2349,7 +2253,7 @@
         "HDR ACEScct",
         "linear ACEScg"
       ],
-      "title": "ACEScct -> linear ACEScg (plug your EXR write here)"
+      "title": "ACEScct -> linear ACEScg (to yWrite / yViewer)"
     },
     {
       "id": 70,
@@ -2424,12 +2328,12 @@
           "widget": {
             "name": "fps"
           },
-          "link": 99
+          "link": 147
         },
         {
           "name": "audio",
           "type": "AUDIO",
-          "link": 100
+          "link": null
         }
       ],
       "outputs": [
@@ -2516,7 +2420,6 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            67,
             109
           ]
         }
@@ -2562,7 +2465,7 @@
           "widget": {
             "name": "frame_rate"
           },
-          "link": 105
+          "link": 148
         }
       ],
       "outputs": [
@@ -2889,7 +2792,8 @@
           "name": "output",
           "type": "LATENT",
           "links": [
-            58
+            58,
+            138
           ]
         }
       ],
@@ -2930,10 +2834,502 @@
       "title": "How to use",
       "properties": {},
       "widgets_values": [
-        "## LTX-2.5 · V2V · First/Last frame · IC-LoRA · SDR -> HDR · Native 4K/8K\n\nYour FLF + IC-LoRA workflow followed by Lightricks' **LTX-2.5_V2V_TiledFusion_SDR_to_HDR**\npipeline (flattened, no subgraphs).\n\n**Pipeline**\n1. **Stage 1 - creative (SDR, FullHD, 8 steps)**: your effect IC-LoRA + FIRST/LAST frame + your\n   prompt. `tile_frames` = 0, streaming off (time chunks would drop the first/last guides).\n2. **SDR -> ACEScct**: the decoded stage-1 result is converted to ACEScct, the working space of the\n   SDR-to-HDR IC-LoRA.\n3. **HDR-A (FullHD, 8 steps)**: SDR-to-HDR IC-LoRA guided by the stage-1 result, streaming on.\n4. **HDR-B (4K/8K, 3 steps)**: latent x2 (x4 for 8K), tiled refine with the same IC-LoRA,\n   guided by the stage-1 result at output size.\n5. **Decode**: ACEScct -> HDR (Rec.2020 **HLG**) -> 10-bit video with the source audio, plus a\n   **ACEScct -> linear ACEScg** node (scene-linear AP1, no clamp): plug your own EXR write into it.\n   Leave *ACEScct -> HDR (HLG)* on `HDR`: it only feeds the video.\n   **Nuke**: read the EXRs as **ACEScg**, not ACEScct (they are linear, not log).\n\n**Prompts**\n- Stage 1 uses your text prompt (Gemma).\n- The HDR stages use the fixed **scene embeddings** on positive AND negative (cfg 1), exactly like the\n  official example. There is no text prompt for HDR.\n\n**Models**\n- Same as the Native workflow, minus refine-details, plus:\n  `ltx-2.5-22b-ic-lora-sdr-to-hdr-1.0.safetensors` -> `models/loras/`\n  `ltx-2.5-22b-ic-lora-sdr-to-hdr-scene-emb.safetensors` -> `models/embeddings/`\n  (both from huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-SDR-To-HDR)\n- HDR stages use the video VAE forced to **float32** (needed for HDR precision).\n\n**Rules**\n- euler sampler, overlap >= 0.5, `use_tiled_encode` off.\n- Source above 30 fps: the official example clamps the *conditioning* fps to 30. Here it uses the\n  source fps; for 50/60 fps sources, unlink `frame_rate` on the LTXVConditioning nodes and type 30.\n- HLG: 1.0 = 203 nits, clipped above 1000 nits. View on an HDR display / HDR-capable player.\n- Three sampling passes: expect roughly 2x the time of the SDR Native workflow.\n"
+        "## LTX-2.5 · V2V · First/Last frame · IC-LoRA · SDR -> HDR · Native 4K/8K\n\nYour FLF + IC-LoRA workflow followed by Lightricks' **LTX-2.5_V2V_TiledFusion_SDR_to_HDR**\npipeline (flattened, no subgraphs).\n\n**Pipeline**\n1. **Stage 1 - creative (SDR, FullHD, 8 steps)**: your effect IC-LoRA + FIRST/LAST frame + your\n   prompt. `tile_frames` = 0, streaming off (time chunks would drop the first/last guides).\n2. **SDR -> ACEScct**: the decoded stage-1 result is converted to ACEScct, the working space of the\n   SDR-to-HDR IC-LoRA.\n3. **HDR-A (FullHD, 8 steps)**: SDR-to-HDR IC-LoRA guided by the stage-1 result, streaming on.\n4. **HDR-B (4K/8K, 3 steps)**: latent x2 (x4 for 8K), tiled refine with the **refine-details\n   IC-LoRA** (as in Lightricks' HDR->HDR graph), guided by the decoded HDR-A result (ACEScct)\n   at output size, with a look/detail prompt. Keep that prompt about look and sharpness: anything\n   named stamps into every tile.\n5. **Decode**: ACEScct -> HDR (Rec.2020 **HLG**) -> 10-bit video (silent: yRead has no audio), plus a\n   **ACEScct -> linear ACEScg** node (scene-linear AP1, no clamp) feeding **yWrite** (EXR) and **yViewer**.\n   Leave *ACEScct -> HDR (HLG)* on `HDR`: it only feeds the video.\n   **Nuke**: read the EXRs as **ACEScg**, not ACEScct (they are linear, not log).\n\n**Prompts**\n- Stage 1 uses your text prompt (Gemma).\n- HDR-A uses the fixed **scene embeddings** on positive AND negative (cfg 1), as in the official example.\n- HDR-B uses the **HDR-B prompt** (look/detail only) + the negative prompt.\n\n**Models**\n- Same as the Native workflow, plus:\n  `ltx-2.5-22b-ic-lora-sdr-to-hdr-1.0.safetensors` -> `models/loras/`\n  `ltx-2.5-22b-ic-lora-sdr-to-hdr-scene-emb.safetensors` -> `models/embeddings/`\n  `ltx-2.5-22b-ic-lora-refine-details-1.0.safetensors` -> `models/loras/`\n  (huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Refine-Details)\n  (both from huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-SDR-To-HDR)\n- HDR stages use the video VAE forced to **float32** (needed for HDR precision).\n\n**Rules**\n- euler sampler, overlap >= 0.5, `use_tiled_encode` off.\n- Source above 30 fps: the official example clamps the *conditioning* fps to 30. Here it uses the\n  source fps; for 50/60 fps sources, unlink `frame_rate` on the LTXVConditioning nodes and type 30.\n- HLG: 1.0 = 203 nits, clipped above 1000 nits. View on an HDR display / HDR-capable player.\n- Three sampling passes: expect roughly 2x the time of the SDR Native workflow.\n\n**yRead / yWrite / yViewer** (vfx_io + vfx_viewer)\n- yRead: a MOV or an image sequence. With OCIO on, set *target colorspace* to your sRGB / display\n  colorspace: stage 1 and the SDR->ACEScct step expect sRGB. `frame_grid` is LTXV (8n+1), pad.\n  yRead has no audio, so the videos are silent.\n- yWrite gets first_frame, fps, pad_frames and time_stretch from yRead. The image is linear ACEScg:\n  with OCIO on, pick your config's ACEScg for input and output (no conversion). Set root/folders\n  in its panel, or switch destination to `path`.\n- yViewer: colorspace_a = ACEScg (float16 keeps HDR values).\n"
       ],
       "color": "#432",
       "bgcolor": "#653"
+    },
+    {
+      "id": 14,
+      "type": "LTXICLoRALoaderModelOnly",
+      "pos": [
+        3800,
+        400
+      ],
+      "size": [
+        400,
+        82
+      ],
+      "flags": {},
+      "order": 55,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 131
+        }
+      ],
+      "outputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "links": [
+            132
+          ]
+        },
+        {
+          "name": "latent_downscale_factor",
+          "type": "FLOAT",
+          "links": [
+            133
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LTXICLoRALoaderModelOnly"
+      },
+      "widgets_values": [
+        "ltx-2.5-22b-ic-lora-refine-details-1.0.safetensors",
+        1.0
+      ],
+      "title": "IC-LoRA - REFINE DETAILS (HDR-B 4K/8K)"
+    },
+    {
+      "id": 8,
+      "type": "PrimitiveStringMultiline",
+      "pos": [
+        3800,
+        520
+      ],
+      "size": [
+        400,
+        150
+      ],
+      "flags": {},
+      "order": 56,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            135
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PrimitiveStringMultiline"
+      },
+      "title": "PROMPT - HDR-B (look/detail only)",
+      "widgets_values": [
+        "The same scene, sharper and more detailed, fine textures, clean edges."
+      ]
+    },
+    {
+      "id": 11,
+      "type": "CLIPTextEncode",
+      "pos": [
+        3800,
+        710
+      ],
+      "size": [
+        400,
+        100
+      ],
+      "flags": {},
+      "order": 57,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 134
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": 135
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            136
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "title": "Encode HDR-B prompt",
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 86,
+      "type": "VAEDecodeTiled",
+      "pos": [
+        3090,
+        440
+      ],
+      "size": [
+        330,
+        150
+      ],
+      "flags": {},
+      "order": 58,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 138
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 139
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            140
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecodeTiled"
+      },
+      "title": "Decode HDR-A (ACEScct) - guide for HDR-B",
+      "widgets_values": [
+        512,
+        64,
+        128,
+        32
+      ]
+    },
+    {
+      "id": 20,
+      "type": "yRead",
+      "pos": [
+        0,
+        900
+      ],
+      "size": [
+        400,
+        700
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "localized_name": "IMAGE",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            141,
+            142,
+            143
+          ]
+        },
+        {
+          "localized_name": "MASK",
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        },
+        {
+          "localized_name": "colorspace",
+          "name": "colorspace",
+          "type": "STRING",
+          "links": []
+        },
+        {
+          "localized_name": "video_type",
+          "name": "video_type",
+          "type": "STRING",
+          "links": []
+        },
+        {
+          "localized_name": "frame_count",
+          "name": "frame_count",
+          "type": "INT",
+          "links": []
+        },
+        {
+          "localized_name": "duration",
+          "name": "duration",
+          "type": "FLOAT",
+          "links": []
+        },
+        {
+          "localized_name": "first_frame",
+          "name": "first_frame",
+          "type": "INT",
+          "links": [
+            150
+          ]
+        },
+        {
+          "localized_name": "fps",
+          "name": "fps",
+          "type": "FLOAT",
+          "links": [
+            144,
+            145,
+            146,
+            147,
+            148,
+            151,
+            155
+          ]
+        },
+        {
+          "localized_name": "pad_frames",
+          "name": "pad_frames",
+          "type": "INT",
+          "links": [
+            152
+          ]
+        },
+        {
+          "localized_name": "time_stretch",
+          "name": "time_stretch",
+          "type": "INT",
+          "links": [
+            153
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "yRead"
+      },
+      "title": "SOURCE video (yRead) - target colorspace: sRGB / display",
+      "widgets_values": [
+        "",
+        "1001-1100",
+        "",
+        "raw",
+        "raw",
+        24.0,
+        true,
+        "x1",
+        "LTXV (8n+1)",
+        "pad",
+        false,
+        1.0
+      ],
+      "widgets_values_named": {
+        "path": "",
+        "frame_expression": "1001-1100",
+        "ocio_config_path": "",
+        "source_colorspace": "raw",
+        "target_colorspace": "raw",
+        "fps_override": 24.0,
+        "color_management": true,
+        "time_stretch": "x1",
+        "frame_grid": "LTXV (8n+1)",
+        "frame_grid_mode": "pad",
+        "alpha": false,
+        "scale": 1.0
+      }
+    },
+    {
+      "id": 66,
+      "type": "yWrite",
+      "pos": [
+        5200,
+        0
+      ],
+      "size": [
+        400,
+        720
+      ],
+      "flags": {},
+      "order": 59,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "images",
+          "name": "images",
+          "type": "IMAGE",
+          "link": 149
+        },
+        {
+          "localized_name": "mask",
+          "name": "mask",
+          "type": "MASK",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "localized_name": "colorspace",
+          "name": "colorspace",
+          "type": "STRING",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "localized_name": "first_frame",
+          "name": "first_frame",
+          "type": "INT",
+          "link": 150,
+          "shape": 7
+        },
+        {
+          "localized_name": "source_fps",
+          "name": "source_fps",
+          "type": "FLOAT",
+          "link": 151,
+          "shape": 7
+        },
+        {
+          "localized_name": "pad_frames",
+          "name": "pad_frames",
+          "type": "INT",
+          "link": 152,
+          "shape": 7
+        },
+        {
+          "localized_name": "time_stretch",
+          "name": "time_stretch",
+          "type": "INT",
+          "link": 153,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "IMAGE",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": []
+        },
+        {
+          "localized_name": "version",
+          "name": "version",
+          "type": "STRING",
+          "links": []
+        },
+        {
+          "localized_name": "path",
+          "name": "path",
+          "type": "STRING",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "yWrite"
+      },
+      "title": "yWrite - ACEScg EXR",
+      "widgets_values": [
+        "sequence",
+        "",
+        "{}",
+        "cmp",
+        "ltx_hdr",
+        "exr",
+        "half",
+        "zip",
+        true,
+        1,
+        1001,
+        4,
+        24.0,
+        "",
+        true,
+        "ACEScg",
+        "ACEScg",
+        "publish",
+        ""
+      ],
+      "widgets_values_named": {
+        "context": "sequence",
+        "root": "",
+        "folders": "{}",
+        "dept": "cmp",
+        "description": "ltx_hdr",
+        "format": "exr",
+        "exr_bit_depth": "half",
+        "exr_compression": "zip",
+        "auto_increment_version": true,
+        "version": 1,
+        "start_frame": 1001,
+        "padding": 4,
+        "fps": 24.0,
+        "ocio_config_path": "",
+        "color_management": true,
+        "input_colorspace": "ACEScg",
+        "output_colorspace": "ACEScg",
+        "destination": "publish",
+        "path": ""
+      }
+    },
+    {
+      "id": 67,
+      "type": "yViewer",
+      "pos": [
+        5640,
+        0
+      ],
+      "size": [
+        900,
+        760
+      ],
+      "flags": {},
+      "order": 60,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "image_a",
+          "name": "image_a",
+          "type": "IMAGE",
+          "link": 154
+        },
+        {
+          "localized_name": "image_ref",
+          "name": "image_ref",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "localized_name": "fps",
+          "name": "fps",
+          "type": "FLOAT",
+          "widget": {
+            "name": "fps"
+          },
+          "link": 155
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "yViewer"
+      },
+      "title": "yViewer - ACEScg",
+      "widgets_values": [
+        "",
+        "",
+        "ACEScg",
+        24.0,
+        "float16",
+        "<same as A>",
+        true,
+        ""
+      ],
+      "widgets_values_named": {
+        "ocio_config": "",
+        "ocio_context": "",
+        "colorspace_a": "ACEScg",
+        "fps": 24.0,
+        "precision": "float16",
+        "colorspace_ref": "<same as A>",
+        "color_management": true
+      }
     }
   ],
   "links": [
@@ -2986,36 +3382,12 @@
       "VAE"
     ],
     [
-      7,
-      20,
-      0,
-      21,
-      0,
-      "VIDEO"
-    ],
-    [
-      8,
-      21,
-      0,
-      22,
-      0,
-      "IMAGE"
-    ],
-    [
       9,
       22,
       2,
       23,
       0,
       "INT"
-    ],
-    [
-      10,
-      21,
-      0,
-      23,
-      1,
-      "IMAGE"
     ],
     [
       11,
@@ -3106,14 +3478,6 @@
       "CONDITIONING"
     ],
     [
-      22,
-      21,
-      2,
-      40,
-      2,
-      "FLOAT"
-    ],
-    [
       23,
       23,
       0,
@@ -3136,14 +3500,6 @@
       41,
       2,
       "INT"
-    ],
-    [
-      26,
-      21,
-      0,
-      42,
-      0,
-      "IMAGE"
     ],
     [
       27,
@@ -3370,30 +3726,6 @@
       "VAE"
     ],
     [
-      55,
-      13,
-      0,
-      50,
-      0,
-      "CONDITIONING"
-    ],
-    [
-      56,
-      13,
-      0,
-      50,
-      1,
-      "CONDITIONING"
-    ],
-    [
-      57,
-      21,
-      2,
-      50,
-      2,
-      "FLOAT"
-    ],
-    [
       58,
       85,
       0,
@@ -3466,14 +3798,6 @@
       "LATENT"
     ],
     [
-      67,
-      80,
-      0,
-      54,
-      0,
-      "IMAGE"
-    ],
-    [
       68,
       23,
       4,
@@ -3530,28 +3854,12 @@
       "IMAGE"
     ],
     [
-      75,
-      3,
-      1,
-      55,
-      5,
-      "FLOAT"
-    ],
-    [
       76,
       23,
       7,
       55,
       6,
       "INT"
-    ],
-    [
-      77,
-      3,
-      0,
-      58,
-      0,
-      "MODEL"
     ],
     [
       78,
@@ -3658,22 +3966,6 @@
       "IMAGE"
     ],
     [
-      91,
-      21,
-      2,
-      61,
-      1,
-      "FLOAT"
-    ],
-    [
-      92,
-      21,
-      1,
-      61,
-      2,
-      "AUDIO"
-    ],
-    [
       93,
       61,
       0,
@@ -3714,22 +4006,6 @@
       "IMAGE"
     ],
     [
-      99,
-      21,
-      2,
-      71,
-      1,
-      "FLOAT"
-    ],
-    [
-      100,
-      21,
-      1,
-      71,
-      2,
-      "AUDIO"
-    ],
-    [
       101,
       71,
       0,
@@ -3760,14 +4036,6 @@
       81,
       1,
       "CONDITIONING"
-    ],
-    [
-      105,
-      21,
-      2,
-      81,
-      2,
-      "FLOAT"
     ],
     [
       106,
@@ -3968,6 +4236,206 @@
       65,
       0,
       "IMAGE"
+    ],
+    [
+      131,
+      1,
+      0,
+      14,
+      0,
+      "MODEL"
+    ],
+    [
+      132,
+      14,
+      0,
+      58,
+      0,
+      "MODEL"
+    ],
+    [
+      133,
+      14,
+      1,
+      55,
+      5,
+      "FLOAT"
+    ],
+    [
+      134,
+      5,
+      0,
+      11,
+      0,
+      "CLIP"
+    ],
+    [
+      135,
+      8,
+      0,
+      11,
+      1,
+      "STRING"
+    ],
+    [
+      136,
+      11,
+      0,
+      50,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      137,
+      10,
+      0,
+      50,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      138,
+      85,
+      0,
+      86,
+      0,
+      "LATENT"
+    ],
+    [
+      139,
+      12,
+      0,
+      86,
+      1,
+      "VAE"
+    ],
+    [
+      140,
+      86,
+      0,
+      54,
+      0,
+      "IMAGE"
+    ],
+    [
+      141,
+      20,
+      0,
+      22,
+      0,
+      "IMAGE"
+    ],
+    [
+      142,
+      20,
+      0,
+      23,
+      1,
+      "IMAGE"
+    ],
+    [
+      143,
+      20,
+      0,
+      42,
+      0,
+      "IMAGE"
+    ],
+    [
+      144,
+      20,
+      7,
+      40,
+      2,
+      "FLOAT"
+    ],
+    [
+      145,
+      20,
+      7,
+      50,
+      2,
+      "FLOAT"
+    ],
+    [
+      146,
+      20,
+      7,
+      61,
+      1,
+      "FLOAT"
+    ],
+    [
+      147,
+      20,
+      7,
+      71,
+      1,
+      "FLOAT"
+    ],
+    [
+      148,
+      20,
+      7,
+      81,
+      2,
+      "FLOAT"
+    ],
+    [
+      149,
+      65,
+      0,
+      66,
+      0,
+      "IMAGE"
+    ],
+    [
+      150,
+      20,
+      6,
+      66,
+      3,
+      "INT"
+    ],
+    [
+      151,
+      20,
+      7,
+      66,
+      4,
+      "FLOAT"
+    ],
+    [
+      152,
+      20,
+      8,
+      66,
+      5,
+      "INT"
+    ],
+    [
+      153,
+      20,
+      9,
+      66,
+      6,
+      "INT"
+    ],
+    [
+      154,
+      65,
+      0,
+      67,
+      0,
+      "IMAGE"
+    ],
+    [
+      155,
+      20,
+      7,
+      67,
+      2,
+      "FLOAT"
     ]
   ],
   "groups": [
@@ -3997,7 +4465,7 @@
     },
     {
       "id": 3,
-      "title": "Inputs: source video · first/last frame · sizes",
+      "title": "Inputs: source video (yRead) · first/last frame · sizes",
       "bounding": [
         -20,
         860,
@@ -4026,31 +4494,31 @@
         2380,
         -40,
         1080,
-        600
+        700
       ],
       "color": "#8e3f3f",
       "flags": {}
     },
     {
       "id": 6,
-      "title": "HDR-B - latent x2 + tiled HDR refine (4K/8K)",
+      "title": "HDR-B - latent x2 + tiled refine-details (4K/8K)",
       "bounding": [
         3480,
         -40,
         1040,
-        700
+        900
       ],
       "color": "#3f3f8e",
       "flags": {}
     },
     {
       "id": 7,
-      "title": "Decode HDR (HLG video + linear ACEScg image)",
+      "title": "Decode HDR (HLG video) + yWrite / yViewer (ACEScg)",
       "bounding": [
         4520,
         -40,
-        820,
-        580
+        2060,
+        840
       ],
       "color": "#3f8e8e",
       "flags": {}
