@@ -530,12 +530,6 @@
           "widget": {
             "name": "output_size"
           }
-        },
-        {
-          "label": "fps",
-          "name": "fps",
-          "type": "FLOAT",
-          "link": 387
         }
       ],
       "outputs": [
@@ -566,31 +560,12 @@
           ]
         },
         {
-          "label": "fps",
-          "name": "fps",
-          "type": "FLOAT",
-          "links": [
-            319,
-            329,
-            347,
-            354
-          ]
-        },
-        {
           "label": "frame_count",
           "name": "frame_count",
           "type": "INT",
           "links": [
             320,
             357
-          ]
-        },
-        {
-          "label": "source frames",
-          "name": "source frames",
-          "type": "IMAGE",
-          "links": [
-            321
           ]
         },
         {
@@ -769,12 +744,6 @@
           "name": "overlap_frac",
           "type": "FLOAT",
           "link": 327
-        },
-        {
-          "label": "audio",
-          "name": "audio",
-          "type": "AUDIO",
-          "link": null
         },
         {
           "label": "seed",
@@ -1201,12 +1170,6 @@
           "name": "fps",
           "type": "FLOAT",
           "link": 347
-        },
-        {
-          "label": "audio",
-          "name": "audio",
-          "type": "AUDIO",
-          "link": null
         }
       ],
       "outputs": [
@@ -1300,7 +1263,8 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            386
+            386,
+            321
           ]
         },
         {
@@ -1346,9 +1310,12 @@
           "name": "fps",
           "type": "FLOAT",
           "links": [
-            387,
             390,
-            394
+            394,
+            319,
+            329,
+            347,
+            354
           ]
         },
         {
@@ -1663,8 +1630,8 @@
     ],
     [
       319,
-      90,
-      3,
+      20,
+      7,
       91,
       6,
       "FLOAT"
@@ -1672,15 +1639,15 @@
     [
       320,
       90,
-      4,
+      3,
       91,
       7,
       "INT"
     ],
     [
       321,
-      90,
-      5,
+      20,
+      0,
       91,
       8,
       "IMAGE"
@@ -1712,7 +1679,7 @@
     [
       325,
       90,
-      6,
+      4,
       91,
       12,
       "INT"
@@ -1720,7 +1687,7 @@
     [
       326,
       90,
-      7,
+      5,
       91,
       13,
       "INT"
@@ -1728,15 +1695,15 @@
     [
       327,
       90,
-      8,
+      6,
       91,
       14,
       "FLOAT"
     ],
     [
       329,
-      90,
-      3,
+      20,
+      7,
       94,
       1,
       "FLOAT"
@@ -1768,7 +1735,7 @@
     [
       333,
       90,
-      9,
+      7,
       93,
       3,
       "BOOLEAN"
@@ -1784,7 +1751,7 @@
     [
       335,
       90,
-      10,
+      8,
       94,
       3,
       "INT"
@@ -1792,7 +1759,7 @@
     [
       336,
       90,
-      11,
+      9,
       94,
       4,
       "INT"
@@ -1816,7 +1783,7 @@
     [
       340,
       90,
-      12,
+      10,
       94,
       8,
       "INT"
@@ -1824,7 +1791,7 @@
     [
       342,
       90,
-      6,
+      4,
       94,
       10,
       "INT"
@@ -1832,7 +1799,7 @@
     [
       343,
       90,
-      7,
+      5,
       94,
       11,
       "INT"
@@ -1840,7 +1807,7 @@
     [
       344,
       90,
-      8,
+      6,
       94,
       12,
       "FLOAT"
@@ -1863,8 +1830,8 @@
     ],
     [
       347,
-      90,
-      3,
+      20,
+      7,
       95,
       2,
       "FLOAT"
@@ -1903,8 +1870,8 @@
     ],
     [
       354,
-      90,
-      3,
+      20,
+      7,
       92,
       2,
       "FLOAT"
@@ -1928,7 +1895,7 @@
     [
       357,
       90,
-      4,
+      3,
       92,
       5,
       "INT"
@@ -1952,7 +1919,7 @@
     [
       360,
       90,
-      12,
+      10,
       92,
       8,
       "INT"
@@ -1968,7 +1935,7 @@
     [
       362,
       90,
-      6,
+      4,
       92,
       10,
       "INT"
@@ -1976,7 +1943,7 @@
     [
       363,
       90,
-      7,
+      5,
       92,
       11,
       "INT"
@@ -1984,7 +1951,7 @@
     [
       364,
       90,
-      8,
+      6,
       92,
       12,
       "FLOAT"
@@ -2028,14 +1995,6 @@
       90,
       0,
       "IMAGE"
-    ],
-    [
-      387,
-      20,
-      7,
-      90,
-      4,
-      "FLOAT"
     ],
     [
       388,
@@ -3377,7 +3336,7 @@
             40,
             40,
             220,
-            160
+            140
           ]
         },
         "outputNode": {
@@ -3386,7 +3345,7 @@
             1000,
             40,
             220,
-            320
+            280
           ]
         },
         "inputs": [
@@ -3396,8 +3355,7 @@
             "type": "IMAGE",
             "linkIds": [
               382,
-              383,
-              384
+              383
             ],
             "label": "source frames",
             "pos": [
@@ -3443,19 +3401,6 @@
               260,
               124
             ]
-          },
-          {
-            "id": "0e4d6c1d-in-4",
-            "name": "fps",
-            "type": "FLOAT",
-            "linkIds": [
-              385
-            ],
-            "label": "fps",
-            "pos": [
-              260,
-              144
-            ]
           }
         ],
         "outputs": [
@@ -3499,19 +3444,6 @@
             ]
           },
           {
-            "id": "0e4d6c1d-out-3",
-            "name": "fps",
-            "type": "FLOAT",
-            "linkIds": [
-              385
-            ],
-            "label": "fps",
-            "pos": [
-              1024,
-              124
-            ]
-          },
-          {
             "id": "0e4d6c1d-out-4",
             "name": "frame_count",
             "type": "INT",
@@ -3521,20 +3453,7 @@
             "label": "frame_count",
             "pos": [
               1024,
-              144
-            ]
-          },
-          {
-            "id": "0e4d6c1d-out-5",
-            "name": "source frames",
-            "type": "IMAGE",
-            "linkIds": [
-              384
-            ],
-            "label": "source frames",
-            "pos": [
-              1024,
-              164
+              124
             ]
           },
           {
@@ -3547,7 +3466,7 @@
             "label": "tile_width",
             "pos": [
               1024,
-              184
+              144
             ]
           },
           {
@@ -3560,7 +3479,7 @@
             "label": "tile_height",
             "pos": [
               1024,
-              204
+              164
             ]
           },
           {
@@ -3573,7 +3492,7 @@
             "label": "overlap_frac",
             "pos": [
               1024,
-              224
+              184
             ]
           },
           {
@@ -3586,7 +3505,7 @@
             "label": "is_8k",
             "pos": [
               1024,
-              244
+              204
             ]
           },
           {
@@ -3599,7 +3518,7 @@
             "label": "output_width",
             "pos": [
               1024,
-              264
+              224
             ]
           },
           {
@@ -3612,7 +3531,7 @@
             "label": "output_height",
             "pos": [
               1024,
-              284
+              244
             ]
           },
           {
@@ -3625,7 +3544,7 @@
             "label": "tile_frames",
             "pos": [
               1024,
-              304
+              264
             ]
           }
         ],
@@ -3869,7 +3788,7 @@
             "origin_id": 22,
             "origin_slot": 2,
             "target_id": -20,
-            "target_slot": 4,
+            "target_slot": 3,
             "type": "INT"
           },
           {
@@ -3877,7 +3796,7 @@
             "origin_id": 23,
             "origin_slot": 2,
             "target_id": -20,
-            "target_slot": 6,
+            "target_slot": 4,
             "type": "INT"
           },
           {
@@ -3885,7 +3804,7 @@
             "origin_id": 23,
             "origin_slot": 3,
             "target_id": -20,
-            "target_slot": 7,
+            "target_slot": 5,
             "type": "INT"
           },
           {
@@ -3893,7 +3812,7 @@
             "origin_id": 23,
             "origin_slot": 6,
             "target_id": -20,
-            "target_slot": 8,
+            "target_slot": 6,
             "type": "FLOAT"
           },
           {
@@ -3901,7 +3820,7 @@
             "origin_id": 23,
             "origin_slot": 8,
             "target_id": -20,
-            "target_slot": 9,
+            "target_slot": 7,
             "type": "BOOLEAN"
           },
           {
@@ -3909,7 +3828,7 @@
             "origin_id": 23,
             "origin_slot": 4,
             "target_id": -20,
-            "target_slot": 10,
+            "target_slot": 8,
             "type": "INT"
           },
           {
@@ -3917,7 +3836,7 @@
             "origin_id": 23,
             "origin_slot": 5,
             "target_id": -20,
-            "target_slot": 11,
+            "target_slot": 9,
             "type": "INT"
           },
           {
@@ -3925,7 +3844,7 @@
             "origin_id": 23,
             "origin_slot": 7,
             "target_id": -20,
-            "target_slot": 12,
+            "target_slot": 10,
             "type": "INT"
           },
           {
@@ -3967,22 +3886,6 @@
             "target_id": 23,
             "target_slot": 1,
             "type": "IMAGE"
-          },
-          {
-            "id": 384,
-            "origin_id": -10,
-            "origin_slot": 0,
-            "target_id": -20,
-            "target_slot": 5,
-            "type": "IMAGE"
-          },
-          {
-            "id": 385,
-            "origin_id": -10,
-            "origin_slot": 4,
-            "target_id": -20,
-            "target_slot": 3,
-            "type": "FLOAT"
           }
         ],
         "reroutes": [],
@@ -4006,7 +3909,7 @@
             40,
             40,
             220,
-            480
+            460
           ]
         },
         "outputNode": {
@@ -4226,19 +4129,6 @@
             ]
           },
           {
-            "id": "689b9352-in-15",
-            "name": "audio",
-            "type": "AUDIO",
-            "linkIds": [
-              256
-            ],
-            "label": "audio",
-            "pos": [
-              260,
-              364
-            ]
-          },
-          {
             "id": "689b9352-in-16",
             "name": "seed",
             "type": "INT",
@@ -4248,7 +4138,7 @@
             "label": "seed",
             "pos": [
               260,
-              384
+              364
             ]
           },
           {
@@ -4261,7 +4151,7 @@
             "label": "effect guide strength",
             "pos": [
               260,
-              404
+              384
             ]
           },
           {
@@ -4274,7 +4164,7 @@
             "label": "first frame strength",
             "pos": [
               260,
-              424
+              404
             ]
           },
           {
@@ -4287,7 +4177,7 @@
             "label": "last frame strength",
             "pos": [
               260,
-              444
+              424
             ]
           },
           {
@@ -4301,7 +4191,7 @@
             "label": "img_compression",
             "pos": [
               260,
-              464
+              444
             ]
           }
         ],
@@ -5241,7 +5131,7 @@
               {
                 "name": "audio",
                 "type": "AUDIO",
-                "link": 256
+                "link": null
               }
             ],
             "outputs": [
@@ -5657,14 +5547,6 @@
             "type": "FLOAT"
           },
           {
-            "id": 256,
-            "origin_id": -10,
-            "origin_slot": 15,
-            "target_id": 71,
-            "target_slot": 2,
-            "type": "AUDIO"
-          },
-          {
             "id": 257,
             "origin_id": 71,
             "origin_slot": 0,
@@ -5683,7 +5565,7 @@
           {
             "id": 301,
             "origin_id": -10,
-            "origin_slot": 16,
+            "origin_slot": 15,
             "target_id": 48,
             "target_slot": 10,
             "type": "INT"
@@ -5691,7 +5573,7 @@
           {
             "id": 302,
             "origin_id": -10,
-            "origin_slot": 17,
+            "origin_slot": 16,
             "target_id": 43,
             "target_slot": 6,
             "type": "FLOAT"
@@ -5699,7 +5581,7 @@
           {
             "id": 303,
             "origin_id": -10,
-            "origin_slot": 18,
+            "origin_slot": 17,
             "target_id": 44,
             "target_slot": 7,
             "type": "FLOAT"
@@ -5707,7 +5589,7 @@
           {
             "id": 304,
             "origin_id": -10,
-            "origin_slot": 19,
+            "origin_slot": 18,
             "target_id": 45,
             "target_slot": 7,
             "type": "FLOAT"
@@ -5715,7 +5597,7 @@
           {
             "id": 305,
             "origin_id": -10,
-            "origin_slot": 20,
+            "origin_slot": 19,
             "target_id": 27,
             "target_slot": 1,
             "type": "INT"
@@ -5723,7 +5605,7 @@
           {
             "id": 306,
             "origin_id": -10,
-            "origin_slot": 20,
+            "origin_slot": 19,
             "target_id": 30,
             "target_slot": 1,
             "type": "INT"
@@ -8110,7 +7992,7 @@
             40,
             40,
             220,
-            140
+            120
           ]
         },
         "outputNode": {
@@ -8160,19 +8042,6 @@
             "pos": [
               260,
               104
-            ]
-          },
-          {
-            "id": "ef7dee6c-in-3",
-            "name": "audio",
-            "type": "AUDIO",
-            "linkIds": [
-              248
-            ],
-            "label": "audio",
-            "pos": [
-              260,
-              124
             ]
           }
         ],
@@ -8323,7 +8192,7 @@
               {
                 "name": "audio",
                 "type": "AUDIO",
-                "link": 248
+                "link": null
               }
             ],
             "outputs": [
@@ -8433,14 +8302,6 @@
             "target_id": 61,
             "target_slot": 1,
             "type": "FLOAT"
-          },
-          {
-            "id": 248,
-            "origin_id": -10,
-            "origin_slot": 3,
-            "target_id": 61,
-            "target_slot": 2,
-            "type": "AUDIO"
           },
           {
             "id": 249,
