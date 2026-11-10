@@ -115,44 +115,6 @@
       "title": "LAST frame"
     },
     {
-      "id": 62,
-      "type": "SaveVideo",
-      "pos": [
-        3060,
-        0
-      ],
-      "size": [
-        460,
-        520
-      ],
-      "flags": {},
-      "order": 4,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "video",
-          "type": "VIDEO",
-          "link": 349
-        }
-      ],
-      "outputs": [
-        {
-          "name": "video",
-          "type": "VIDEO",
-          "links": []
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "SaveVideo"
-      },
-      "widgets_values": [
-        "hdr/LTX25_FLF_V2V_ICLoRA_HDR",
-        "auto",
-        "auto"
-      ],
-      "title": "FINAL HDR video (HLG, 10-bit)"
-    },
-    {
       "id": 72,
       "type": "SaveVideo",
       "pos": [
@@ -1140,7 +1102,7 @@
     {
       "id": 95,
       "type": "ef7dee6c-9f8e-47ee-b639-1bbf8d17e88a",
-      "title": "Decode HDR (HLG video + ACEScg image)",
+      "title": "Decode HDR (ACEScct -> ACEScg)",
       "pos": [
         2660,
         0
@@ -1164,23 +1126,9 @@
           "name": "VAE fp32 (HDR)",
           "type": "VAE",
           "link": 346
-        },
-        {
-          "label": "fps",
-          "name": "fps",
-          "type": "FLOAT",
-          "link": 347
         }
       ],
       "outputs": [
-        {
-          "label": "HDR video",
-          "name": "HDR video",
-          "type": "VIDEO",
-          "links": [
-            349
-          ]
-        },
         {
           "label": "ACEScg image",
           "name": "ACEScg image",
@@ -1213,7 +1161,7 @@
       "title": "How to use",
       "properties": {},
       "widgets_values": [
-        "## LTX-2.5 · V2V · First/Last frame · IC-LoRA · SDR -> HDR · Native 4K/8K (subgraphs)\n\nSame graph as `LTX-2.5_FLF_V2V_ICLoRA_SDR_to_HDR_Native_4K_8K.json`, packed into subgraphs.\nDouble-click a box (or its top-right icon) to open it; use the breadcrumb to go back.\n\n**Left column - your inputs**: SOURCE video (yRead), FIRST frame, LAST frame.\n\n**Boxes, left to right**\n1. **Load Models** - every model file + LoRA strengths are widgets on the box.\n2. **Prompt (stage 1)** - your prompt + negative. The HDR passes use the scene embeddings instead.\n3. **Source + Sizes** - `output_size` 4K / 8K etc. The summary shows in *Tiling sizes*.\n4. **Stage 1 - Generation** - FullHD, 8 steps, effect IC-LoRA + first/last frame guides.\n   Saves an SDR FullHD preview (bypass that SaveVideo with Ctrl+B if not needed).\n5. **SDR to HDR (FullHD)** - SDR-to-HDR IC-LoRA on the stage-1 result, scene embeddings, 8 steps.\n6. **Upscale** - LTX latent upscaler x2 (x4 when output_size = 8K).\n7. **HDR Refine** - tiled 3-step refine at 4K/8K with the **refine-details IC-LoRA** (as in\n   Lightricks' HDR->HDR graph), guided by the decoded HDR-A result (ACEScct). Its widget is the\n   look/detail prompt: keep it about look and sharpness, anything named stamps into every tile.\n8. **Decode HDR** - HLG 10-bit video (silent: yRead has no audio) and an **ACEScg image** output\n   (scene-linear AP1, no clamp) feeding **yWrite** (EXR) and **yViewer** on the right.\n   **Nuke**: read the EXRs as **ACEScg**, not ACEScct (they are linear, not log).\n\n**Turning parts off** (select the boxes, then Ctrl+M = mute, Ctrl+B = bypass)\n- *SDR FullHD only (no HDR, no 4K)*: mute **Decode HDR** + **FINAL HDR video**. Nothing after\n  stage 1 runs; the result is the Stage-1 preview (SDR FullHD).\n- *HDR at FullHD (no 4K)*: bypass **Upscale** + **HDR Refine**. The FullHD HDR latent goes\n  straight to Decode HDR.\n- *SDR at 4K*: use `LTX-2.5_FLF_V2V_ICLoRA_Native_4K_8K.json` instead (here the 4K pass is HDR).\n- *No yViewer*: bypass it (Ctrl+B); at 4K it stores ~5 GB of float16 frames per run.\n\n**Rules**: euler sampler, overlap >= 0.5, `use_tiled_encode` off. Clip length 8n+1 frames\n(97 / 121 / 161). Stage 1 renders the whole clip in one pass (keeps first/last pinned).\nModels: see README in the repo (scene embeddings go in `models/embeddings/`). New for the 4K pass:\n`ltx-2.5-22b-ic-lora-refine-details-1.0.safetensors` -> `models/loras/`\n(huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Refine-Details).\n\n**yRead / yWrite / yViewer** (vfx_io + vfx_viewer)\n- yRead: a MOV or an image sequence. With OCIO on, set *target colorspace* to your sRGB / display\n  colorspace: stage 1 and the SDR->ACEScct step expect sRGB. `frame_grid` = LTXV (8n+1), pad.\n- yWrite gets first_frame, fps, pad_frames and time_stretch from yRead. Its image is linear ACEScg:\n  with OCIO on, pick your config's ACEScg for input and output (no conversion). Set root/folders\n  in its panel, or switch destination to `path`.\n- yViewer: colorspace_a = ACEScg (float16 keeps HDR values).\n"
+        "## LTX-2.5 · V2V · First/Last frame · IC-LoRA · SDR -> HDR · Native 4K/8K (subgraphs)\n\nSame graph as `LTX-2.5_FLF_V2V_ICLoRA_SDR_to_HDR_Native_4K_8K.json`, packed into subgraphs.\nDouble-click a box (or its top-right icon) to open it; use the breadcrumb to go back.\n\n**Left column - your inputs**: SOURCE video (yRead), FIRST frame, LAST frame.\n\n**Boxes, left to right**\n1. **Load Models** - every model file + LoRA strengths are widgets on the box.\n2. **Prompt (stage 1)** - your prompt + negative. The HDR passes use the scene embeddings instead.\n3. **Source + Sizes** - `output_size` 4K / 8K etc. The summary shows in *Tiling sizes*.\n4. **Stage 1 - Generation** - FullHD, 8 steps, effect IC-LoRA + first/last frame guides.\n   Saves an SDR FullHD preview (bypass that SaveVideo with Ctrl+B if not needed).\n5. **SDR to HDR (FullHD)** - SDR-to-HDR IC-LoRA on the stage-1 result, scene embeddings, 8 steps.\n6. **Upscale** - LTX latent upscaler x2 (x4 when output_size = 8K).\n7. **HDR Refine** - tiled 3-step refine at 4K/8K with the **refine-details IC-LoRA** (as in\n   Lightricks' HDR->HDR graph), guided by the decoded HDR-A result (ACEScct). Its widget is the\n   look/detail prompt: keep it about look and sharpness, anything named stamps into every tile.\n8. **Decode HDR** - decode (ACEScct) chained into ACEScct -> linear ACEScg. Its **ACEScg image**\n   output (scene-linear AP1, no clamp) feeds **yWrite** (EXR) and **yViewer** on the right.\n   No video is written at the end (only the SDR stage-1 preview).\n   **Nuke**: read the EXRs as **ACEScg**, not ACEScct (they are linear, not log).\n\n**Turning parts off** (select the boxes, then Ctrl+M = mute, Ctrl+B = bypass)\n- *SDR FullHD only (no HDR, no 4K)*: mute **Decode HDR** + **yWrite** + **yViewer**. Nothing after\n  stage 1 runs; the result is the Stage-1 preview (SDR FullHD).\n- *HDR at FullHD (no 4K)*: bypass **Upscale** + **HDR Refine**. The FullHD HDR latent goes\n  straight to Decode HDR.\n- *SDR at 4K*: use `LTX-2.5_FLF_V2V_ICLoRA_Native_4K_8K.json` instead (here the 4K pass is HDR).\n- *No yViewer*: bypass it (Ctrl+B); at 4K it stores ~5 GB of float16 frames per run.\n\n**Rules**: euler sampler, overlap >= 0.5, `use_tiled_encode` off. Clip length 8n+1 frames\n(97 / 121 / 161). Stage 1 renders the whole clip in one pass (keeps first/last pinned).\nModels: see README in the repo (scene embeddings go in `models/embeddings/`). New for the 4K pass:\n`ltx-2.5-22b-ic-lora-refine-details-1.0.safetensors` -> `models/loras/`\n(huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Refine-Details).\n\n**yRead / yWrite / yViewer** (vfx_io + vfx_viewer)\n- yRead: a MOV or an image sequence. With OCIO on, set *target colorspace* to your sRGB / display\n  colorspace: stage 1 and the SDR->ACEScct step expect sRGB. `frame_grid` = LTXV (8n+1), pad.\n- yWrite gets first_frame, fps, pad_frames and time_stretch from yRead. Its image is linear ACEScg:\n  with OCIO on, pick your config's ACEScg for input and output (no conversion). Set root/folders\n  in its panel, or switch destination to `path`.\n- yViewer: colorspace_a = ACEScg (float16 keeps HDR values).\n"
       ],
       "color": "#432",
       "bgcolor": "#653"
@@ -1314,7 +1262,6 @@
             394,
             319,
             329,
-            347,
             354
           ]
         },
@@ -1829,22 +1776,6 @@
       "VAE"
     ],
     [
-      347,
-      20,
-      7,
-      95,
-      2,
-      "FLOAT"
-    ],
-    [
-      349,
-      95,
-      0,
-      62,
-      0,
-      "VIDEO"
-    ],
-    [
       351,
       91,
       0,
@@ -1999,7 +1930,7 @@
     [
       388,
       95,
-      1,
+      0,
       66,
       0,
       "IMAGE"
@@ -2039,7 +1970,7 @@
     [
       393,
       95,
-      1,
+      0,
       67,
       0,
       "IMAGE"
@@ -7985,14 +7916,14 @@
         },
         "revision": 0,
         "config": {},
-        "name": "Decode HDR (HLG video + ACEScg image)",
+        "name": "Decode HDR (ACEScct -> ACEScg)",
         "inputNode": {
           "id": -10,
           "bounding": [
             40,
             40,
             220,
-            120
+            100
           ]
         },
         "outputNode": {
@@ -8001,7 +7932,7 @@
             1060,
             40,
             220,
-            100
+            80
           ]
         },
         "inputs": [
@@ -8030,35 +7961,9 @@
               260,
               84
             ]
-          },
-          {
-            "id": "ef7dee6c-in-2",
-            "name": "fps",
-            "type": "FLOAT",
-            "linkIds": [
-              246
-            ],
-            "label": "fps",
-            "pos": [
-              260,
-              104
-            ]
           }
         ],
         "outputs": [
-          {
-            "id": "ef7dee6c-out-0",
-            "name": "HDR video",
-            "type": "VIDEO",
-            "linkIds": [
-              249
-            ],
-            "label": "HDR video",
-            "pos": [
-              1084,
-              64
-            ]
-          },
           {
             "id": "ef7dee6c-out-1",
             "name": "ACEScg image",
@@ -8069,7 +7974,7 @@
             "label": "ACEScg image",
             "pos": [
               1084,
-              84
+              64
             ]
           }
         ],
@@ -8106,7 +8011,6 @@
                 "name": "IMAGE",
                 "type": "IMAGE",
                 "links": [
-                  250,
                   365
                 ]
               }
@@ -8121,100 +8025,6 @@
               32
             ],
             "title": "Decode (ACEScct)"
-          },
-          {
-            "id": 63,
-            "type": "ImageColorSpace",
-            "pos": [
-              360,
-              230
-            ],
-            "size": [
-              280,
-              82
-            ],
-            "flags": {},
-            "order": 42,
-            "mode": 0,
-            "inputs": [
-              {
-                "name": "image",
-                "type": "IMAGE",
-                "link": 250
-              }
-            ],
-            "outputs": [
-              {
-                "name": "IMAGE",
-                "type": "IMAGE",
-                "links": [
-                  245
-                ]
-              }
-            ],
-            "properties": {
-              "Node name for S&R": "ImageColorSpace"
-            },
-            "widgets_values": [
-              "HDR ACEScct",
-              "HDR"
-            ],
-            "title": "ACEScct -> HDR (HLG)"
-          },
-          {
-            "id": 61,
-            "type": "CreateVideo",
-            "pos": [
-              360,
-              350
-            ],
-            "size": [
-              280,
-              180
-            ],
-            "flags": {},
-            "order": 40,
-            "mode": 0,
-            "inputs": [
-              {
-                "name": "images",
-                "type": "IMAGE",
-                "link": 245
-              },
-              {
-                "name": "fps",
-                "type": "FLOAT",
-                "widget": {
-                  "name": "fps"
-                },
-                "link": 246
-              },
-              {
-                "name": "audio",
-                "type": "AUDIO",
-                "link": null
-              }
-            ],
-            "outputs": [
-              {
-                "name": "VIDEO",
-                "type": "VIDEO",
-                "links": [
-                  249
-                ]
-              }
-            ],
-            "properties": {
-              "Node name for S&R": "CreateVideo"
-            },
-            "widgets_values": [
-              24.0,
-              "auto",
-              "HDR",
-              "auto",
-              "none"
-            ],
-            "title": "CreateVideo (HLG)"
           },
           {
             "id": 65,
@@ -8259,7 +8069,7 @@
         "groups": [
           {
             "id": 1,
-            "title": "Decode HDR (HLG video + ACEScg image)",
+            "title": "Decode HDR (ACEScct -> ACEScg)",
             "bounding": [
               340,
               0,
@@ -8288,38 +8098,6 @@
             "type": "VAE"
           },
           {
-            "id": 245,
-            "origin_id": 63,
-            "origin_slot": 0,
-            "target_id": 61,
-            "target_slot": 0,
-            "type": "IMAGE"
-          },
-          {
-            "id": 246,
-            "origin_id": -10,
-            "origin_slot": 2,
-            "target_id": 61,
-            "target_slot": 1,
-            "type": "FLOAT"
-          },
-          {
-            "id": 249,
-            "origin_id": 61,
-            "origin_slot": 0,
-            "target_id": -20,
-            "target_slot": 0,
-            "type": "VIDEO"
-          },
-          {
-            "id": 250,
-            "origin_id": 60,
-            "origin_slot": 0,
-            "target_id": 63,
-            "target_slot": 0,
-            "type": "IMAGE"
-          },
-          {
             "id": 365,
             "origin_id": 60,
             "origin_slot": 0,
@@ -8332,7 +8110,7 @@
             "origin_id": 65,
             "origin_slot": 0,
             "target_id": -20,
-            "target_slot": 1,
+            "target_slot": 0,
             "type": "IMAGE"
           }
         ],

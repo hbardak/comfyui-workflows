@@ -2066,7 +2066,6 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            94,
             130
           ]
         }
@@ -2081,138 +2080,6 @@
         32
       ],
       "title": "Decode (ACEScct)"
-    },
-    {
-      "id": 61,
-      "type": "CreateVideo",
-      "pos": [
-        4540,
-        310
-      ],
-      "size": [
-        280,
-        180
-      ],
-      "flags": {},
-      "order": 41,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 90
-        },
-        {
-          "name": "fps",
-          "type": "FLOAT",
-          "widget": {
-            "name": "fps"
-          },
-          "link": 146
-        },
-        {
-          "name": "audio",
-          "type": "AUDIO",
-          "link": null
-        }
-      ],
-      "outputs": [
-        {
-          "name": "VIDEO",
-          "type": "VIDEO",
-          "links": [
-            93
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "CreateVideo"
-      },
-      "widgets_values": [
-        24.0,
-        "auto",
-        "HDR",
-        "auto",
-        "none"
-      ],
-      "title": "CreateVideo (HLG)"
-    },
-    {
-      "id": 62,
-      "type": "SaveVideo",
-      "pos": [
-        4860,
-        0
-      ],
-      "size": [
-        460,
-        520
-      ],
-      "flags": {},
-      "order": 42,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "video",
-          "type": "VIDEO",
-          "link": 93
-        }
-      ],
-      "outputs": [
-        {
-          "name": "video",
-          "type": "VIDEO",
-          "links": []
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "SaveVideo"
-      },
-      "widgets_values": [
-        "hdr/LTX25_FLF_V2V_ICLoRA_HDR",
-        "auto",
-        "auto"
-      ],
-      "title": "FINAL HDR video (HLG, 10-bit)"
-    },
-    {
-      "id": 63,
-      "type": "ImageColorSpace",
-      "pos": [
-        4540,
-        190
-      ],
-      "size": [
-        280,
-        82
-      ],
-      "flags": {},
-      "order": 43,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "image",
-          "type": "IMAGE",
-          "link": 94
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            90
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "ImageColorSpace"
-      },
-      "widgets_values": [
-        "HDR ACEScct",
-        "HDR"
-      ],
-      "title": "ACEScct -> HDR (HLG)"
     },
     {
       "id": 65,
@@ -2833,7 +2700,7 @@
       "title": "How to use",
       "properties": {},
       "widgets_values": [
-        "## LTX-2.5 · V2V · First/Last frame · IC-LoRA · SDR -> HDR · Native 4K/8K\n\nYour FLF + IC-LoRA workflow followed by Lightricks' **LTX-2.5_V2V_TiledFusion_SDR_to_HDR**\npipeline (flattened, no subgraphs).\n\n**Pipeline**\n1. **Stage 1 - creative (SDR, FullHD, 8 steps)**: your effect IC-LoRA + FIRST/LAST frame + your\n   prompt. `tile_frames` = 0, streaming off (time chunks would drop the first/last guides).\n2. **SDR -> ACEScct**: the decoded stage-1 result is converted to ACEScct, the working space of the\n   SDR-to-HDR IC-LoRA.\n3. **HDR-A (FullHD, 8 steps)**: SDR-to-HDR IC-LoRA guided by the stage-1 result, streaming on.\n4. **HDR-B (4K/8K, 3 steps)**: latent x2 (x4 for 8K), tiled refine with the **refine-details\n   IC-LoRA** (as in Lightricks' HDR->HDR graph), guided by the decoded HDR-A result (ACEScct)\n   at output size, with a look/detail prompt. Keep that prompt about look and sharpness: anything\n   named stamps into every tile.\n5. **Decode**: ACEScct -> HDR (Rec.2020 **HLG**) -> 10-bit video (silent: yRead has no audio), plus a\n   **ACEScct -> linear ACEScg** node (scene-linear AP1, no clamp) feeding **yWrite** (EXR) and **yViewer**.\n   Leave *ACEScct -> HDR (HLG)* on `HDR`: it only feeds the video.\n   **Nuke**: read the EXRs as **ACEScg**, not ACEScct (they are linear, not log).\n\n**Prompts**\n- Stage 1 uses your text prompt (Gemma).\n- HDR-A uses the fixed **scene embeddings** on positive AND negative (cfg 1), as in the official example.\n- HDR-B uses the **HDR-B prompt** (look/detail only) + the negative prompt.\n\n**Models**\n- Same as the Native workflow, plus:\n  `ltx-2.5-22b-ic-lora-sdr-to-hdr-1.0.safetensors` -> `models/loras/`\n  `ltx-2.5-22b-ic-lora-sdr-to-hdr-scene-emb.safetensors` -> `models/embeddings/`\n  `ltx-2.5-22b-ic-lora-refine-details-1.0.safetensors` -> `models/loras/`\n  (huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Refine-Details)\n  (both from huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-SDR-To-HDR)\n- HDR stages use the video VAE forced to **float32** (needed for HDR precision).\n\n**Rules**\n- euler sampler, overlap >= 0.5, `use_tiled_encode` off.\n- Source above 30 fps: the official example clamps the *conditioning* fps to 30. Here it uses the\n  source fps; for 50/60 fps sources, unlink `frame_rate` on the LTXVConditioning nodes and type 30.\n- HLG: 1.0 = 203 nits, clipped above 1000 nits. View on an HDR display / HDR-capable player.\n- Three sampling passes: expect roughly 2x the time of the SDR Native workflow.\n\n**yRead / yWrite / yViewer** (vfx_io + vfx_viewer)\n- yRead: a MOV or an image sequence. With OCIO on, set *target colorspace* to your sRGB / display\n  colorspace: stage 1 and the SDR->ACEScct step expect sRGB. `frame_grid` is LTXV (8n+1), pad.\n  yRead has no audio, so the videos are silent.\n- yWrite gets first_frame, fps, pad_frames and time_stretch from yRead. The image is linear ACEScg:\n  with OCIO on, pick your config's ACEScg for input and output (no conversion). Set root/folders\n  in its panel, or switch destination to `path`.\n- yViewer: colorspace_a = ACEScg (float16 keeps HDR values).\n"
+        "## LTX-2.5 · V2V · First/Last frame · IC-LoRA · SDR -> HDR · Native 4K/8K\n\nYour FLF + IC-LoRA workflow followed by Lightricks' **LTX-2.5_V2V_TiledFusion_SDR_to_HDR**\npipeline (flattened, no subgraphs).\n\n**Pipeline**\n1. **Stage 1 - creative (SDR, FullHD, 8 steps)**: your effect IC-LoRA + FIRST/LAST frame + your\n   prompt. `tile_frames` = 0, streaming off (time chunks would drop the first/last guides).\n2. **SDR -> ACEScct**: the decoded stage-1 result is converted to ACEScct, the working space of the\n   SDR-to-HDR IC-LoRA.\n3. **HDR-A (FullHD, 8 steps)**: SDR-to-HDR IC-LoRA guided by the stage-1 result, streaming on.\n4. **HDR-B (4K/8K, 3 steps)**: latent x2 (x4 for 8K), tiled refine with the **refine-details\n   IC-LoRA** (as in Lightricks' HDR->HDR graph), guided by the decoded HDR-A result (ACEScct)\n   at output size, with a look/detail prompt. Keep that prompt about look and sharpness: anything\n   named stamps into every tile.\n5. **Decode** (ACEScct) -> **ACEScct -> linear ACEScg** (scene-linear AP1, no clamp) -> **yWrite** (EXR)\n   and **yViewer**. No video is written at the end (only the SDR stage-1 preview).\n   **Nuke**: read the EXRs as **ACEScg**, not ACEScct (they are linear, not log).\n\n**Prompts**\n- Stage 1 uses your text prompt (Gemma).\n- HDR-A uses the fixed **scene embeddings** on positive AND negative (cfg 1), as in the official example.\n- HDR-B uses the **HDR-B prompt** (look/detail only) + the negative prompt.\n\n**Models**\n- Same as the Native workflow, plus:\n  `ltx-2.5-22b-ic-lora-sdr-to-hdr-1.0.safetensors` -> `models/loras/`\n  `ltx-2.5-22b-ic-lora-sdr-to-hdr-scene-emb.safetensors` -> `models/embeddings/`\n  `ltx-2.5-22b-ic-lora-refine-details-1.0.safetensors` -> `models/loras/`\n  (huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-Refine-Details)\n  (both from huggingface.co/Lightricks/LTX-2.5-22b-IC-LoRA-SDR-To-HDR)\n- HDR stages use the video VAE forced to **float32** (needed for HDR precision).\n\n**Rules**\n- euler sampler, overlap >= 0.5, `use_tiled_encode` off.\n- Source above 30 fps: the official example clamps the *conditioning* fps to 30. Here it uses the\n  source fps; for 50/60 fps sources, unlink `frame_rate` on the LTXVConditioning nodes and type 30.\n- Three sampling passes: expect roughly 2x the time of the SDR Native workflow.\n\n**yRead / yWrite / yViewer** (vfx_io + vfx_viewer)\n- yRead: a MOV or an image sequence. With OCIO on, set *target colorspace* to your sRGB / display\n  colorspace: stage 1 and the SDR->ACEScct step expect sRGB. `frame_grid` is LTXV (8n+1), pad.\n  yRead has no audio, so the stage-1 preview is silent.\n- yWrite gets first_frame, fps, pad_frames and time_stretch from yRead. The image is linear ACEScg:\n  with OCIO on, pick your config's ACEScg for input and output (no conversion). Set root/folders\n  in its panel, or switch destination to `path`.\n- yViewer: colorspace_a = ACEScg (float16 keeps HDR values).\n"
       ],
       "color": "#432",
       "bgcolor": "#653"
@@ -3103,7 +2970,6 @@
           "links": [
             144,
             145,
-            146,
             147,
             148,
             151,
@@ -3981,30 +3847,6 @@
       "VAE"
     ],
     [
-      90,
-      63,
-      0,
-      61,
-      0,
-      "IMAGE"
-    ],
-    [
-      93,
-      61,
-      0,
-      62,
-      0,
-      "VIDEO"
-    ],
-    [
-      94,
-      60,
-      0,
-      63,
-      0,
-      "IMAGE"
-    ],
-    [
       96,
       48,
       0,
@@ -4381,14 +4223,6 @@
       "FLOAT"
     ],
     [
-      146,
-      20,
-      7,
-      61,
-      1,
-      "FLOAT"
-    ],
-    [
       147,
       20,
       7,
@@ -4536,7 +4370,7 @@
     },
     {
       "id": 7,
-      "title": "Decode HDR (HLG video) + yWrite / yViewer (ACEScg)",
+      "title": "Decode HDR (ACEScct -> ACEScg) + yWrite / yViewer",
       "bounding": [
         4520,
         -40,
